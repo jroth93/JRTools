@@ -21,5 +21,7 @@ namespace JR_Tools
         {
 
         }
+
+        int myin = 1;
     }
 }
