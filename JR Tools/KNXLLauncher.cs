@@ -23,7 +23,7 @@ namespace JR_Tools
             String filedirectory = Path.GetDirectoryName(filepath);
             String filename = Path.GetFileName(filepath);
             String projectnumber = filename.Remove(5);
-            String excelfilepath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\"+ projectnumber+".xlsx";
+            String excelfilepath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx";
             if (!File.Exists(excelfilepath)) { excelfilepath = filedirectory + "\\" + projectnumber + " Keynotes.xlsm"; oldfile = true; }
             String txtfilepath = filedirectory + "\\" + projectnumber + " Keynotes.txt";
 
