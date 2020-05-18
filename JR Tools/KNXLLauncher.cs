@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Runtime.InteropServices;
@@ -18,22 +16,46 @@ namespace JR_Tools
         {
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
-            ModelPath modelpath = doc.GetWorksharingCentralModelPath();
-            String filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
-            String filedirectory = Path.GetDirectoryName(filepath);
-            String filename = Path.GetFileName(filepath);
-            String projectnumber = filename.Remove(5);
-            String excelfilepath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx";
-            if (!File.Exists(excelfilepath)) { excelfilepath = filedirectory + "\\" + projectnumber + " Keynotes.xlsm"; oldfile = true; }
-            String txtfilepath = filedirectory + "\\" + projectnumber + " Keynotes.txt";
+            ProjectInfo projectInfo = doc.ProjectInformation;
+            Autodesk.Revit.DB.Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            double pn = pnpar.AsDouble();
 
-            Excel.Application myExcel;
-            Excel.Workbook myWorkbook;
-            Excel.Worksheet worksheet;
+            String excelfilepath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + $"{pn}" + ".xlsx";
+            Excel.Application xl = new Excel.Application();
 
-            myExcel = new Excel.Application();
-            myExcel.Workbooks.Open(excelfilepath);
-            myWorkbook = myExcel.ActiveWorkbook;
+            if (pn == 0)
+            {
+                TaskDialog td = new TaskDialog("No Project Number");
+                td.MainContent = "No project number entered yet. Please enter project number under MEI Project Number parameter in Project Information.";
+                td.Show();
+                return Result.Failed;
+            }
+            else if (!File.Exists(excelfilepath))
+            {
+                object misValue = System.Reflection.Missing.Value;
+                xl.Workbooks.Add(Type.Missing);
+                Excel.Workbook wb = xl.ActiveWorkbook;
+                wb.SaveAs(excelfilepath);
+            }
+            else
+            {
+                xl.Workbooks.Open(excelfilepath);
+            }
+
+            
+            string caption = xl.Caption;
+            IntPtr handler = FindWindow(null, caption);
+            SetForegroundWindow(handler);
+            xl.Visible = true;
+            
+            return Result.Succeeded;
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
     }
 }

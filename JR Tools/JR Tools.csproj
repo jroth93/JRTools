@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
+    <Compile Include="KNXLLauncher.cs" />
     <Compile Include="RoomSep2SpaceSep.cs" />
     <Compile Include="TagElKn.cs" />
     <Compile Include="CombineText.cs" />
