@@ -18,11 +18,16 @@ namespace JR_Tools
         public Result OnStartup(UIControlledApplication application)
         {
             application.CreateRibbonTab("JR Tools");
-            RibbonPanel basicribbonpanel = application.CreateRibbonPanel("JR Tools","General");
-            basicribbonpanel.Title = "General";
-            string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
-            string imagelocation = Path.GetDirectoryName(typeof(AddPanel).Assembly.Location) + "\\images";
+            RibbonPanel genrib = application.CreateRibbonPanel("JR Tools","General");
+            RibbonPanel knrib = application.CreateRibbonPanel("JR Tools", "Keynotes");
+            RibbonPanel mechrib = application.CreateRibbonPanel("JR Tools", "Mechanical");
+            genrib.Title = "General";
+            knrib.Title = "Keynotes";
+            mechrib.Title = "Mechanical";
 
+            string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
+            string imagelocation = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(typeof(AddPanel).Assembly.Location)).FullName).FullName + "\\images";
+            
             PushButtonData button1data = new PushButtonData("cmdflip","Flip Element", thisAssemblyPath, "JR_Tools.FlipElements");
             PushButtonData button2data = new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "JR_Tools.PipeSpacer");
             PushButtonData button3data = new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "JR_Tools.KeynoteReload");
@@ -30,22 +35,25 @@ namespace JR_Tools
             PushButtonData button5data = new PushButtonData("cmdchangecallout", "Change Callout\nReference", thisAssemblyPath, "JR_Tools.ChangeCalloutRef");
             PushButtonData button6data = new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "JR_Tools.CombineText");
             PushButtonData button7data = new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "JR_Tools.DuctLauncher");
+            PushButtonData button8data = new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "JR_Tools.KNXLLauncher");
 
             button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
             button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
 
-            IList<RibbonItem> stackedGroup1 = basicribbonpanel.AddStackedItems(button1data, button4data);
-            RibbonButton knbutton = basicribbonpanel.AddItem(button3data) as RibbonButton;
-            RibbonButton pipebutton = basicribbonpanel.AddItem(button2data) as RibbonButton;
-            RibbonButton calloutbutton = basicribbonpanel.AddItem(button5data) as RibbonButton;
-            RibbonButton cmbtxtbutton = basicribbonpanel.AddItem(button6data) as RibbonButton;
-            RibbonButton ductbutton = basicribbonpanel.AddItem(button7data) as RibbonButton;
+            IList<RibbonItem> stackedGroup1 = genrib.AddStackedItems(button1data, button4data);
+            RibbonButton calloutbutton = genrib.AddItem(button5data) as RibbonButton;
+            RibbonButton cmbtxtbutton = genrib.AddItem(button6data) as RibbonButton;
+            RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
+            RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
+            RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
+            RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
 
             knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "\\reload.png"));
             pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\spacepipe.png"));
             calloutbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\callout.png"));
             cmbtxtbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\combine.png"));
             ductbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\duct.png"));
+            xlbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\knxl.png"));
 
             return Result.Succeeded;
         }

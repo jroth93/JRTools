@@ -124,5 +124,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="images\callout.png" />
+    <Content Include="images\combine.png" />
+    <Content Include="images\duct.png" />
+    <Content Include="images\flipel.png" />
+    <Content Include="images\flipwp.png" />
+    <Content Include="images\knxl.png" />
+    <Content Include="images\reload.png" />
+    <Content Include="images\spacepipe.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
