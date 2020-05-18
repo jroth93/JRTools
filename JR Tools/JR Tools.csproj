@@ -134,6 +134,7 @@
     <Content Include="images\knxl.png" />
     <Content Include="images\reload.png" />
     <Content Include="images\spacepipe.png" />
+    <Content Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
