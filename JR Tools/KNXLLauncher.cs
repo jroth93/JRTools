@@ -6,6 +6,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.SharePoint.Client.Utilities;
 
 namespace JR_Tools
 {
@@ -19,8 +20,9 @@ namespace JR_Tools
             ProjectInfo projectInfo = doc.ProjectInformation;
             Autodesk.Revit.DB.Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
             double pn = pnpar.AsDouble();
-
-            String excelfilepath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + $"{pn}" + ".xlsx";
+            String kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
+            String xlpath =  $"{kndir}{pn}.xlsx";
+            String tmppath = $"{kndir}Template.xlsx";
             Excel.Application xl = new Excel.Application();
 
             if (pn == 0)
@@ -30,23 +32,36 @@ namespace JR_Tools
                 td.Show();
                 return Result.Failed;
             }
-            else if (!File.Exists(excelfilepath))
+            else if (!File.Exists(xlpath))
             {
-                object misValue = System.Reflection.Missing.Value;
-                xl.Workbooks.Add(Type.Missing);
-                Excel.Workbook wb = xl.ActiveWorkbook;
-                wb.SaveAs(excelfilepath);
+                File.Copy(tmppath, xlpath);
+            }
+
+            xl.Workbooks.Open(xlpath);
+            String cfiledir = "";
+            if(doc.IsWorkshared)
+            {
+                cfiledir = Path.GetDirectoryName(Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath()));
             }
             else
             {
-                xl.Workbooks.Open(excelfilepath);
+                cfiledir = Path.GetDirectoryName(doc.PathName);
             }
 
+
+
+            if (!File.Exists(cfiledir + $"\\Keynotes.lnk"))
+            {
+                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(cfiledir + $"\\Keynotes.lnk");
+                shortcut.TargetPath = xlpath;
+                shortcut.Save();
+            }
             
             string caption = xl.Caption;
             IntPtr handler = FindWindow(null, caption);
             SetForegroundWindow(handler);
-            xl.Visible = true;
+            xl.Visible = true;            
             
             return Result.Succeeded;
         }

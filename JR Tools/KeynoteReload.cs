@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System; 
+using System.Text;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
+
 
 namespace JR_Tools
 {
@@ -20,65 +21,116 @@ namespace JR_Tools
             Document doc = uidoc.Document;
             ModelPath modelpath = doc.GetWorksharingCentralModelPath();
             Boolean oldfile = false;
+
             String filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
             String filedirectory = Path.GetDirectoryName(filepath);
-            String filename = Path.GetFileName(filepath);
-            String projectnumber = filename.Remove(5);
-            String excelfilepath = filedirectory + "\\" + projectnumber + " Keynotes.xlsx";
-            if(!File.Exists(excelfilepath)) { excelfilepath = filedirectory + "\\" + projectnumber + " Keynotes.xlsm"; oldfile = true; }
+            String filename = Path.GetFileName(filepath);            
+            ProjectInfo projectInfo = doc.ProjectInformation;
+            Autodesk.Revit.DB.Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            String projectnumber = Convert.ToString(pnpar.AsDouble());
+            String xlpath = "";
+            bool xl365 = false;
+
+            if(File.Exists(filedirectory + "\\" + projectnumber + " Keynotes.xlsx"))
+            {
+                xlpath = filedirectory + "\\" + projectnumber + " Keynotes.xlsx";
+            }
+            else if(File.Exists(filedirectory + "\\" + projectnumber + " Keynotes.xlsm"))
+            {
+                xlpath = filedirectory + "\\" + projectnumber + " Keynotes.xlsm";
+                oldfile = true;
+            }
+            else if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx"))
+            {
+                xlpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx";
+                xl365 = true;
+            }
+            else
+            {
+                TaskDialog td = new TaskDialog("No Excel File");
+                td.MainContent = "No Excel file found. Please create file manually or press Open Keynotes button";
+                td.Show();
+                return Result.Failed;
+            }
+
             String txtfilepath = filedirectory + "\\" + projectnumber + " Keynotes.txt";
 
-            Excel.Application myExcel;
-            Excel.Workbook myWorkbook;
-            Excel.Worksheet worksheet;
+            Excel.Application xl = new Excel.Application();
+            Excel.Workbook xlwb;
+            Excel.Worksheet xlws;
+            bool isopen = false;
 
-            myExcel = new Excel.Application();
-            myExcel.Workbooks.Open(excelfilepath);
+            if(xl365)
+            {
+                FileStream stream = null;
+                try
+                {
+                    stream = File.Open(xlpath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                }
+                catch (IOException ex)
+                {
+                    if (ex.Message.Contains("being used by another process"));
+                    File.Copy(xlpath, xlpath + "temp.xlsx");
+                    xlpath += "temp.xlsx";
+                    isopen = true;
+                }
+                finally
+                {
+                    if (stream != null)
+                        stream.Close();
+                }
+            }
 
-            myWorkbook = myExcel.ActiveWorkbook;
+            xl.Workbooks.Open(xlpath, 0, true);
+            xlwb = xl.ActiveWorkbook;
             string kntext = "";
 
-            for (int i=1; i < myWorkbook.Worksheets.Count+1; i++)
+            for (int i=1; i < xlwb.Worksheets.Count+1; i++)
             {
                 int n = 1;  
-                worksheet = myWorkbook.Worksheets[i];
-                Excel.Range xlrange = worksheet.UsedRange;
-                kntext += worksheet.Name + "\r\n";
+                xlws = xlwb.Worksheets[i];
+                Excel.Range xlrange = xlws.UsedRange;
+                kntext += xlws.Name + "\r\n";
                 do
                 {
                     if (oldfile) 
                     {
                         if (xlrange.Cells[n, 2].Value != null)
-                        {   if(worksheet.Name.Contains("DEMO"))
+                        {   if(xlws.Name.Contains("DEMO"))
                             {
                                 if (n < 10)
                                 {
-                                    kntext += $"{worksheet.Name[0]}00{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{worksheet.Name}\r\n";
+                                    kntext += $"{xlws.Name[0]}00{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{xlws.Name}\r\n";
                                 }
                                 else if(n>= 10 && n<100)
                                 {
-                                    kntext += $"{worksheet.Name[0]}0{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{worksheet.Name}\r\n";
+                                    kntext += $"{xlws.Name[0]}0{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{xlws.Name}\r\n";
                                 }
                                 else
                                 {
-                                    kntext += $"{worksheet.Name[0]}{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{worksheet.Name}\r\n";
+                                    kntext += $"{xlws.Name[0]}{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{xlws.Name}\r\n";
                                 }
                             }
                             else
                             {
-                                kntext += $"{worksheet.Name[0]}{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{worksheet.Name}\r\n";
+                                kntext += $"{xlws.Name[0]}{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{xlws.Name}\r\n";
                             }
                         }
                     }
-                    else { kntext += $"{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{worksheet.Name}\r\n"; }
+                    else { kntext += $"{xlrange.Cells[n, 1].Value}\t{xlrange.Cells[n, 2].Value}\t{xlws.Name}\r\n"; }
                     n++;
                 } while (xlrange.Cells[n, 1].Value != null) ;
             }
 
             File.WriteAllText(txtfilepath, kntext, Encoding.Default);
 
-            myWorkbook.Close(false);
-            myExcel.Quit();
+            xlwb.Close(false);
+            xl.Quit();
+
+            if (isopen)
+            {
+                File.Delete(xlpath);
+            }
 
             using (Transaction tx = new Transaction(doc, "Reload Keynotes"))
             {
