@@ -61,6 +61,8 @@ namespace JR_Tools
                 }
                 catch (NullReferenceException)
                 {
+                    System.Windows.Forms.MessageBox.Show("One or more items picked was not a pipe.");
+                    /*
                     ErrorForm errordialog = new ErrorForm();
                     errordialog.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
                     errordialog.Text = "PICK ERROR";
@@ -69,7 +71,7 @@ namespace JR_Tools
                     errordialog.Refresh();
                     System.Threading.Thread.Sleep(1000);
                     errordialog.Close();
-
+                    */
                     return Result.Succeeded;
                 }
             }
