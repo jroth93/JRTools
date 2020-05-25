@@ -6,7 +6,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.SharePoint.Client.Utilities;
 
 namespace JR_Tools
 {
@@ -18,45 +17,61 @@ namespace JR_Tools
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             ProjectInfo projectInfo = doc.ProjectInformation;
-            Autodesk.Revit.DB.Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
             double pn = pnpar.AsDouble();
-            String kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
-            String xlpath =  $"{kndir}{pn}.xlsx";
-            String tmppath = $"{kndir}Template.xlsx";
+            string kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
+            string xlpath =  $"{kndir}{pn}.xlsx";
+            string tmppath = $"{kndir}Template.xlsx";
             Excel.Application xl = new Excel.Application();
 
-            if (pn == 0)
+            ModelPath modelpath = doc.GetWorksharingCentralModelPath();
+            string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
+            string filedirectory = Path.GetDirectoryName(filepath);
+
+            bool oldfile = false;
+            if (File.Exists($"{filedirectory}\\{pn} Keynotes.xlsx"))
             {
-                TaskDialog td = new TaskDialog("No Project Number");
-                td.MainContent = "No project number entered yet. Please enter project number under MEI Project Number parameter in Project Information.";
-                td.Show();
-                return Result.Failed;
+                xlpath = $"{filedirectory}\\{pn} Keynotes.xlsx";
+                oldfile = true;
             }
-            else if (!File.Exists(xlpath))
+            else if (File.Exists($"{filedirectory}\\{pn} Keynotes.xlsm"))
             {
-                File.Copy(tmppath, xlpath);
+                xlpath = $"{filedirectory}\\{pn} Keynotes.xlsm";
+                oldfile = true;
+            }
+
+            if (!oldfile)
+            {
+                if (pn == 0)
+                {
+                    TaskDialog td = new TaskDialog("No Project Number");
+                    td.MainContent = "No project number entered yet. Please enter project number under MEI Project Number parameter in Project Information.";
+                    td.Show();
+                    return Result.Failed;
+                }
+                else if (!File.Exists(xlpath))
+                {
+                    File.Copy(tmppath, xlpath);
+                    string cfiledir = "";
+                    if (doc.IsWorkshared)
+                    {
+                        cfiledir = Path.GetDirectoryName(Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath()));
+                    }
+                    else
+                    {
+                        cfiledir = Path.GetDirectoryName(doc.PathName);
+                    }
+                    if (!File.Exists(cfiledir + $"\\Keynotes.lnk"))
+                    {
+                        IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(cfiledir + $"\\Keynotes.lnk");
+                        shortcut.TargetPath = xlpath;
+                        shortcut.Save();
+                    }
+                }
             }
 
             xl.Workbooks.Open(xlpath);
-            String cfiledir = "";
-            if(doc.IsWorkshared)
-            {
-                cfiledir = Path.GetDirectoryName(Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath()));
-            }
-            else
-            {
-                cfiledir = Path.GetDirectoryName(doc.PathName);
-            }
-
-
-
-            if (!File.Exists(cfiledir + $"\\Keynotes.lnk"))
-            {
-                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(cfiledir + $"\\Keynotes.lnk");
-                shortcut.TargetPath = xlpath;
-                shortcut.Save();
-            }
             
             string caption = xl.Caption;
             IntPtr handler = FindWindow(null, caption);

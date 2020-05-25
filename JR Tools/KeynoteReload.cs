@@ -20,29 +20,28 @@ namespace JR_Tools
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             ModelPath modelpath = doc.GetWorksharingCentralModelPath();
-            Boolean oldfile = false;
+            bool oldfile = false;
 
-            String filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
-            String filedirectory = Path.GetDirectoryName(filepath);
-            String filename = Path.GetFileName(filepath);            
+            string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
+            string filedirectory = Path.GetDirectoryName(filepath);    
             ProjectInfo projectInfo = doc.ProjectInformation;
-            Autodesk.Revit.DB.Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
-            String projectnumber = Convert.ToString(pnpar.AsDouble());
-            String xlpath = "";
+            Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            string pn = Convert.ToString(pnpar.AsDouble());
+            string xlpath = "";
             bool xl365 = false;
 
-            if(File.Exists(filedirectory + "\\" + projectnumber + " Keynotes.xlsx"))
+            if (File.Exists($"{filedirectory}\\{pn} Keynotes.xlsx"))
             {
-                xlpath = filedirectory + "\\" + projectnumber + " Keynotes.xlsx";
+                xlpath = $"{filedirectory}\\{pn} Keynotes.xlsx";
             }
-            else if(File.Exists(filedirectory + "\\" + projectnumber + " Keynotes.xlsm"))
+            else if (File.Exists($"{filedirectory}\\{pn} Keynotes.xlsm"))
             {
-                xlpath = filedirectory + "\\" + projectnumber + " Keynotes.xlsm";
+                xlpath = $"{filedirectory}\\{pn} Keynotes.xlsm";
                 oldfile = true;
             }
-            else if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx"))
+            else if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + pn + ".xlsx"))
             {
-                xlpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + projectnumber + ".xlsx";
+                xlpath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\" + pn + ".xlsx";
                 xl365 = true;
             }
             else
@@ -53,7 +52,7 @@ namespace JR_Tools
                 return Result.Failed;
             }
 
-            String txtfilepath = filedirectory + "\\" + projectnumber + " Keynotes.txt";
+            String txtfilepath = filedirectory + "\\" + pn + " Keynotes.txt";
 
             Excel.Application xl = new Excel.Application();
             Excel.Workbook xlwb;
