@@ -17,7 +17,18 @@ namespace JR_Tools
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             ProjectInfo projectInfo = doc.ProjectInformation;
-            Parameter pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            Parameter pnpar = null;
+            try
+            {
+                pnpar = projectInfo.GetParameters("MEI Project Number")[0];
+            }
+            catch(System.ArgumentOutOfRangeException)
+            {
+                TaskDialog td = new TaskDialog("No Project Number Parameter");
+                td.MainContent = "Please add MEI Project Number parameter to Project Information, assign project number, and try again.";
+                td.Show();
+                return Result.Failed;
+            }
             double pn = pnpar.AsDouble();
             string kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
             string xlpath =  $"{kndir}{pn}.xlsx";
@@ -28,6 +39,7 @@ namespace JR_Tools
             string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
             string filedirectory = Path.GetDirectoryName(filepath);
 
+            //legacy files
             bool oldfile = false;
             if (File.Exists($"{filedirectory}\\{pn} Keynotes.xlsx"))
             {
@@ -49,9 +61,20 @@ namespace JR_Tools
                     td.Show();
                     return Result.Failed;
                 }
+                //create new file or generate error if file does not exist
                 else if (!File.Exists(xlpath))
                 {
-                    File.Copy(tmppath, xlpath);
+                    try
+                    {
+                        File.Copy(tmppath, xlpath);
+                    }
+                    catch
+                    {
+                        TaskDialog td = new TaskDialog("SharePoint Sync Required");
+                        td.MainContent = @"All Morrissey Team SharePoint sync is required to use this feature. Please navigate here and click sync: https://morrisseyengineering.sharepoint.com/sites/AllMorrissey/Shared%20Documents/Forms/AllItems.aspx";
+                        td.Show();
+                        return Result.Failed;
+                    }
                     string cfiledir = "";
                     if (doc.IsWorkshared)
                     {
@@ -73,6 +96,7 @@ namespace JR_Tools
 
             xl.Workbooks.Open(xlpath);
             
+            //bring to front
             string caption = xl.Caption;
             IntPtr handler = FindWindow(null, caption);
             SetForegroundWindow(handler);
