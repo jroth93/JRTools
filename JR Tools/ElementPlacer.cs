@@ -23,21 +23,36 @@ namespace JR_Tools
             View view = doc.GetElement(viewid) as View;
             Reference cref = uidoc.Selection.PickObject(ObjectType.Element, "Pick Path Detail Line");
             Reference elref = uidoc.Selection.PickObject(ObjectType.Element, "Pick element to be placed");
-            Reference levref = new Reference(view.GenLevel);
 
             Curve pathcurve = (doc.GetElement(cref).Location as LocationCurve).Curve;
-            FamilyInstance elfi = doc.GetElement(elref.ElementId) as FamilyInstance;
-            FamilySymbol elfs = elfi.Symbol;
-            XYZ newloc = pathcurve.Evaluate(0.2, true);
-            XYZ refdir = new XYZ(0, 0, 1);
+            FamilySymbol elfs = (doc.GetElement(elref.ElementId) as FamilyInstance).Symbol;
+            double numel = 8;
+            double spacing = 70;
             
             using (Transaction tx = new Transaction(doc, "Place Elements"))
             {
                 if (tx.Start() == TransactionStatus.Started)
                 {
-                    doc.Create.NewFamilyInstance(newloc,elfs,view.GenLevel,Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                    /*
+                    for (int i = 0; i < numel; i++)
+                    {
+                        XYZ newloc = pathcurve.Evaluate(i / (numel - 1), true);
+                        doc.Create.NewFamilyInstance(newloc, elfs, view.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                    }
+                    */
+                    double curlen = 10;
+                    while(curlen < pathcurve.Length)
+                    {
+                        XYZ newloc = pathcurve.Evaluate(curlen / pathcurve.Length, true);
+                        Line rotax = Line.CreateBound(newloc, newloc.Add(XYZ.BasisZ));
+                        XYZ newdir = pathcurve.ComputeDerivatives(curlen / pathcurve.Length, true).get_Basis(0);
+                        double rotangle = XYZ.BasisX.AngleTo(newdir);
 
-
+                        FamilyInstance newel = doc.Create.NewFamilyInstance(newloc, elfs, view.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                        ElementTransformUtils.RotateElement(doc, newel.Id, rotax, rotangle);
+                        curlen += spacing;
+                    }
+                    
                     
                 }
 

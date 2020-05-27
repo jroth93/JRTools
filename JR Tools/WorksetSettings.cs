@@ -39,6 +39,7 @@ namespace JR_Tools
                 Properties.Settings.Default.switchenlarged = form1.checkBox1.Checked;
             }
 
+            Properties.Settings.Default.Save();
             form1.Close();
 
             return Result.Succeeded;
