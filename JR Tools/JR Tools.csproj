@@ -57,6 +57,12 @@
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
     <Compile Include="ElementPlacer.cs" />
+    <Compile Include="PlaceElFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlaceElFrm.Designer.cs">
+      <DependentUpon>PlaceElFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorksetSettings.cs" />
     <Compile Include="WkstSettings.cs">
       <SubType>Form</SubType>
@@ -132,6 +138,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PlaceElFrm.resx">
+      <DependentUpon>PlaceElFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WkstSettings.resx">
       <DependentUpon>WkstSettings.cs</DependentUpon>
     </EmbeddedResource>
