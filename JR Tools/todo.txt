@@ -1,6 +1,4 @@
-﻿- add project number entry form to PN method
-
-- Element Placer
+﻿- Element Placer
 - Panel Schedule Checker
 - Receptacle Placer (6' from doors, every 12 ft)
 - Copy/Monitor for objects that won't copy/monitor
