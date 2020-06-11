@@ -67,11 +67,11 @@ namespace JR_Tools
                         tx.Commit();
                     }
                 }
-                catch (System.NullReferenceException e)
+                catch (NullReferenceException)
                 {
                     continue;
                 }
-                catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
                 {
                     return Autodesk.Revit.UI.Result.Succeeded;
                 }

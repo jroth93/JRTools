@@ -61,7 +61,6 @@ namespace JR_Tools
             List<XYZ> pts = new List<XYZ>();
             List<XYZ> newdir = new List<XYZ>();
 
-            int i = 0;
             foreach (XYZ q in tess)
             {
                 if (0 == pts.Count && 0 == offset)

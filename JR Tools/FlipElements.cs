@@ -35,7 +35,7 @@ namespace JR_Tools
                                 else if ((faminst.MEPModel as MechanicalFitting).PartType.ToString() == "Tee") { FlipTee(uidoc, doc, faminst); }
                             }
                         }
-                        catch (System.NullReferenceException e)
+                        catch (NullReferenceException)
                         {
                             continue;
                         }
@@ -48,7 +48,6 @@ namespace JR_Tools
             {
                 Reference reference = null;
                 FamilyInstance faminst = null;
-                ElementId eid = null;
                 try
                 {
                     reference = uidoc.Selection.PickObject(ObjectType.Element);
@@ -63,11 +62,11 @@ namespace JR_Tools
                         tx.Commit();
                     }
                 }
-                catch (System.NullReferenceException e)
+                catch (NullReferenceException)
                 {
                     continue;
                 }
-                catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
                 {
                     return Result.Succeeded;
                 }

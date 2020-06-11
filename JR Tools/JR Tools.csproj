@@ -57,6 +57,12 @@
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
     <Compile Include="ElementPlacer.cs" />
+    <Compile Include="EntryBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntryBox.Designer.cs">
+      <DependentUpon>EntryBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlaceElFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EntryBox.resx">
+      <DependentUpon>EntryBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlaceElFrm.resx">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </EmbeddedResource>

@@ -64,7 +64,7 @@ namespace JR_Tools
                         foreach (Element el in sortedelements) { doc.Delete(el.Id); };
                     }
                 }
-                catch (System.NullReferenceException e)
+                catch (NullReferenceException)
                 {
                 }
                 tx.Commit();

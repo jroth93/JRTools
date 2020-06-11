@@ -15,21 +15,13 @@ namespace JR_Tools
         public Autodesk.Revit.UI.Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
             UIDocument uidoc = revit.Application.ActiveUIDocument;
+            UIApplication uiapp = revit.Application;
             Document doc = uidoc.Document;
             ProjectInfo projectInfo = doc.ProjectInformation;
-            Parameter pnpar = null;
-            try
-            {
-                pnpar = projectInfo.GetParameters("MEI Project Number")[0];
-            }
-            catch(System.ArgumentOutOfRangeException)
-            {
-                TaskDialog td = new TaskDialog("No Project Number Parameter");
-                td.MainContent = "Please add MEI Project Number parameter to Project Information, assign project number, and try again.";
-                td.Show();
-                return Result.Failed;
-            }
-            double pn = pnpar.AsDouble();
+
+            (string pn, bool blcont1) = KeynoteReload.GetProjectNumber(doc, uiapp);
+            if (!blcont1) { return Result.Cancelled; }
+
             string kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
             string xlpath =  $"{kndir}{pn}.xlsx";
             string tmppath = $"{kndir}Template.xlsx";
@@ -37,7 +29,8 @@ namespace JR_Tools
 
             ModelPath modelpath = doc.GetWorksharingCentralModelPath();
             string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
-            string filedirectory = Path.GetDirectoryName(filepath);
+            (string filedirectory, bool blcont2) = Path.GetDirectoryName(filepath).Substring(0, 7) == "BIM 360" ? KeynoteReload.GetCloudProjectFolder(doc, uiapp) : (Path.GetDirectoryName(filepath), true);
+            if (!blcont2) { return Result.Cancelled; }
 
             //legacy files
             bool oldfile = false;
@@ -54,7 +47,7 @@ namespace JR_Tools
 
             if (!oldfile)
             {
-                if (pn == 0)
+                if (pn == "0")
                 {
                     TaskDialog td = new TaskDialog("No Project Number");
                     td.MainContent = "No project number entered yet. Please enter project number under MEI Project Number parameter in Project Information.";
