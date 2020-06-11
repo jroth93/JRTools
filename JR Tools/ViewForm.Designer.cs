@@ -64,8 +64,7 @@
             // 
             // ViewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(502, 84);
             this.Controls.Add(this.cancelbutton);
             this.Controls.Add(this.okbutton);
