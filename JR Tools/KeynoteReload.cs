@@ -172,6 +172,7 @@ namespace JR_Tools
                     Category cat = doc.Settings.Categories.get_Item(BuiltInCategory.OST_ProjectInformation);
                     CategorySet cset = cap.NewCategorySet();
                     cset.Insert(cat);
+                    uiapp.Application.SharedParametersFilename = @"Z:\Revit MEI Content\Shared Parameters\MEI Shared Parameters.txt";
                     DefinitionFile spFile = uiapp.Application.OpenSharedParameterFile();
                     foreach (DefinitionGroup dg in spFile.Groups)
                     {
