@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Interop;
 
-//[assembly: System.Reflection.AssemblyVersion("1.0.0.1")]
-
 namespace JR_Tools
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -43,6 +41,7 @@ namespace JR_Tools
             PushButtonData button7data = new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "JR_Tools.DuctLauncher");
             PushButtonData button8data = new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "JR_Tools.KNXLLauncher");
             PushButtonData button9data = new PushButtonData("cmdwkststg", "Workset\nSettings", thisAssemblyPath, "JR_Tools.WorksetSettings");
+            PushButtonData button10data = new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "JR_Tools.ElementPlacer");
 
             button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
             button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
@@ -51,6 +50,7 @@ namespace JR_Tools
             RibbonButton wkstbutton = genrib.AddItem(button9data) as RibbonButton;
             RibbonButton calloutbutton = genrib.AddItem(button5data) as RibbonButton;
             RibbonButton cmbtxtbutton = genrib.AddItem(button6data) as RibbonButton;
+            RibbonButton elplcbutton = genrib.AddItem(button10data) as RibbonButton;
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
@@ -63,6 +63,7 @@ namespace JR_Tools
             ductbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\duct.png"));
             xlbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\knxl.png"));
             wkstbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\wkst.png"));
+            elplcbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elplc.png"));
 
             return Result.Succeeded;
         }

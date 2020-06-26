@@ -168,6 +168,7 @@
     <Content Include="images\callout.png" />
     <Content Include="images\combine.png" />
     <Content Include="images\duct.png" />
+    <Content Include="images\elplc.png" />
     <Content Include="images\flipel.png" />
     <Content Include="images\flipwp.png" />
     <Content Include="images\knxl.png" />
