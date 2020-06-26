@@ -61,7 +61,9 @@ namespace JR_Tools
                 }
                 catch (NullReferenceException)
                 {
-                    System.Windows.Forms.MessageBox.Show("One or more items picked was not a pipe.");
+                    TaskDialog td = new TaskDialog("Invalid Selection");
+                    td.MainContent = "One or more of the items picked was not a pipe.";
+                    td.Show();
                     return Result.Failed;
                 }
             }

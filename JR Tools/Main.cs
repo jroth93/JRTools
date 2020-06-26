@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Interop;
 
-[assembly: System.Reflection.AssemblyVersion("1.0.0.1")]
+//[assembly: System.Reflection.AssemblyVersion("1.0.0.1")]
 
 namespace JR_Tools
 {
