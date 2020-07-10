@@ -32,26 +32,23 @@ namespace JR_Tools
             
             string combinedtext = "";
             TextElement previous = null;
-            int horelcnt = 1;
-            int tothorel = 1;
 
             foreach(TextElement el in sortedelements)
             {
                 
                 if (previous != null) 
                 {
-                    if (Math.Abs(el.Coord.Y - previous.Coord.Y) > el.Height)
+                    if (Math.Abs(el.Coord.Y - previous.Coord.Y) > el.Height*curview.Scale)
                     {
-                        tothorel = tothorel == 1 ? horelcnt : tothorel;
+                        combinedtext += "\n";
                     }
                 }
                 combinedtext += el.Text + " ";
                 previous = el;
-                horelcnt++;
             }
 
             combinedtext = combinedtext.Replace("\r", "");
-            double width = Math.Abs(sortedelements.ElementAt(tothorel - 1).Coord.X - sortedelements.ElementAt(0).Coord.X) + sortedelements.ElementAt(tothorel - 1).Width;
+            double width = (sortedelements.ElementAt(sortedelements.Count() - 1).Coord.X - sortedelements.ElementAt(0).Coord.X) / curview.Scale + sortedelements.Select(el => el.Width).OrderByDescending(el => el).ElementAt(0);
             ElementId txttype = (sortedelements.ElementAt(0) as TextNote).TextNoteType.Id;
 
             using (Transaction tx = new Transaction(doc, "Combine"))
@@ -60,7 +57,7 @@ namespace JR_Tools
                 {
                     if (tx.Start() == TransactionStatus.Started)
                     {
-                        TextNote.Create(doc, viewid, sortedelements.ElementAt(0).Coord, width/*/curview.Scale*/, combinedtext, txttype);
+                        TextNote.Create(doc, viewid, sortedelements.ElementAt(0).Coord, width, combinedtext, txttype);
                         foreach (Element el in sortedelements) { doc.Delete(el.Id); };
                     }
                 }
