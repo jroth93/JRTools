@@ -43,6 +43,9 @@ namespace JR_Tools
             PushButtonData button9data = new PushButtonData("cmdwkststg", "Workset\nSettings", thisAssemblyPath, "JR_Tools.WorksetSettings");
             PushButtonData button10data = new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "JR_Tools.ElementPlacer");
 
+            SplitButtonData sbdata = new SplitButtonData("spltpipespace", "Pipe Spacer");
+
+
             button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
             button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
 
@@ -53,8 +56,12 @@ namespace JR_Tools
             RibbonButton elplcbutton = genrib.AddItem(button10data) as RibbonButton;
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
-            RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
+            SplitButton pipesb = mechrib.AddItem(sbdata) as SplitButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
+
+            PushButton pipebutton = pipesb.AddPushButton(button2data) as PushButton;
+
+
 
             knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "\\reload.png"));
             pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\spacepipe.png"));

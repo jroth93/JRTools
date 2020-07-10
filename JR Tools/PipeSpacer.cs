@@ -69,4 +69,14 @@ namespace JR_Tools
             }
         }
     }
+
+    class PipeSpacerSettings
+    {
+        public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
+        {
+
+
+            return Result.Succeeded;
+        }
+    }
 }

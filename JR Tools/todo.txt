@@ -2,7 +2,7 @@
 - Panel Schedule Checker
 - Receptacle Placer (6' from doors, every 12 ft)
 - Copy/Monitor for objects that won't copy/monitor
-
+- Excel/Revit Parameter Assigner
 - Add functionality to DuctTag so that it doesn't re-tag.
 
 - Do some more testing on FlipElements for plumbing sweep tees
