@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace JR_Tools
 {
-    public partial class WorksetSettingsForm : Form
+    public partial class SettingsForm : Form
     {
-        public WorksetSettingsForm()
+        public SettingsForm()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,5 +35,6 @@ namespace JR_Tools
             iscancelled = true;
             this.Hide();
         }
+
     }
 }

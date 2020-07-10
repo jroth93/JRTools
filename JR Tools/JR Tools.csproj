@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
     <Compile Include="FlattenText.cs" />
+    <Compile Include="AddLeader.cs" />
     <Compile Include="TextLeader.cs" />
     <Compile Include="_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
@@ -72,12 +73,12 @@
     <Compile Include="PlaceElFrm.Designer.cs">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorksetSettings.cs" />
-    <Compile Include="WkstSettings.cs">
+    <Compile Include="EditSettings.cs" />
+    <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WkstSettings.Designer.cs">
-      <DependentUpon>WkstSettings.cs</DependentUpon>
+    <Compile Include="Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -153,8 +154,8 @@
     <EmbeddedResource Include="PlaceElFrm.resx">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WkstSettings.resx">
-      <DependentUpon>WkstSettings.cs</DependentUpon>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewForm.resx">
       <DependentUpon>ViewForm.cs</DependentUpon>

@@ -10,7 +10,7 @@ using Autodesk.Revit.UI;
 namespace JR_Tools
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class WorksetSettings : IExternalCommand
+    public class EditSettings : IExternalCommand
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
@@ -18,7 +18,7 @@ namespace JR_Tools
             WorksetTable wst = doc.GetWorksetTable();
 
             FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
-            WorksetSettingsForm form1 = new WorksetSettingsForm();
+            SettingsForm form1 = new SettingsForm();
             form1.checkBox1.Checked = Properties.Settings.Default.switchenlarged;
             
             foreach (Workset ws in wscol)
