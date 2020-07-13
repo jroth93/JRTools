@@ -23,7 +23,7 @@ namespace JR_Tools
             XYZ pt = uidoc.Selection.PickPoint();
 
             FilteredElementCollector coll = new FilteredElementCollector(doc);
-            TextNoteType txttype = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Where(type => type.Name == "3/32\" Arial").ElementAt(0) as TextNoteType;
+            TextNoteType txttype = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Where(type => type.Name == Properties.Settings.Default.defaulttxt).ElementAt(0) as TextNoteType;
             TextNoteOptions txtoptions = new TextNoteOptions(txttype.Id);
 
             //TextNote txt = (doc.GetElement(ids[0]) as TextNote);

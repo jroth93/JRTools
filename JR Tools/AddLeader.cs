@@ -19,8 +19,19 @@ namespace JR_Tools
             ElementId viewid = uidoc.ActiveView.Id;
             View curview = doc.GetElement(viewid) as View;
             IList<ElementId> ids = uidoc.Selection.GetElementIds() as IList<ElementId>;
+            if(ids.Count() == 0)
+            {
+                ids.Add(doc.GetElement(uidoc.Selection.PickObject(ObjectType.Element, "Pick Text")).Id);
+            }
+            TextNote txt = (doc.GetElement(ids[0]) as TextNote);           
 
-            TextNote txt = (doc.GetElement(ids[0]) as TextNote);
+            if(txt == null)
+            {
+                TaskDialog td = new TaskDialog("Invalid Selection");
+                td.MainContent = "Element Picked Was Not Text.";
+                td.Show();
+                return Result.Failed;
+            }
             XYZ pl = uidoc.Selection.PickPoint();
 
             using (Transaction tx = new Transaction(doc, "Remove Line Breaks"))

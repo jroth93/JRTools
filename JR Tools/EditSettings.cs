@@ -20,6 +20,7 @@ namespace JR_Tools
             FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
             SettingsForm form1 = new SettingsForm();
             form1.checkBox1.Checked = Properties.Settings.Default.switchenlarged;
+            form1.pipespaceupdown.Value = Properties.Settings.Default.pipedist;
             
             foreach (Workset ws in wscol)
             {
@@ -31,12 +32,19 @@ namespace JR_Tools
             }
             form1.defaultworkset.SelectedItem = Properties.Settings.Default.workset;
 
+            FilteredElementCollector coll = new FilteredElementCollector(doc);
+            var txttypes = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Select(txt => txt.Name).ToArray();
+            form1.defaulttext.Items.AddRange(txttypes);
+            form1.defaulttext.SelectedItem = Properties.Settings.Default.defaulttxt;
+
             form1.ShowDialog();
 
             if (!form1.iscancelled)
             {
                 Properties.Settings.Default.workset = form1.defaultworkset.SelectedItem as String;
                 Properties.Settings.Default.switchenlarged = form1.checkBox1.Checked;
+                Properties.Settings.Default.pipedist = Convert.ToInt32(form1.pipespaceupdown.Value);
+                Properties.Settings.Default.defaulttxt = form1.defaulttext.SelectedItem.ToString();
             }
 
             Properties.Settings.Default.Save();

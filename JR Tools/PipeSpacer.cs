@@ -44,7 +44,7 @@ namespace JR_Tools
 
                     bool isvertical = Math.Round(loc1.Curve.GetEndPoint(0).X, 4) == Math.Round(loc1.Curve.GetEndPoint(1).X, 4) ? true : false;
 
-                    double pipedistance = Convert.ToDouble(view.Scale) / 128;
+                    double pipedistance = Convert.ToDouble(view.Scale)*Properties.Settings.Default.pipedist / 1152;
                     double currentdistance = isvertical ? loc1.Curve.GetEndPoint(0).X - loc2.Curve.GetEndPoint(0).X : loc1.Curve.GetEndPoint(0).Y - loc2.Curve.GetEndPoint(0).Y;
                     double movedistance = currentdistance < 0 ? currentdistance + pipedistance : currentdistance - pipedistance;
                     XYZ vector = isvertical ? new XYZ(movedistance, 0, 0) : new XYZ(0, movedistance, 0);

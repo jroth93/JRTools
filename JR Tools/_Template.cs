@@ -17,8 +17,7 @@ namespace JR_Tools
             UIApplication app = revit.Application; 
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
-            ElementId viewid = uidoc.ActiveView.Id;
-            View view = doc.GetElement(viewid) as View;
+            View view = doc.GetElement(uidoc.ActiveView.Id) as View;
 
             using (Transaction tx = new Transaction(doc, "commandname"))
             {

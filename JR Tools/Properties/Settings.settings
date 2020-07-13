@@ -8,5 +8,11 @@
     <Setting Name="workset" Type="System.String" Scope="User">
       <Value Profile="(Default)">M-Mechanical</Value>
     </Setting>
+    <Setting Name="pipedist" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="defaulttxt" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3/32\" Arial</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

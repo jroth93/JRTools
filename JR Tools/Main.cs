@@ -40,28 +40,31 @@ namespace JR_Tools
             PushButtonData button6data = new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "JR_Tools.CombineText");
             PushButtonData button7data = new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "JR_Tools.DuctLauncher");
             PushButtonData button8data = new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "JR_Tools.KNXLLauncher");
-            PushButtonData button9data = new PushButtonData("cmdwkststg", "Workset\nSettings", thisAssemblyPath, "JR_Tools.WorksetSettings");
+            PushButtonData button9data = new PushButtonData("cmdstg", "Edit\nSettings", thisAssemblyPath, "JR_Tools.EditSettings");
             PushButtonData button10data = new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "JR_Tools.ElementPlacer");
+            PushButtonData button11data = new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "JR_Tools.TextLeader");
+            PushButtonData button12data = new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "JR_Tools.AddLeader");
+            PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
 
-            SplitButtonData sbdata = new SplitButtonData("spltpipespace", "Pipe Spacer");
-
+            SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
             button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
             button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
 
-            IList<RibbonItem> stackedGroup1 = genrib.AddStackedItems(button1data, button4data);
-            RibbonButton wkstbutton = genrib.AddItem(button9data) as RibbonButton;
+            RibbonButton settingsbtn = genrib.AddItem(button9data) as RibbonButton;
+            SplitButton txtsplit = genrib.AddItem(sbdata) as SplitButton;
             RibbonButton calloutbutton = genrib.AddItem(button5data) as RibbonButton;
-            RibbonButton cmbtxtbutton = genrib.AddItem(button6data) as RibbonButton;
             RibbonButton elplcbutton = genrib.AddItem(button10data) as RibbonButton;
+            IList<RibbonItem> stackedGroup1 = genrib.AddStackedItems(button1data, button4data);
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
-            SplitButton pipesb = mechrib.AddItem(sbdata) as SplitButton;
+            RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
 
-            PushButton pipebutton = pipesb.AddPushButton(button2data) as PushButton;
-
-
+            PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data) as PushButton;
+            PushButton txtldrbtn = txtsplit.AddPushButton(button11data) as PushButton;
+            PushButton addldrbtn = txtsplit.AddPushButton(button12data) as PushButton;
+            PushButton flattxtbtn = txtsplit.AddPushButton(button13data) as PushButton;
 
             knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "\\reload.png"));
             pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\spacepipe.png"));
@@ -69,8 +72,11 @@ namespace JR_Tools
             cmbtxtbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\combine.png"));
             ductbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\duct.png"));
             xlbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\knxl.png"));
-            wkstbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\wkst.png"));
+            settingsbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\wkst.png"));
             elplcbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elplc.png"));
+            txtldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\leadertext.png"));
+            addldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\addleader.png"));
+            flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\flattentext.png"));
 
             return Result.Succeeded;
         }
@@ -95,7 +101,6 @@ namespace JR_Tools
 
                 FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
                 Workset workset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(Properties.Settings.Default.workset)) as Workset;
-
 
                 Transaction transaction = new Transaction(doc, "Change Workset");
                 if (transaction.Start() == TransactionStatus.Started)

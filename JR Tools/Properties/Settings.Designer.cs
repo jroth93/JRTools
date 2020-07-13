@@ -46,5 +46,29 @@ namespace JR_Tools.Properties {
                 this["workset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        public int pipedist {
+            get {
+                return ((int)(this["pipedist"]));
+            }
+            set {
+                this["pipedist"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3/32\\\" Arial")]
+        public string defaulttxt {
+            get {
+                return ((string)(this["defaulttxt"]));
+            }
+            set {
+                this["defaulttxt"] = value;
+            }
+        }
     }
 }
