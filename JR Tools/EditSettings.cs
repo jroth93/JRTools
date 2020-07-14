@@ -35,7 +35,7 @@ namespace JR_Tools
             FilteredElementCollector coll = new FilteredElementCollector(doc);
             var txttypes = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Select(txt => txt.Name).ToArray();
             form1.defaulttext.Items.AddRange(txttypes);
-            form1.defaulttext.SelectedItem = Properties.Settings.Default.defaulttxt;
+            form1.defaulttext.SelectedItem = txttypes.Where(type => type == Properties.Settings.Default.defaulttxt).FirstOrDefault();
 
             form1.ShowDialog();
 

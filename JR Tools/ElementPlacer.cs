@@ -18,10 +18,23 @@ namespace JR_Tools
             Autodesk.Revit.DB.Document doc = revit.Application.ActiveUIDocument.Document;
             ElementId viewid = uidoc.ActiveView.Id;
             Autodesk.Revit.DB.View view = doc.GetElement(viewid) as Autodesk.Revit.DB.View;
-            Reference cref = uidoc.Selection.PickObject(ObjectType.Element, "Pick path detail line");
+            Reference cref = uidoc.Selection.PickObject(ObjectType.Element, "Pick path line");
             Reference elref = uidoc.Selection.PickObject(ObjectType.Element, "Pick element to be placed");
 
-            Curve pathcurve = (doc.GetElement(cref).Location as LocationCurve).Curve;
+            Curve pathcurve = null;
+
+            try
+            {
+                pathcurve = (doc.GetElement(cref).Location as LocationCurve).Curve;
+            }
+            catch (System.NullReferenceException)
+            {
+                TaskDialog td = new TaskDialog("Invalid Path Selection");
+                td.MainContent = "Invalid Path Selection. Please try again.";
+                td.Show();
+                return Result.Failed;
+            }
+            
             if(!pathcurve.IsBound)
             {
                 TaskDialog td = new TaskDialog("Unbounded Curve");
@@ -30,13 +43,42 @@ namespace JR_Tools
                 return Result.Failed;
             }
 
-            FamilySymbol elfs = (doc.GetElement(elref.ElementId) as FamilyInstance).Symbol;
-            PlaceElFrm pef = new PlaceElFrm();
-            pef.ShowDialog();
+            FamilySymbol elfs = null;
+            try
+            {
+                elfs = (doc.GetElement(elref.ElementId) as FamilyInstance).Symbol;
+            }
+            catch(System.NullReferenceException)
+            {
+                TaskDialog td = new TaskDialog("Invalid Element Selection");
+                td.MainContent = "Invalid Element Selection. Please try again.";
+                td.Show();
+                return Result.Failed;
+            }
 
-            bool rbnm = pef.radionumber.Checked;
-            double usrin = Convert.ToDouble(pef.textBox1.Text);
-            double offset = rbnm ? 0 : Convert.ToDouble(pef.startoffset.Text);
+            PlaceElFrm pef = new PlaceElFrm();
+            bool rbnm = true;
+            double usrin = 0.0;
+            double offset = 0.0;
+            while(true)
+            {
+                pef.ShowDialog();
+                if(pef.DialogResult == System.Windows.Forms.DialogResult.Cancel) { return Result.Cancelled;}
+                rbnm = pef.radionumber.Checked;
+                try
+                {
+                    usrin = Convert.ToDouble(pef.textBox1.Text);
+                    offset = rbnm ? 0 : Convert.ToDouble(pef.startoffset.Text);
+                    break;
+                } 
+                catch(System.FormatException)
+                {
+                    TaskDialog td = new TaskDialog("Invalid Form Entry");
+                    td.MainContent = "Invalid Entry. Please try again.";
+                    td.Show();
+                }
+            }
+
             pef.Close();
 
             double stepsize = rbnm ? pathcurve.Length/(usrin-1) : usrin;

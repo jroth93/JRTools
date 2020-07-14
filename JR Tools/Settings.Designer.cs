@@ -50,11 +50,12 @@
             // 
             // defaultworkset
             // 
+            this.defaultworkset.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaultworkset.FormattingEnabled = true;
-            this.defaultworkset.Location = new System.Drawing.Point(106, 29);
+            this.defaultworkset.Location = new System.Drawing.Point(128, 28);
             this.defaultworkset.Margin = new System.Windows.Forms.Padding(2);
             this.defaultworkset.Name = "defaultworkset";
-            this.defaultworkset.Size = new System.Drawing.Size(209, 24);
+            this.defaultworkset.Size = new System.Drawing.Size(259, 24);
             this.defaultworkset.Sorted = true;
             this.defaultworkset.TabIndex = 0;
             // 
@@ -84,10 +85,10 @@
             // okbutton
             // 
             this.okbutton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okbutton.Location = new System.Drawing.Point(213, 344);
+            this.okbutton.Location = new System.Drawing.Point(282, 249);
             this.okbutton.Margin = new System.Windows.Forms.Padding(2);
             this.okbutton.Name = "okbutton";
-            this.okbutton.Size = new System.Drawing.Size(61, 18);
+            this.okbutton.Size = new System.Drawing.Size(65, 25);
             this.okbutton.TabIndex = 3;
             this.okbutton.Text = "Save";
             this.okbutton.UseVisualStyleBackColor = true;
@@ -96,10 +97,10 @@
             // cancelbutton
             // 
             this.cancelbutton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelbutton.Location = new System.Drawing.Point(286, 344);
+            this.cancelbutton.Location = new System.Drawing.Point(354, 249);
             this.cancelbutton.Margin = new System.Windows.Forms.Padding(2);
             this.cancelbutton.Name = "cancelbutton";
-            this.cancelbutton.Size = new System.Drawing.Size(61, 18);
+            this.cancelbutton.Size = new System.Drawing.Size(65, 25);
             this.cancelbutton.TabIndex = 4;
             this.cancelbutton.Text = "Cancel";
             this.cancelbutton.UseVisualStyleBackColor = true;
@@ -114,11 +115,11 @@
             this.wkstbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.wkstbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wkstbox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.wkstbox.Location = new System.Drawing.Point(10, 226);
+            this.wkstbox.Location = new System.Drawing.Point(15, 132);
             this.wkstbox.Margin = new System.Windows.Forms.Padding(2);
             this.wkstbox.Name = "wkstbox";
             this.wkstbox.Padding = new System.Windows.Forms.Padding(2);
-            this.wkstbox.Size = new System.Drawing.Size(342, 99);
+            this.wkstbox.Size = new System.Drawing.Size(408, 99);
             this.wkstbox.TabIndex = 5;
             this.wkstbox.TabStop = false;
             this.wkstbox.Text = "Worksets";
@@ -126,13 +127,14 @@
             // frame
             // 
             this.frame.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.frame.Controls.Add(this.wkstbox);
             this.frame.Controls.Add(this.txtsettingsbox);
             this.frame.Controls.Add(this.mechbox);
             this.frame.Location = new System.Drawing.Point(-4, -10);
             this.frame.Margin = new System.Windows.Forms.Padding(2);
             this.frame.Name = "frame";
             this.frame.Padding = new System.Windows.Forms.Padding(2);
-            this.frame.Size = new System.Drawing.Size(370, 347);
+            this.frame.Size = new System.Drawing.Size(437, 250);
             this.frame.TabIndex = 6;
             this.frame.TabStop = false;
             // 
@@ -141,22 +143,23 @@
             this.txtsettingsbox.Controls.Add(this.defaulttext);
             this.txtsettingsbox.Controls.Add(this.txtstylelbl);
             this.txtsettingsbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtsettingsbox.Location = new System.Drawing.Point(14, 123);
+            this.txtsettingsbox.Location = new System.Drawing.Point(15, 21);
             this.txtsettingsbox.Margin = new System.Windows.Forms.Padding(2);
             this.txtsettingsbox.Name = "txtsettingsbox";
             this.txtsettingsbox.Padding = new System.Windows.Forms.Padding(2);
-            this.txtsettingsbox.Size = new System.Drawing.Size(342, 52);
+            this.txtsettingsbox.Size = new System.Drawing.Size(408, 52);
             this.txtsettingsbox.TabIndex = 1;
             this.txtsettingsbox.TabStop = false;
             this.txtsettingsbox.Text = "Text";
             // 
             // defaulttext
             // 
+            this.defaulttext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaulttext.FormattingEnabled = true;
-            this.defaulttext.Location = new System.Drawing.Point(126, 19);
+            this.defaulttext.Location = new System.Drawing.Point(150, 18);
             this.defaulttext.Margin = new System.Windows.Forms.Padding(2);
             this.defaulttext.Name = "defaulttext";
-            this.defaulttext.Size = new System.Drawing.Size(190, 24);
+            this.defaulttext.Size = new System.Drawing.Size(237, 24);
             this.defaulttext.TabIndex = 1;
             // 
             // txtstylelbl
@@ -175,11 +178,11 @@
             this.mechbox.Controls.Add(this.pipespaceupdown);
             this.mechbox.Controls.Add(this.pipespacelbl);
             this.mechbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mechbox.Location = new System.Drawing.Point(14, 180);
+            this.mechbox.Location = new System.Drawing.Point(15, 77);
             this.mechbox.Margin = new System.Windows.Forms.Padding(2);
             this.mechbox.Name = "mechbox";
             this.mechbox.Padding = new System.Windows.Forms.Padding(2);
-            this.mechbox.Size = new System.Drawing.Size(342, 51);
+            this.mechbox.Size = new System.Drawing.Size(408, 51);
             this.mechbox.TabIndex = 0;
             this.mechbox.TabStop = false;
             this.mechbox.Text = "Mechanical";
@@ -187,10 +190,10 @@
             // pipespaceupdown
             // 
             this.pipespaceupdown.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pipespaceupdown.Location = new System.Drawing.Point(153, 22);
+            this.pipespaceupdown.Location = new System.Drawing.Point(236, 22);
             this.pipespaceupdown.Margin = new System.Windows.Forms.Padding(2);
             this.pipespaceupdown.Name = "pipespaceupdown";
-            this.pipespaceupdown.Size = new System.Drawing.Size(33, 22);
+            this.pipespaceupdown.Size = new System.Drawing.Size(43, 22);
             this.pipespaceupdown.TabIndex = 1;
             // 
             // pipespacelbl
@@ -200,9 +203,9 @@
             this.pipespacelbl.Location = new System.Drawing.Point(18, 24);
             this.pipespacelbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.pipespacelbl.Name = "pipespacelbl";
-            this.pipespacelbl.Size = new System.Drawing.Size(259, 16);
+            this.pipespacelbl.Size = new System.Drawing.Size(216, 16);
             this.pipespacelbl.TabIndex = 0;
-            this.pipespacelbl.Text = "Pipe Spacing on 1/8\" Plan:                  inches";
+            this.pipespacelbl.Text = "Pipe Spacing on 1/8\" Plan (inches):";
             // 
             // SettingsForm
             // 
@@ -212,8 +215,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.CancelButton = this.cancelbutton;
-            this.ClientSize = new System.Drawing.Size(361, 369);
-            this.Controls.Add(this.wkstbox);
+            this.ClientSize = new System.Drawing.Size(428, 285);
             this.Controls.Add(this.cancelbutton);
             this.Controls.Add(this.okbutton);
             this.Controls.Add(this.frame);
@@ -225,7 +227,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
-            this.Load += new System.EventHandler(this.WorksetSettingsForm_Load);
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.wkstbox.ResumeLayout(false);
             this.wkstbox.PerformLayout();
             this.frame.ResumeLayout(false);

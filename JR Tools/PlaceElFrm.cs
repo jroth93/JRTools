@@ -42,7 +42,13 @@ namespace JR_Tools
 
         private void okbutton_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.OK;
             this.Hide();
+        }
+
+        private void PlaceElFrm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

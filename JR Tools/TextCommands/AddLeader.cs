@@ -23,7 +23,8 @@ namespace JR_Tools
             {
                 ids.Add(doc.GetElement(uidoc.Selection.PickObject(ObjectType.Element, "Pick Text")).Id);
             }
-            TextNote txt = (doc.GetElement(ids[0]) as TextNote);           
+            ElementId txtid = ids.Where(id => (doc.GetElement(id) as TextNote) != null).FirstOrDefault();
+            TextNote txt = (doc.GetElement(txtid) as TextNote);           
 
             if(txt == null)
             {

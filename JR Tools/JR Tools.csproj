@@ -56,10 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
-    <Compile Include="FlattenText.cs" />
-    <Compile Include="AddLeader.cs" />
-    <Compile Include="TextLeader.cs" />
-    <Compile Include="_Template.cs" />
+    <Compile Include="TextCommands\FlattenText.cs" />
+    <Compile Include="TextCommands\AddLeader.cs" />
+    <Compile Include="TextCommands\TextLeader.cs" />
+    <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="EntryBox.cs">
       <SubType>Form</SubType>
@@ -85,10 +85,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="KNXLLauncher.cs" />
-    <Compile Include="RoomSep2SpaceSep.cs" />
-    <Compile Include="TagElKn.cs" />
-    <Compile Include="CombineText.cs" />
+    <Compile Include="Keynotes\KNXLLauncher.cs" />
+    <Compile Include="WIP\RoomSep2SpaceSep.cs" />
+    <Compile Include="WIP\TagElKn.cs" />
+    <Compile Include="TextCommands\CombineText.cs" />
     <Compile Include="FlipWorkPlane.cs" />
     <Compile Include="DuctLauncher.cs" />
     <Compile Include="ViewForm.cs">
@@ -97,8 +97,8 @@
     <Compile Include="ViewForm.Designer.cs">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeynoteReload.cs" />
-    <Compile Include="DuctTag.cs" />
+    <Compile Include="Keynotes\KeynoteReload.cs" />
+    <Compile Include="WIP\DuctTag.cs" />
     <Compile Include="PipeSpacer.cs" />
     <Compile Include="FlipElements.cs" />
     <Compile Include="Main.cs" />

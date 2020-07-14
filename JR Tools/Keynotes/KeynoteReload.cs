@@ -25,7 +25,7 @@ namespace JR_Tools
 
             bool oldfile = false;
             string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
-            (string filedirectory, bool blcont1) = Path.GetDirectoryName(filepath).Substring(0,7)=="BIM 360" ? GetCloudProjectFolder(doc, uiapp) : (Path.GetDirectoryName(filepath),true);
+            (string filedirectory, bool blcont1) = filepath.Substring(0,7)=="BIM 360" ? GetCloudProjectFolder(doc, uiapp) : (Path.GetDirectoryName(filepath),true);
             if (!blcont1) { return Result.Cancelled; }
             (string pn, bool blcont2) = GetProjectNumber(doc, uiapp);
             if (!blcont2) { return Result.Cancelled; }
@@ -71,10 +71,12 @@ namespace JR_Tools
                 }
                 catch (IOException ex)
                 {
-                    if (ex.Message.Contains("being used by another process"));
-                    File.Copy(xlpath, xlpath + "temp.xlsx");
-                    xlpath += "temp.xlsx";
-                    isopen = true;
+                    if (ex.Message.Contains("being used by another process"))
+                    {
+                        File.Copy(xlpath, xlpath + "temp.xlsx");
+                        xlpath += "temp.xlsx";
+                        isopen = true;
+                    }
                 }
                 finally
                 {
@@ -156,7 +158,7 @@ namespace JR_Tools
             ProjectInfo projectInfo = doc.ProjectInformation;
             IList<Autodesk.Revit.DB.Parameter> parlist = projectInfo.GetParameters("MEI Project Folder");
 
-            if (parlist.Count == 0 || parlist[0].AsString() == "")
+            if (parlist.Count == 0 || parlist[0].AsString() == "" || parlist[0].AsString() == null)
             {
                 System.Windows.Forms.FolderBrowserDialog fb = new System.Windows.Forms.FolderBrowserDialog();
                 fb.Description = "Browse to project folder containing keynotes file (legacy) or where keynotes text file should be located.";
@@ -223,7 +225,6 @@ namespace JR_Tools
             ProjectInfo projectInfo = doc.ProjectInformation;
             double dpn = 0.0;
             string pn = "";
-            Autodesk.Revit.DB.Parameter pnpar = null;
             IList<Autodesk.Revit.DB.Parameter> parlist = projectInfo.GetParameters("MEI Project Number");
 
             if (parlist.Count == 0 || parlist[0].AsString() == "" || parlist[0].AsDouble() == 0)

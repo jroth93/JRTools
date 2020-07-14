@@ -22,7 +22,9 @@ namespace JR_Tools
             var selectedids = uidoc.Selection.GetElementIds() as IEnumerable<ElementId>;
             if (selectedids.Count() == 0) {return Result.Cancelled;}
 
-            var els = selectedids.Select(id => doc.GetElement(id) as TextElement);
+            var els = selectedids.Select(id => doc.GetElement(id) as TextElement).Where(el => el != null);
+
+
             using (Transaction tx = new Transaction(doc, "Remove Line Breaks"))
             {
                 if (tx.Start() == TransactionStatus.Started)

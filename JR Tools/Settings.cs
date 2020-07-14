@@ -18,15 +18,16 @@ namespace JR_Tools
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
-        public Boolean iscancelled = false;
+        public bool iscancelled = false;
 
-        private void WorksetSettingsForm_Load(object sender, EventArgs e)
+        private void SettingsForm_Load(object sender, EventArgs e)
         {
  
         }
 
         private void okbutton_Click(object sender, EventArgs e)
         {
+            iscancelled = false;
             this.Hide();
         }
 
