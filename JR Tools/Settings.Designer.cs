@@ -156,7 +156,7 @@
             // 
             this.defaulttext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaulttext.FormattingEnabled = true;
-            this.defaulttext.Location = new System.Drawing.Point(150, 18);
+            this.defaulttext.Location = new System.Drawing.Point(150, 19);
             this.defaulttext.Margin = new System.Windows.Forms.Padding(2);
             this.defaulttext.Name = "defaulttext";
             this.defaulttext.Size = new System.Drawing.Size(237, 24);

@@ -98,7 +98,7 @@
       <DependentUpon>ViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Keynotes\KeynoteReload.cs" />
-    <Compile Include="WIP\DuctTag.cs" />
+    <Compile Include="DuctTag.cs" />
     <Compile Include="PipeSpacer.cs" />
     <Compile Include="FlipElements.cs" />
     <Compile Include="Main.cs" />
@@ -178,6 +178,7 @@
     <Content Include="images\knxl.png" />
     <Content Include="images\reload.png" />
     <Content Include="images\spacepipe.png" />
+    <Content Include="images\tagduct.png" />
     <Content Include="images\wkst.png" />
     <Content Include="todo.txt" />
   </ItemGroup>

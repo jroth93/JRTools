@@ -32,6 +32,7 @@ namespace JR_Tools
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             string imagelocation = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(typeof(AddPanel).Assembly.Location)).FullName).FullName + "\\images";
             
+            //initialize button data
             PushButtonData button1data = new PushButtonData("cmdflip","Flip Element", thisAssemblyPath, "JR_Tools.FlipElements");
             PushButtonData button2data = new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "JR_Tools.PipeSpacer");
             PushButtonData button3data = new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "JR_Tools.KeynoteReload");
@@ -45,12 +46,14 @@ namespace JR_Tools
             PushButtonData button11data = new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "JR_Tools.TextLeader");
             PushButtonData button12data = new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "JR_Tools.AddLeader");
             PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
+            PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "JR_Tools.DuctTag");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
             button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
             button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
 
+            //create ribbon
             RibbonButton settingsbtn = genrib.AddItem(button9data) as RibbonButton;
             SplitButton txtsplit = genrib.AddItem(sbdata) as SplitButton;
             RibbonButton calloutbutton = genrib.AddItem(button5data) as RibbonButton;
@@ -59,6 +62,7 @@ namespace JR_Tools
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
+            RibbonButton ducttagbtn = mechrib.AddItem(button14data) as RibbonButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
 
             PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data) as PushButton;
@@ -66,6 +70,7 @@ namespace JR_Tools
             PushButton addldrbtn = txtsplit.AddPushButton(button12data) as PushButton;
             PushButton flattxtbtn = txtsplit.AddPushButton(button13data) as PushButton;
 
+            //add images
             knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "\\reload.png"));
             pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\spacepipe.png"));
             calloutbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\callout.png"));
@@ -77,6 +82,7 @@ namespace JR_Tools
             txtldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\leadertext.png"));
             addldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\addleader.png"));
             flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\flattentext.png"));
+            ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\tagduct.png"));
 
             return Result.Succeeded;
         }

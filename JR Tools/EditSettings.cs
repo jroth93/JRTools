@@ -41,10 +41,17 @@ namespace JR_Tools
 
             if (!form1.iscancelled)
             {
-                Properties.Settings.Default.workset = form1.defaultworkset.SelectedItem as String;
-                Properties.Settings.Default.switchenlarged = form1.checkBox1.Checked;
-                Properties.Settings.Default.pipedist = Convert.ToInt32(form1.pipespaceupdown.Value);
-                Properties.Settings.Default.defaulttxt = form1.defaulttext.SelectedItem.ToString();
+                try
+                {
+                    Properties.Settings.Default.workset = form1.defaultworkset.SelectedItem as String;
+                    Properties.Settings.Default.switchenlarged = form1.checkBox1.Checked;
+                    Properties.Settings.Default.pipedist = Convert.ToInt32(form1.pipespaceupdown.Value);
+                    Properties.Settings.Default.defaulttxt = form1.defaulttext.SelectedItem.ToString();
+                }
+                catch
+                {
+
+                }
             }
 
             Properties.Settings.Default.Save();
