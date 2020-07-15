@@ -16,7 +16,6 @@ namespace JR_Tools
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = revit.Application.ActiveUIDocument.Document;
             ElementId viewid = uidoc.ActiveView.Id;
@@ -42,12 +41,27 @@ namespace JR_Tools
                     LocationCurve loc1 = pipe1.Location as LocationCurve;
                     LocationCurve loc2 = pipe2.Location as LocationCurve;
 
-                    bool isvertical = Math.Round(loc1.Curve.GetEndPoint(0).X, 4) == Math.Round(loc1.Curve.GetEndPoint(1).X, 4) ? true : false;
+                    bool ishor = Math.Round(loc1.Curve.GetEndPoint(0).Y,5) == Math.Round(loc1.Curve.GetEndPoint(1).Y,5);
+                    Curve l2curve = loc2.Curve;
+                    XYZ linedir = (loc1.Curve as Line).Direction;
+                    XYZ dirvect = new XYZ(-linedir.Y, linedir.X, 0.0);
+                    Line intersectline = Line.CreateUnbound(loc1.Curve.Evaluate(0.5, true), dirvect);
+                    intersectline.Intersect(l2curve, out IntersectionResultArray resarray);
+                    XYZ intersectpnt = resarray.get_Item(0).XYZPoint;
 
-                    double pipedistance = Convert.ToDouble(view.Scale)*Properties.Settings.Default.pipedist / 1152;
-                    double currentdistance = isvertical ? loc1.Curve.GetEndPoint(0).X - loc2.Curve.GetEndPoint(0).X : loc1.Curve.GetEndPoint(0).Y - loc2.Curve.GetEndPoint(0).Y;
-                    double movedistance = currentdistance < 0 ? currentdistance + pipedistance : currentdistance - pipedistance;
-                    XYZ vector = isvertical ? new XYZ(movedistance, 0, 0) : new XYZ(0, movedistance, 0);
+                    double curdist = intersectpnt.DistanceTo(loc1.Curve.Evaluate(0.5, true));
+                    double pipedist = Convert.ToDouble(view.Scale) * Properties.Settings.Default.pipedist / 1152;
+                    double movedist = curdist - pipedist;
+                    
+                    XYZ vector = new XYZ();
+                    if (ishor || loc1.Curve.Evaluate(0.5, true).X < intersectpnt.X)
+                    {
+                        vector = movedist * dirvect;
+                    }
+                    else if (loc1.Curve.Evaluate(0.5, true).X > intersectpnt.X)
+                    {
+                        vector = -movedist * dirvect;
+                    }
 
                     using (Transaction tx = new Transaction(doc, "Space Piping"))
                     {
@@ -66,17 +80,10 @@ namespace JR_Tools
                     td.Show();
                     return Result.Failed;
                 }
+            return Result.Succeeded;
             }
         }
     }
 
-    class PipeSpacerSettings
-    {
-        public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
-        {
 
-
-            return Result.Succeeded;
-        }
-    }
 }
