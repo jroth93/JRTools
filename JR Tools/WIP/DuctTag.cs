@@ -41,34 +41,44 @@ namespace JR_Tools
                         double ductwidth = ductel.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble();
                         double minnoleadersize = 144 / Convert.ToDouble(view.Scale);
                         bool isvertical = Math.Round(loccurve.Curve.GetEndPoint(0).X,4) == Math.Round(loccurve.Curve.GetEndPoint(1).X,4);
+                        bool ishorizontal = Math.Round(loccurve.Curve.GetEndPoint(0).Y, 4) == Math.Round(loccurve.Curve.GetEndPoint(1).Y, 4);
 
 
-                        if (boolductlongenough)
+                        if (boolductlongenough && !IsTagged(doc, viewid, ductel))
                         {
-                            //vertical large duct
-                            if (isvertical & ductwidth >= minnoleadersize)
+                            FilteredElementCollector fec = new FilteredElementCollector(doc);
+                            XYZ point = loccurve.Curve.Evaluate(0.5, true) as XYZ;
+                            bool ldr = false;
+                            var tor = TagOrientation.Horizontal;
+                            Family tagfam = fec.OfClass(typeof(Family)).Where(f => f.Name == "MEI Mech Tag Duct").FirstOrDefault() as Family;
+                            ElementId symid = tagfam.GetFamilySymbolIds().FirstOrDefault();
+
+                            if (isvertical)
                             {
-                                XYZ point = loccurve.Curve.Evaluate(0.5, true) as XYZ;
-                                IndependentTag tag = IndependentTag.Create(doc, viewid, ductref, false, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Vertical, point);
+                                if(ductwidth >= minnoleadersize)
+                                {
+                                    tor = TagOrientation.Vertical;
+                                }
+                                else
+                                {
+                                    ldr = true;
+                                }
                             }
-                            //horizontal/angled large duct
-                            else if (!isvertical & ductwidth >= minnoleadersize)
+                            else if(ishorizontal && ductwidth < minnoleadersize)
                             {
-                                XYZ point = loccurve.Curve.Evaluate(0.5, true) as XYZ;
-                                IndependentTag tag = IndependentTag.Create(doc, viewid, ductref, false, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, point);
+                                ldr = true;
                             }
-                            //horizontal/angled small duct
-                            else if (!isvertical & ductwidth < minnoleadersize)
+                            else
                             {
-                                XYZ point = loccurve.Curve.Evaluate(0.5, true) as XYZ;
-                                IndependentTag tag = IndependentTag.Create(doc, viewid, ductref, true, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, point);
+                                tagfam = fec.OfClass(typeof(Family)).Where(f => f.Name == "MEI Mech Tag Duct - Rotating").FirstOrDefault() as Family;
+                                symid = tagfam.GetFamilySymbolIds().FirstOrDefault();
+                                if(ductwidth < minnoleadersize)
+                                {
+                                    ldr = true;
+                                }
                             }
-                            //vertical small duct
-                            else if (isvertical & ductwidth < minnoleadersize)
-                            {
-                                XYZ point = loccurve.Curve.Evaluate(0.5, true) as XYZ;
-                                IndependentTag.Create(doc, viewid, ductref, true, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, point);
-                            }
+
+                            IndependentTag tag = IndependentTag.Create(doc, symid, viewid, ductref, ldr, tor, point);
                         }
 
                     }
@@ -80,6 +90,19 @@ namespace JR_Tools
             }
 
             return Result.Succeeded;
+        }
+        public bool IsTagged(Document doc, ElementId viewid, Element el)
+        {
+            FilteredElementCollector fec = new FilteredElementCollector(doc, viewid);
+            var itfec = fec.OfClass(typeof(IndependentTag));
+            foreach(IndependentTag it in itfec)
+            {
+                if (it.TaggedLocalElementId == el.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
