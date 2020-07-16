@@ -10,7 +10,7 @@ using Autodesk.Revit.UI.Selection;
 namespace JR_Tools
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    class _Template
+    class _Template : IExternalCommand
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {

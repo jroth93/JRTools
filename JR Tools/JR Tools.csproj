@@ -59,6 +59,7 @@
     <Compile Include="TextCommands\FlattenText.cs" />
     <Compile Include="TextCommands\AddLeader.cs" />
     <Compile Include="TextCommands\TextLeader.cs" />
+    <Compile Include="WIP\PanelUtil.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="EntryBox.cs">
@@ -90,7 +91,7 @@
     <Compile Include="WIP\TagElKn.cs" />
     <Compile Include="TextCommands\CombineText.cs" />
     <Compile Include="FlipWorkPlane.cs" />
-    <Compile Include="DuctLauncher.cs" />
+    <Compile Include="Mech\DuctLauncher.cs" />
     <Compile Include="ViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,8 +99,8 @@
       <DependentUpon>ViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Keynotes\KeynoteReload.cs" />
-    <Compile Include="DuctTag.cs" />
-    <Compile Include="PipeSpacer.cs" />
+    <Compile Include="Mech\DuctTag.cs" />
+    <Compile Include="Mech\PipeSpacer.cs" />
     <Compile Include="FlipElements.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
