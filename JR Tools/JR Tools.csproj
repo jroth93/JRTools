@@ -56,29 +56,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
+    <Compile Include="Forms\MsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MsgBox.Designer.cs">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="TextCommands\FlattenText.cs" />
     <Compile Include="TextCommands\AddLeader.cs" />
     <Compile Include="TextCommands\TextLeader.cs" />
     <Compile Include="WIP\PanelUtil.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
-    <Compile Include="EntryBox.cs">
+    <Compile Include="Forms\EntryBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntryBox.Designer.cs">
+    <Compile Include="Forms\EntryBox.Designer.cs">
       <DependentUpon>EntryBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlaceElFrm.cs">
+    <Compile Include="Forms\PlaceElFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlaceElFrm.Designer.cs">
+    <Compile Include="Forms\PlaceElFrm.Designer.cs">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="EditSettings.cs" />
-    <Compile Include="Settings.cs">
+    <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
+    <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -92,10 +98,10 @@
     <Compile Include="TextCommands\CombineText.cs" />
     <Compile Include="FlipWorkPlane.cs" />
     <Compile Include="Mech\DuctLauncher.cs" />
-    <Compile Include="ViewForm.cs">
+    <Compile Include="Forms\ViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewForm.Designer.cs">
+    <Compile Include="Forms\ViewForm.Designer.cs">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Keynotes\KeynoteReload.cs" />
@@ -149,16 +155,19 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EntryBox.resx">
+    <EmbeddedResource Include="Forms\EntryBox.resx">
       <DependentUpon>EntryBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PlaceElFrm.resx">
+    <EmbeddedResource Include="Forms\MsgBox.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PlaceElFrm.resx">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
+    <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewForm.resx">
+    <EmbeddedResource Include="Forms\ViewForm.resx">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
