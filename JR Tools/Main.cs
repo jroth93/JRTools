@@ -123,13 +123,15 @@ namespace JR_Tools
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
             View view = doc.ActiveView;
+            
             WorksetTable wst = doc.GetWorksetTable();
             FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
-            String viewname = view.Name;
+            string viewname = view.Name;
+            String viewsub = view.GetParameters("MEI Discipline-Sub").Count() > 0 ? view.GetParameters("MEI Discipline-Sub")[0].AsString() : "";
 
-            if (viewname.ToLower().Contains("enlarged") && Properties.Settings.Default.switchenlarged)
+            if (viewname.ToLower().Contains("enlarged") || viewsub.ToLower().Contains("enlarged"))
             {
-                if (doc.IsWorkshared)
+                if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
                 {
                     string enlwkst = Properties.Settings.Default.workset[0] == 'M' ? "M-Enlarged Plans" : "E-Enlarged Plans";
                     Workset enlworkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(enlwkst)) as Workset;

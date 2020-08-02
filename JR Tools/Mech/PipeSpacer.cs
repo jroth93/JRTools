@@ -24,6 +24,7 @@ namespace JR_Tools
             while (true)
             {
                 Reference ref1 = null, ref2 = null;
+                LocationCurve loc1 = null, loc2 = null;
                 try
                 {
                     ref1 = uidoc.Selection.PickObject(ObjectType.Element, "Pick Anchor Pipe");
@@ -36,42 +37,9 @@ namespace JR_Tools
 
                 try
                 {
-                    var pipe1 = doc.GetElement(ref1);
-                    var pipe2 = doc.GetElement(ref2);
-                    LocationCurve loc1 = pipe1.Location as LocationCurve;
-                    LocationCurve loc2 = pipe2.Location as LocationCurve;
-
-                    bool ishor = Math.Round(loc1.Curve.GetEndPoint(0).Y,5) == Math.Round(loc1.Curve.GetEndPoint(1).Y,5);
-                    Curve l2curve = loc2.Curve;
-                    XYZ linedir = (loc1.Curve as Line).Direction;
-                    XYZ dirvect = new XYZ(-linedir.Y, linedir.X, 0.0);
-                    Line intersectline = Line.CreateUnbound(loc1.Curve.Evaluate(0.5, true), dirvect);
-                    intersectline.Intersect(l2curve, out IntersectionResultArray resarray);
-                    XYZ intersectpnt = resarray.get_Item(0).XYZPoint;
-
-                    double curdist = intersectpnt.DistanceTo(loc1.Curve.Evaluate(0.5, true));
-                    double pipedist = Convert.ToDouble(view.Scale) * Properties.Settings.Default.pipedist / 1152;
-                    double movedist = curdist - pipedist;
-                    
-                    XYZ vector = new XYZ();
-                    if (ishor || loc1.Curve.Evaluate(0.5, true).X < intersectpnt.X)
-                    {
-                        vector = movedist * dirvect;
-                    }
-                    else if (loc1.Curve.Evaluate(0.5, true).X > intersectpnt.X)
-                    {
-                        vector = -movedist * dirvect;
-                    }
-
-                    using (Transaction tx = new Transaction(doc, "Space Piping"))
-                    {
-                        if (tx.Start() == TransactionStatus.Started)
-                        {
-                            loc2.Move(vector);
-                        }
-
-                        tx.Commit();
-                    }
+                    loc1 = doc.GetElement(ref1).Location as LocationCurve;
+                    loc2 = doc.GetElement(ref2).Location as LocationCurve;
+                    if(loc1 == null || loc2 == null) { throw new NullReferenceException(); }
                 }
                 catch (NullReferenceException)
                 {
@@ -80,6 +48,32 @@ namespace JR_Tools
                     td.Show();
                     return Result.Failed;
                 }
+
+                bool ishor = Math.Round(loc1.Curve.GetEndPoint(0).Y,5) == Math.Round(loc1.Curve.GetEndPoint(1).Y,5);
+                XYZ linedir = (loc1.Curve as Line).Direction;
+                XYZ dirvect = new XYZ(-linedir.Y, linedir.X, 0.0);
+                Line intersectline1 = Line.CreateUnbound(new XYZ(loc2.Curve.Evaluate(0.5, true).X, loc2.Curve.Evaluate(0.5, true).Y,0), linedir);
+                Line intersectline2 = Line.CreateUnbound(new XYZ(loc1.Curve.Evaluate(0.5, true).X, loc1.Curve.Evaluate(0.5, true).Y, 0), dirvect);
+                intersectline2.Intersect(intersectline1, out IntersectionResultArray resarray);
+
+                XYZ intersectpnt = resarray.get_Item(0).XYZPoint;
+
+                double curdist = intersectpnt.DistanceTo(new XYZ(loc1.Curve.Evaluate(0.5, true).X, loc1.Curve.Evaluate(0.5, true).Y, 0));
+                double pipedist = Convert.ToDouble(view.Scale) * Properties.Settings.Default.pipedist / 1152;
+                double movedist = curdist - pipedist;
+                XYZ movedir = new XYZ(loc1.Curve.Evaluate(0.5, true).X - intersectpnt.X, loc1.Curve.Evaluate(0.5, true).Y - intersectpnt.Y, 0).Normalize();   
+                XYZ vector = movedist * movedir;
+
+                using (Transaction tx = new Transaction(doc, "Space Piping"))
+                {
+                    if (tx.Start() == TransactionStatus.Started)
+                    {
+                        loc2.Move(vector);
+                    }
+
+                    tx.Commit();
+                }
+
             return Result.Succeeded;
             }
         }
