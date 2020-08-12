@@ -56,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
+    <Compile Include="ExcelAssignForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelAssignForm.Designer.cs">
+      <DependentUpon>ExcelAssignForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ExcelAssignForm.resx">
+      <DependentUpon>ExcelAssignForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EntryBox.resx">
       <DependentUpon>EntryBox.cs</DependentUpon>
     </EmbeddedResource>
