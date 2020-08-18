@@ -25,9 +25,11 @@ namespace JR_Tools
             RibbonPanel genrib = application.CreateRibbonPanel("JR Tools","General");
             RibbonPanel knrib = application.CreateRibbonPanel("JR Tools", "Keynotes");
             RibbonPanel mechrib = application.CreateRibbonPanel("JR Tools", "Mechanical");
+            RibbonPanel elecrib = application.CreateRibbonPanel("JR Tools", "Electrical");
             genrib.Title = "General";
             knrib.Title = "Keynotes";
             mechrib.Title = "Mechanical";
+            elecrib.Title = "Electrical";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             string imagelocation = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(typeof(AddPanel).Assembly.Location)).FullName).FullName + "\\images";
@@ -47,6 +49,7 @@ namespace JR_Tools
             PushButtonData button12data = new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "JR_Tools.AddLeader");
             PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
             PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "JR_Tools.DuctTag");
+            PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "JR_Tools.PanelUtil");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
@@ -64,6 +67,7 @@ namespace JR_Tools
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
             RibbonButton ducttagbtn = mechrib.AddItem(button14data) as RibbonButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
+            RibbonButton elpanelbtn = elecrib.AddItem(button15data) as RibbonButton;
 
             PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data) as PushButton;
             PushButton txtldrbtn = txtsplit.AddPushButton(button11data) as PushButton;
@@ -83,6 +87,7 @@ namespace JR_Tools
             addldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\addleader.png"));
             flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\flattentext.png"));
             ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\tagduct.png"));
+            elpanelbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elecpanel.png"));
 
             return Result.Succeeded;
         }

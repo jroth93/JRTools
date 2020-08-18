@@ -8,6 +8,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.DB.Electrical;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace JR_Tools
 {
@@ -21,18 +22,18 @@ namespace JR_Tools
             Document doc = uidoc.Document;
             Autodesk.Revit.DB.View view = doc.GetElement(uidoc.ActiveView.Id) as Autodesk.Revit.DB.View;
             FilteredElementCollector picol = new FilteredElementCollector(doc);
-            picol.OfClass(typeof(PanelScheduleSheetInstance));
+            var picolsort = picol.OfClass(typeof(PanelScheduleSheetInstance)).OrderBy(x => x.Name);
             FilteredElementCollector pscol = new FilteredElementCollector(doc);
-            pscol.OfClass(typeof(PanelScheduleView));
+            var pscolsort = pscol.OfClass(typeof(PanelScheduleView)).OrderBy(x => x.Name);
             bool[] isplaced = new bool[pscol.Count()];
             string[] placedsheet = new string[pscol.Count()];
             int cntr = 0;
             string unplres = "";
 
-            foreach(PanelScheduleView ps in pscol)
+            foreach(PanelScheduleView ps in pscolsort)
             {
                 isplaced[cntr] = false;
-                foreach(PanelScheduleSheetInstance pi in picol)
+                foreach(PanelScheduleSheetInstance pi in picolsort)
                 {
                     if (pi.ScheduleId == ps.Id)
                     {
@@ -58,9 +59,24 @@ namespace JR_Tools
             }
 
             MsgBox mb = new MsgBox();
+            bool resize = true;
+
+            mb.richTextBox1.ContentsResized += (object sender, ContentsResizedEventArgs e) =>
+            {
+                if (resize)
+                {
+                    mb.Height = e.NewRectangle.Height + 50;
+                }
+            };
+
             mb.richTextBox1.Text = psres + "\n" + unplres;
+
+            
             mb.Text = "Panel Schedules";
+            mb.MinimumSize = new System.Drawing.Size(300,100);
             mb.Show();
+            resize = false;
+
 
             using (Transaction tx = new Transaction(doc, "commandname"))
             {

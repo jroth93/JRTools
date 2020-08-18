@@ -39,20 +39,20 @@ namespace JR_Tools
                 {
                     loc1 = doc.GetElement(ref1).Location as LocationCurve;
                     loc2 = doc.GetElement(ref2).Location as LocationCurve;
-                    if(loc1 == null || loc2 == null) { throw new NullReferenceException(); }
+                    if (loc1 == null || loc2 == null) { throw new NullReferenceException(); }
                 }
                 catch (NullReferenceException)
                 {
                     TaskDialog td = new TaskDialog("Invalid Selection");
                     td.MainContent = "One or more of the items picked was not a pipe.";
                     td.Show();
-                    return Result.Failed;
+                    return Result.Succeeded;
                 }
 
-                bool ishor = Math.Round(loc1.Curve.GetEndPoint(0).Y,5) == Math.Round(loc1.Curve.GetEndPoint(1).Y,5);
+                bool ishor = Math.Round(loc1.Curve.GetEndPoint(0).Y, 5) == Math.Round(loc1.Curve.GetEndPoint(1).Y, 5);
                 XYZ linedir = (loc1.Curve as Line).Direction;
                 XYZ dirvect = new XYZ(-linedir.Y, linedir.X, 0.0);
-                Line intersectline1 = Line.CreateUnbound(new XYZ(loc2.Curve.Evaluate(0.5, true).X, loc2.Curve.Evaluate(0.5, true).Y,0), linedir);
+                Line intersectline1 = Line.CreateUnbound(new XYZ(loc2.Curve.Evaluate(0.5, true).X, loc2.Curve.Evaluate(0.5, true).Y, 0), linedir);
                 Line intersectline2 = Line.CreateUnbound(new XYZ(loc1.Curve.Evaluate(0.5, true).X, loc1.Curve.Evaluate(0.5, true).Y, 0), dirvect);
                 intersectline2.Intersect(intersectline1, out IntersectionResultArray resarray);
 
@@ -61,7 +61,7 @@ namespace JR_Tools
                 double curdist = intersectpnt.DistanceTo(new XYZ(loc1.Curve.Evaluate(0.5, true).X, loc1.Curve.Evaluate(0.5, true).Y, 0));
                 double pipedist = Convert.ToDouble(view.Scale) * Properties.Settings.Default.pipedist / 1152;
                 double movedist = curdist - pipedist;
-                XYZ movedir = new XYZ(loc1.Curve.Evaluate(0.5, true).X - intersectpnt.X, loc1.Curve.Evaluate(0.5, true).Y - intersectpnt.Y, 0).Normalize();   
+                XYZ movedir = new XYZ(loc1.Curve.Evaluate(0.5, true).X - intersectpnt.X, loc1.Curve.Evaluate(0.5, true).Y - intersectpnt.Y, 0).Normalize();
                 XYZ vector = movedist * movedir;
 
                 using (Transaction tx = new Transaction(doc, "Space Piping"))
@@ -73,9 +73,7 @@ namespace JR_Tools
 
                     tx.Commit();
                 }
-
-            return Result.Succeeded;
-            }
+            }            
         }
     }
 
