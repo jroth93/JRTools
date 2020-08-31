@@ -43,10 +43,14 @@ namespace JR_Tools
                 return Result.Failed;
             }
 
+            bool ishosted = false;
             FamilySymbol elfs = null;
+            FamilyInstance elfi = null;
             try
             {
-                elfs = (doc.GetElement(elref.ElementId) as FamilyInstance).Symbol;
+                elfi = doc.GetElement(elref.ElementId) as FamilyInstance;
+                elfs = elfi.Symbol;
+                ishosted = elfi.Host == null ? false : true;
             }
             catch(System.NullReferenceException)
             {
@@ -125,7 +129,7 @@ namespace JR_Tools
                 }
 
                 XYZ p = pathcurve.GetEndPoint(0);
-
+                
                 foreach (XYZ q in tess)
                 {
                     if (0 == pts.Count && 0 == offset)
@@ -167,7 +171,10 @@ namespace JR_Tools
                 {
                     foreach (XYZ pt in pts)
                     {
-                        FamilyInstance newel = doc.Create.NewFamilyInstance(pt, elfs, view.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+                        FamilyInstance newel = ishosted ?
+                            doc.Create.NewFamilyInstance(elfi.HostFace, pt, new XYZ(1, 0, 0), elfs):
+                            doc.Create.NewFamilyInstance(pt, elfs, view.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+
                         Line rotax = Line.CreateBound(pt, pt.Add(XYZ.BasisZ));
                         double rotangle = newdir[pts.IndexOf(pt)].Y < 0 ? -XYZ.BasisX.AngleTo(newdir[pts.IndexOf(pt)]) : XYZ.BasisX.AngleTo(newdir[pts.IndexOf(pt)]);
                         ElementTransformUtils.RotateElement(doc, newel.Id, rotax, rotangle);

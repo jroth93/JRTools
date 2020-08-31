@@ -9,7 +9,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Excel = Microsoft.Office.Interop.Excel;
 using Autodesk.Revit.ApplicationServices;
-using Microsoft.Office.Interop.Excel;
 
 namespace JR_Tools
 {
@@ -126,8 +125,12 @@ namespace JR_Tools
                 } while (xlrange.Cells[n, 1].Value != null) ;
             }
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             xlwb.Close(false);
+            Marshal.FinalReleaseComObject(xlwb);
             xl.Quit();
+            Marshal.FinalReleaseComObject(xl);
 
             File.WriteAllText(txtfilepath, kntext, Encoding.Default);
 

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace JR_Tools
 {
-    public partial class ExcelAssignFrm : Form
+    public partial class ElecPanelDataFrm : Form
     {
-        public ExcelAssignFrm()
+        public ElecPanelDataFrm()
         {
             InitializeComponent();
         }

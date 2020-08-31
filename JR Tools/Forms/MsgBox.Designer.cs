@@ -60,6 +60,7 @@
         }
 
         #endregion
+
         public System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

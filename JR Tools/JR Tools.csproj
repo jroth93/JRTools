@@ -56,11 +56,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
-    <Compile Include="ExcelAssignForm.cs">
+    <Compile Include="ElecPanelDataFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExcelAssignForm.Designer.cs">
-      <DependentUpon>ExcelAssignForm.cs</DependentUpon>
+    <Compile Include="ElecPanelDataFrm.Designer.cs">
+      <DependentUpon>ElecPanelDataFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelAssignFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelAssignFrm.Designer.cs">
+      <DependentUpon>ExcelAssignFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MsgBox.cs">
       <SubType>Form</SubType>
@@ -71,7 +77,7 @@
     <Compile Include="TextCommands\FlattenText.cs" />
     <Compile Include="TextCommands\AddLeader.cs" />
     <Compile Include="TextCommands\TextLeader.cs" />
-    <Compile Include="WIP\PanelUtil.cs" />
+    <Compile Include="Elec\PanelUtil.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="Forms\EntryBox.cs">
@@ -121,6 +127,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="WIP\ExcelAssign.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -161,8 +168,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExcelAssignForm.resx">
-      <DependentUpon>ExcelAssignForm.cs</DependentUpon>
+    <EmbeddedResource Include="ElecPanelDataFrm.resx">
+      <DependentUpon>ElecPanelDataFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelAssignFrm.resx">
+      <DependentUpon>ExcelAssignFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EntryBox.resx">
       <DependentUpon>EntryBox.cs</DependentUpon>

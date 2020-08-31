@@ -1,9 +1,9 @@
 ﻿- Duct/Pipe Up/Dn tag
-- Panel Schedule Checker
 - Receptacle Placer (6' from doors, every 12 ft)
 - Copy/Monitor for objects that won't copy/monitor
 - Excel/Revit Parameter Assigner
 - Line combiner/cleaner
+- Damper toggle
 
 - default text dropdown issue?
 - Duct tag improvements (shoulder, tag distance, custom settings)

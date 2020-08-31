@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.xllbl = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.filelocationtxt = new System.Windows.Forms.TextBox();
             this.xlfilebtn = new System.Windows.Forms.Button();
             this.xlgroup = new System.Windows.Forms.GroupBox();
             this.keycolumndrop = new System.Windows.Forms.ComboBox();
@@ -42,8 +42,8 @@
             this.familydrop = new System.Windows.Forms.ComboBox();
             this.familylbl = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.dp1 = new System.Windows.Forms.ComboBox();
+            this.sc1 = new System.Windows.Forms.ComboBox();
             this.srclbl = new System.Windows.Forms.Label();
             this.destlbl = new System.Windows.Forms.Label();
             this.addbtn = new System.Windows.Forms.Button();
@@ -66,12 +66,13 @@
             this.xllbl.TabIndex = 0;
             this.xllbl.Text = "File Location:";
             // 
-            // textBox1
+            // filelocationtxt
             // 
-            this.textBox1.Location = new System.Drawing.Point(112, 37);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(259, 22);
-            this.textBox1.TabIndex = 1;
+            this.filelocationtxt.Location = new System.Drawing.Point(112, 37);
+            this.filelocationtxt.Name = "filelocationtxt";
+            this.filelocationtxt.ReadOnly = true;
+            this.filelocationtxt.Size = new System.Drawing.Size(259, 22);
+            this.filelocationtxt.TabIndex = 1;
             // 
             // xlfilebtn
             // 
@@ -81,6 +82,7 @@
             this.xlfilebtn.TabIndex = 2;
             this.xlfilebtn.Text = "...";
             this.xlfilebtn.UseVisualStyleBackColor = true;
+            this.xlfilebtn.Click += new System.EventHandler(this.xlfilebtn_Click);
             // 
             // xlgroup
             // 
@@ -90,7 +92,7 @@
             this.xlgroup.Controls.Add(this.Wkshtlbl);
             this.xlgroup.Controls.Add(this.xllbl);
             this.xlgroup.Controls.Add(this.xlfilebtn);
-            this.xlgroup.Controls.Add(this.textBox1);
+            this.xlgroup.Controls.Add(this.filelocationtxt);
             this.xlgroup.Location = new System.Drawing.Point(12, 12);
             this.xlgroup.Name = "xlgroup";
             this.xlgroup.Size = new System.Drawing.Size(427, 170);
@@ -105,6 +107,7 @@
             this.keycolumndrop.Name = "keycolumndrop";
             this.keycolumndrop.Size = new System.Drawing.Size(259, 24);
             this.keycolumndrop.TabIndex = 5;
+            this.keycolumndrop.SelectedIndexChanged += new System.EventHandler(this.keycolumndrop_SelectedIndexChanged);
             // 
             // keycolumnlbl
             // 
@@ -122,6 +125,7 @@
             this.Wkshtdropdown.Name = "Wkshtdropdown";
             this.Wkshtdropdown.Size = new System.Drawing.Size(259, 24);
             this.Wkshtdropdown.TabIndex = 4;
+            this.Wkshtdropdown.SelectedIndexChanged += new System.EventHandler(this.Wkshtdropdown_SelectedIndexChanged);
             // 
             // Wkshtlbl
             // 
@@ -152,6 +156,7 @@
             this.catdrop.Name = "catdrop";
             this.catdrop.Size = new System.Drawing.Size(259, 24);
             this.catdrop.TabIndex = 5;
+            this.catdrop.SelectedIndexChanged += new System.EventHandler(this.catdrop_SelectedIndexChanged);
             // 
             // catlbl
             // 
@@ -168,7 +173,9 @@
             this.familydrop.Location = new System.Drawing.Point(112, 81);
             this.familydrop.Name = "familydrop";
             this.familydrop.Size = new System.Drawing.Size(259, 24);
+            this.familydrop.Sorted = true;
             this.familydrop.TabIndex = 3;
+            this.familydrop.SelectedIndexChanged += new System.EventHandler(this.familydrop_SelectedIndexChanged);
             // 
             // familylbl
             // 
@@ -184,8 +191,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.64871F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.35129F));
-            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.comboBox2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dp1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.sc1, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 361);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -194,21 +201,22 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(427, 30);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
-            // comboBox1
+            // dp1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(214, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(209, 24);
-            this.comboBox1.TabIndex = 0;
+            this.dp1.FormattingEnabled = true;
+            this.dp1.Location = new System.Drawing.Point(214, 3);
+            this.dp1.Name = "dp1";
+            this.dp1.Size = new System.Drawing.Size(209, 24);
+            this.dp1.Sorted = true;
+            this.dp1.TabIndex = 0;
             // 
-            // comboBox2
+            // sc1
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(3, 3);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(205, 24);
-            this.comboBox2.TabIndex = 1;
+            this.sc1.FormattingEnabled = true;
+            this.sc1.Location = new System.Drawing.Point(3, 3);
+            this.sc1.Name = "sc1";
+            this.sc1.Size = new System.Drawing.Size(205, 24);
+            this.sc1.TabIndex = 1;
             // 
             // srclbl
             // 
@@ -254,6 +262,7 @@
             this.okbtn.TabIndex = 10;
             this.okbtn.Text = "OK";
             this.okbtn.UseVisualStyleBackColor = true;
+            this.okbtn.Click += new System.EventHandler(this.okbtn_Click);
             // 
             // cancelbtn
             // 
@@ -263,6 +272,7 @@
             this.cancelbtn.TabIndex = 11;
             this.cancelbtn.Text = "Cancel";
             this.cancelbtn.UseVisualStyleBackColor = true;
+            this.cancelbtn.Click += new System.EventHandler(this.cancelbtn_Click);
             // 
             // getcolsbtn
             // 
@@ -312,7 +322,7 @@
         #endregion
 
         private System.Windows.Forms.Label xllbl;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox filelocationtxt;
         private System.Windows.Forms.Button xlfilebtn;
         private System.Windows.Forms.GroupBox xlgroup;
         private System.Windows.Forms.ComboBox keycolumndrop;
@@ -325,8 +335,8 @@
         private System.Windows.Forms.ComboBox catdrop;
         private System.Windows.Forms.Label catlbl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox dp1;
+        private System.Windows.Forms.ComboBox sc1;
         private System.Windows.Forms.Label srclbl;
         private System.Windows.Forms.Label destlbl;
         private System.Windows.Forms.Button addbtn;
