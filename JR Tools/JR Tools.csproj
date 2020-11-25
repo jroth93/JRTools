@@ -210,7 +210,6 @@
     <Content Include="images\spacepipe.png" />
     <Content Include="images\tagduct.png" />
     <Content Include="images\wkst.png" />
-    <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
