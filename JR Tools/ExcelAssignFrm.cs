@@ -11,13 +11,14 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using Autodesk.Revit.DB;
+using Microsoft.Office.Interop.Excel;
 
 namespace JR_Tools
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public partial class ExcelAssignFrm : System.Windows.Forms.Form
     {
-        private Document rvtdoc;
+        private Document rvtDoc;
 
         private Excel.Application xl;
         private Excel.Workbook xlwb;
@@ -27,6 +28,7 @@ namespace JR_Tools
         private bool byType;
         private int parCnt=1;
         private bool xlIsOpen = false;
+        private string errorLog = "";
 
         private List<ComboBox> colDrops = new List<ComboBox>();
         private List<ComboBox> parDrops = new List<ComboBox>();
@@ -35,17 +37,20 @@ namespace JR_Tools
         {
             InitializeComponent();
 
-            rvtdoc = doc;
-            List<string> clist = new List<string>();
+            getColsBtn.Visible = false;
+            rvtDoc = doc;
+            List<string> cList = new List<string>();
             foreach(Category c in doc.Settings.Categories)
             {
-                if (c.AllowsBoundParameters)
+                FilteredElementCollector cElCol = new FilteredElementCollector(rvtDoc).OfCategoryId(c.Id);
+
+                if (c.AllowsBoundParameters && cElCol.Count() > 0)
                 {
-                    clist.Add(c.Name);
+                    cList.Add(c.Name);
                 }
             }
-            clist.Sort();
-            catDrop.Items.AddRange(clist.ToArray());
+            cList.Sort();
+            catDrop.Items.AddRange(cList.ToArray());
             catDrop.SelectedIndex = 0;
             colDrops.Add(sc1);
             parDrops.Add(dp1);
@@ -66,6 +71,7 @@ namespace JR_Tools
                 xlwb.Close(false);
             }
 
+            Marshal.FinalReleaseComObject(xlws);
             Marshal.FinalReleaseComObject(xlwb);
             xl.Quit();
             Marshal.FinalReleaseComObject(xl);
@@ -75,7 +81,7 @@ namespace JR_Tools
         {
             int maxWidth = 0;
             int temp = 0;
-            Label label1 = new Label();
+            System.Windows.Forms.Label label1 = new System.Windows.Forms.Label();
 
             foreach (var obj in myCombo.Items)
             {
@@ -90,8 +96,9 @@ namespace JR_Tools
             return maxWidth + SystemInformation.VerticalScrollBarWidth;
         }
 
-        private void assignParameterValues(int i)
+        private void AssignParameterValues(int i)
         {
+            errorLog = "";
             string parName = parDrops[i - 1].SelectedItem.ToString();
             parName = parName.Substring(0, parName.Length - 7);
             int keyCol = keyColDrop.SelectedIndex + 1;
@@ -102,7 +109,7 @@ namespace JR_Tools
 
             if (byType)
             {
-                var fslist = new FilteredElementCollector(rvtdoc)
+                var fslist = new FilteredElementCollector(rvtDoc)
                     .OfClass(typeof(FamilySymbol))
                     .Where(q => (q as FamilySymbol).Family.Name == familyDrop.SelectedItem.ToString())
                     .OrderBy(q => q.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_MARK).AsString());
@@ -118,16 +125,22 @@ namespace JR_Tools
                         keyCellVal = xlws.Cells[r, keyCol].Value.ToString();
                         if (typeMark == keyCellVal)
                         {
-                            using (Transaction tx = new Transaction(rvtdoc, "commandname"))
+                            bool hasUnits;
+                            try
+                            {
+                                DisplayUnitType dut = fs.LookupParameter(parName).DisplayUnitType;
+                                hasUnits = true;
+                            }
+                            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+                            {
+                                hasUnits = false;
+                            }
+
+                            using (Transaction tx = new Transaction(rvtDoc, "Assign Type Parameter"))
                             {
                                 if (tx.Start() == TransactionStatus.Started)
                                 {
-                                    var newVal = GetCellVal(r, parCol, parType);
-                                    try
-                                    {
-                                        newVal = GetCellVal(r, parCol, parType, fs.LookupParameter(parName).DisplayUnitType);
-                                    }
-                                    catch { }
+                                    var newVal = hasUnits ? GetCellVal(r, parCol, parType, fs.LookupParameter(parName).DisplayUnitType) : GetCellVal(r, parCol, parType);
 
                                     if (newVal != null)
                                     {
@@ -136,8 +149,7 @@ namespace JR_Tools
                                     }
                                     else
                                     {
-                                        string msg = $"Incorrect data type in Excel File for element '{typeMark}' parameter '{parName}.' Parameter will not be assigned.";
-                                        MessageBox.Show(msg, "Incorrect Format", MessageBoxButtons.OK);
+                                        errorLog += $"Incorrect data type in Excel File for element '{typeMark}' parameter '{parName}.' Parameter will not be assigned.\n";
                                     }
                                 }
                             }
@@ -147,7 +159,7 @@ namespace JR_Tools
             }
             else
             {
-                List<Element> filist = new FilteredElementCollector(rvtdoc)
+                List<Element> filist = new FilteredElementCollector(rvtDoc)
                     .OfClass(typeof(FamilyInstance))
                     .Where(q => (q as FamilyInstance).Symbol.Family.Name == familyDrop.SelectedItem.ToString()).ToList();
 
@@ -162,17 +174,23 @@ namespace JR_Tools
                         keyCellVal = xlws.Cells[r, keyCol].Value.ToString();
                         if (mark == keyCellVal)
                         {
-                            using (Transaction tx = new Transaction(rvtdoc, "commandname"))
+                            bool hasUnits;
+                            try
+                            {
+                                DisplayUnitType dut = fi.LookupParameter(parName).DisplayUnitType;
+                                hasUnits = true;
+                            }
+                            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+                            {
+                                hasUnits = false;
+                            }
+
+                            var newVal = hasUnits ? GetCellVal(r, parCol, parType, fi.LookupParameter(parName).DisplayUnitType) : GetCellVal(r, parCol, parType);
+
+                            using (Transaction tx = new Transaction(rvtDoc, "Assign Instance Parameter"))
                             {
                                 if (tx.Start() == TransactionStatus.Started)
                                 {
-                                    var newVal = GetCellVal(r, parCol, parType);
-                                    try
-                                    {
-                                        newVal = GetCellVal(r, parCol, parType, fi.LookupParameter(parName).DisplayUnitType);
-                                    }
-                                    catch { }
-
                                     if (newVal != null)
                                     {
                                         fi.LookupParameter(parName).Set(newVal);
@@ -180,14 +198,29 @@ namespace JR_Tools
                                     }
                                     else
                                     {
-                                        string msg = $"Incorrect data type in Excel File for element '{mark}' parameter '{parName}.' Parameter will not be assigned.";
-                                        MessageBox.Show(msg, "Incorrect Format", MessageBoxButtons.OK);
+                                        errorLog += $"Incorrect data type in Excel File for element '{mark}' parameter '{parName}.' Parameter will not be assigned.\n";
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }
+
+            if(errorLog != "")
+            {
+                MessageBox.Show("There were errors in the parameter assignment. Please see the error log in the Excel file directory for details.", "Assignment Errors", MessageBoxButtons.OK);
+
+                string logFilePath = xlwb.Path + @"\" + "ExcelToRevitErrorLog.txt";
+
+                using (StreamWriter sw = File.CreateText(logFilePath))
+                {
+                    sw.Write(errorLog);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Parameters have been assigned.", "Success!", MessageBoxButtons.OK);
             }
         }
 
@@ -277,55 +310,59 @@ namespace JR_Tools
             fd.Title = "Browse to Excel file.";
             fd.ValidateNames = false;
             fd.ShowDialog();
-            string xlPath = fd.FileName;
-            filelocationtxt.Text = xlPath;
-
-            xl = new Excel.Application();
-
-            FileStream stream = null;
-            try
+            if (fd.FileName != "")
             {
-                stream = File.Open(xlPath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            }
-            catch (IOException ex)
-            {
-                if (ex.Message.Contains("being used by another process"))
+                string xlPath = fd.FileName;
+                filelocationtxt.Text = xlPath;
+
+                xl = new Excel.Application();
+
+                FileStream stream = null;
+                try
                 {
-                    File.Copy(xlPath, xlPath + "temp.xlsx");
-                    xlPath += "temp.xlsx";
-                    xlIsOpen = true;
+                    stream = File.Open(xlPath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
                 }
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
+                catch (IOException ex)
+                {
+                    if (ex.Message.Contains("being used by another process"))
+                    {
 
-            xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
-            xlwb = xl.ActiveWorkbook;
+                        string newPath = Path.GetExtension(xlPath) == ".xlsx" ? Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
+                        File.Copy(xlPath, newPath);
+                        xlPath = newPath;
+                        xlIsOpen = true;
+                    }
+                }
+                finally
+                {
+                    if (stream != null)
+                        stream.Close();
+                }
 
-            String[] xlsheets = new String[xlwb.Worksheets.Count];
-            int i = 0;
-            foreach (Excel.Worksheet wSheet in xlwb.Worksheets)
-            {
-                xlsheets[i] = wSheet.Name;
-                i++;
+                xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
+                xlwb = xl.ActiveWorkbook;
+
+                String[] xlsheets = new String[xlwb.Worksheets.Count];
+                int i = 0;
+                foreach (Excel.Worksheet wSheet in xlwb.Worksheets)
+                {
+                    xlsheets[i] = wSheet.Name;
+                    i++;
+                }
+                wkshtDrop.Items.AddRange(xlsheets);
+                wkshtDrop.SelectedIndex = 0; 
             }
-            wkshtDrop.Items.AddRange(xlsheets);
-            wkshtDrop.SelectedIndex = 0;
             
         }
 
         private void assnbtn_Click(object sender, EventArgs e)
         {  
             for(int i = 1; i <= parCnt; i++) 
-                assignParameterValues(i);
+                AssignParameterValues(i);
         }
 
         private void closebtn_Click(object sender, EventArgs e)
         {
-            CleanupExcel();
             this.Close();
         }
 
@@ -353,7 +390,7 @@ namespace JR_Tools
 
         private void catDrop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string[] fn = (new FilteredElementCollector(rvtdoc)
+            string[] fn = (new FilteredElementCollector(rvtDoc)
                 .OfClass(typeof(Family))
                 .Where(q => (q as Family).FamilyCategory.Name == catDrop.SelectedItem.ToString())
                 .Select(q => q.Name) as IEnumerable<string>).ToArray();
@@ -364,12 +401,10 @@ namespace JR_Tools
 
         private void keycolumndrop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string[] kcditems = new string[keyColDrop.Items.Count];
-            keyColDrop.Items.CopyTo(kcditems, 0);
             sc1.Items.Clear();
-            sc1.Items.AddRange(kcditems);
+            sc1.Items.AddRange(cols.ToArray());
             sc1.Items.Remove(keyColDrop.SelectedItem);
-            if(kcditems.Length > 1)
+            if(cols.Count > 1)
                 sc1.SelectedIndex = 0;
         }
 
@@ -377,11 +412,11 @@ namespace JR_Tools
         {
             dp1.Items.Clear();
 
-            FamilySymbol fs = new FilteredElementCollector(rvtdoc)
+            FamilySymbol fs = new FilteredElementCollector(rvtDoc)
                 .OfClass(typeof(FamilySymbol))
                 .Where(q => (q as FamilySymbol).Family.Name == familyDrop.SelectedItem.ToString())
                 .FirstOrDefault() as FamilySymbol;
-            foreach(Parameter par in fs.Parameters)
+            foreach(Autodesk.Revit.DB.Parameter par in fs.Parameters)
             {
                 if (!par.IsReadOnly)
                 {
@@ -389,13 +424,13 @@ namespace JR_Tools
                 }
             }
 
-            FamilyInstance fi = new FilteredElementCollector(rvtdoc)
+            FamilyInstance fi = new FilteredElementCollector(rvtDoc)
                 .OfClass(typeof(FamilyInstance))
                 .Where(q => (q as FamilyInstance).Symbol.Family.Name == familyDrop.SelectedItem.ToString())
                 .FirstOrDefault() as FamilyInstance;
             if (fi != null)
             {
-                foreach (Parameter par in fi.Parameters)
+                foreach (Autodesk.Revit.DB.Parameter par in fi.Parameters)
                 {
                     if (!par.IsReadOnly)
                     {
@@ -421,7 +456,93 @@ namespace JR_Tools
                 typeInstLbl.Text = "Assigning by Type";
                 byType = true;
             }
+
+            foreach(ComboBox cb in parDrops)
+            {
+                if(parDrops.IndexOf(cb) != 0)
+                {
+                    cb.Items.Clear();
+                    foreach (string par in dp1.Items)
+                    {
+                        typeInst = par.Substring(par.Length - 5, 4);
+                        if (byType && typeInst == "type")
+                            cb.Items.Add(par);
+                        else if (!byType && typeInst == "inst")
+                            cb.Items.Add(par);
+
+                    }
+                    cb.SelectedIndex = 0;
+                }
+                
+            }
         }
 
+        private void ExcelFormClose(object sender, FormClosingEventArgs e)
+        {
+            if(xl != null)
+                CleanupExcel();
+        }
+
+        private void addbtn_Click(object sender, EventArgs e)
+        {
+
+            this.Height += 35;
+            colDrops.Add(new ComboBox());
+            colDrops[parCnt].Size = colDrops[parCnt - 1].Size;
+            this.Controls.Add(colDrops[parCnt]);
+            colDrops[parCnt].Location = colDrops[parCnt - 1].Location;
+            colDrops[parCnt].Width = colDrops[parCnt - 1].Width;
+            colDrops[parCnt].DropDownStyle = ComboBoxStyle.DropDownList;
+            colDrops[parCnt].Top += 35;
+            colDrops[parCnt].DropDownWidth = colDrops[parCnt - 1].DropDownWidth;
+
+            parDrops.Add(new ComboBox());
+            parDrops[parCnt].Size = parDrops[parCnt - 1].Size;
+            this.Controls.Add(parDrops[parCnt]);
+            parDrops[parCnt].Location = parDrops[parCnt - 1].Location;
+            parDrops[parCnt].Width = parDrops[parCnt - 1].Width;
+            parDrops[parCnt].DropDownStyle = ComboBoxStyle.DropDownList;
+            parDrops[parCnt].Top += 35;
+            parDrops[parCnt].DropDownWidth = parDrops[parCnt-1].DropDownWidth;
+
+            colDrops[parCnt].Items.AddRange(cols.ToArray());
+            colDrops[parCnt].Items.Remove(keyColDrop.SelectedItem);
+
+            string typeInst = "";
+
+            foreach(string par in dp1.Items)
+            {
+                typeInst = par.Substring(par.Length - 5, 4);
+                if (byType && typeInst == "type")
+                    parDrops[parCnt].Items.Add(par);
+                else if (!byType && typeInst == "inst")
+                    parDrops[parCnt].Items.Add(par);
+
+            }
+            if(parDrops[parCnt].Items.Count > 0)
+                parDrops[parCnt].SelectedIndex = 0;
+
+            if (cols.Count >= parCnt + 2)
+                colDrops[parCnt].SelectedIndex = parCnt;
+            else if (cols.Count > 2)
+                colDrops[parCnt].SelectedIndex = cols.Count - 2;
+            else if (cols.Count > 1)
+                colDrops[parCnt].SelectedIndex = 0;
+
+            parCnt++;
+        }
+
+        private void subtractbtn_Click(object sender, EventArgs e)
+        {
+            if(parCnt > 1)
+            {
+                this.Height -= 35;
+                this.Controls.Remove(colDrops[parCnt - 1]);
+                this.Controls.Remove(parDrops[parCnt - 1]);
+                colDrops.RemoveAt(colDrops.Count - 1);
+                parDrops.RemoveAt(parDrops.Count - 1);
+                parCnt--;
+            }
+        }
     }
 }

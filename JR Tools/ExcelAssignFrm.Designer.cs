@@ -43,22 +43,20 @@
             this.catlbl = new System.Windows.Forms.Label();
             this.familyDrop = new System.Windows.Forms.ComboBox();
             this.familylbl = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dp1 = new System.Windows.Forms.ComboBox();
-            this.sc1 = new System.Windows.Forms.ComboBox();
             this.srclbl = new System.Windows.Forms.Label();
             this.destlbl = new System.Windows.Forms.Label();
             this.addbtn = new System.Windows.Forms.Button();
             this.subtractbtn = new System.Windows.Forms.Button();
             this.assnbtn = new System.Windows.Forms.Button();
             this.closebtn = new System.Windows.Forms.Button();
-            this.getcolsbtn = new System.Windows.Forms.Button();
+            this.getColsBtn = new System.Windows.Forms.Button();
             this.typeInstLbl = new System.Windows.Forms.Label();
             this.assignbylbl = new System.Windows.Forms.Label();
+            this.sc1 = new System.Windows.Forms.ComboBox();
+            this.dp1 = new System.Windows.Forms.ComboBox();
             this.xlgroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hdrRowCtrl)).BeginInit();
             this.rvtgroup.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // xllbl
@@ -136,6 +134,8 @@
             // 
             // keyColDrop
             // 
+            this.keyColDrop.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.keyColDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.keyColDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.keyColDrop.FormattingEnabled = true;
             this.keyColDrop.Location = new System.Drawing.Point(112, 150);
@@ -155,6 +155,8 @@
             // 
             // wkshtDrop
             // 
+            this.wkshtDrop.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.wkshtDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.wkshtDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.wkshtDrop.FormattingEnabled = true;
             this.wkshtDrop.Location = new System.Drawing.Point(112, 74);
@@ -187,6 +189,8 @@
             // 
             // catDrop
             // 
+            this.catDrop.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.catDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.catDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.catDrop.FormattingEnabled = true;
             this.catDrop.Location = new System.Drawing.Point(112, 37);
@@ -206,6 +210,8 @@
             // 
             // familyDrop
             // 
+            this.familyDrop.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.familyDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.familyDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.familyDrop.FormattingEnabled = true;
             this.familyDrop.Location = new System.Drawing.Point(112, 81);
@@ -223,42 +229,6 @@
             this.familylbl.Size = new System.Drawing.Size(52, 17);
             this.familylbl.TabIndex = 2;
             this.familylbl.Text = "Family:";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.64871F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.35129F));
-            this.tableLayoutPanel1.Controls.Add(this.dp1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.sc1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 375);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(427, 30);
-            this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // dp1
-            // 
-            this.dp1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dp1.DropDownWidth = 209;
-            this.dp1.FormattingEnabled = true;
-            this.dp1.Location = new System.Drawing.Point(214, 3);
-            this.dp1.Name = "dp1";
-            this.dp1.Size = new System.Drawing.Size(209, 24);
-            this.dp1.Sorted = true;
-            this.dp1.TabIndex = 9;
-            this.dp1.SelectedIndexChanged += new System.EventHandler(this.dp1_SelectedIndexChanged);
-            // 
-            // sc1
-            // 
-            this.sc1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.sc1.FormattingEnabled = true;
-            this.sc1.Location = new System.Drawing.Point(3, 3);
-            this.sc1.Name = "sc1";
-            this.sc1.Size = new System.Drawing.Size(205, 24);
-            this.sc1.TabIndex = 8;
             // 
             // srclbl
             // 
@@ -280,21 +250,25 @@
             // 
             // addbtn
             // 
+            this.addbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addbtn.Location = new System.Drawing.Point(384, 411);
             this.addbtn.Name = "addbtn";
             this.addbtn.Size = new System.Drawing.Size(25, 23);
             this.addbtn.TabIndex = 10;
             this.addbtn.Text = "+";
             this.addbtn.UseVisualStyleBackColor = true;
+            this.addbtn.Click += new System.EventHandler(this.addbtn_Click);
             // 
             // subtractbtn
             // 
+            this.subtractbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.subtractbtn.Location = new System.Drawing.Point(415, 411);
             this.subtractbtn.Name = "subtractbtn";
             this.subtractbtn.Size = new System.Drawing.Size(25, 23);
             this.subtractbtn.TabIndex = 11;
             this.subtractbtn.Text = "-";
             this.subtractbtn.UseVisualStyleBackColor = true;
+            this.subtractbtn.Click += new System.EventHandler(this.subtractbtn_Click);
             // 
             // assnbtn
             // 
@@ -320,16 +294,17 @@
             // 
             // getcolsbtn
             // 
-            this.getcolsbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.getcolsbtn.Location = new System.Drawing.Point(12, 461);
-            this.getcolsbtn.Name = "getcolsbtn";
-            this.getcolsbtn.Size = new System.Drawing.Size(124, 28);
-            this.getcolsbtn.TabIndex = 12;
-            this.getcolsbtn.Text = "Get All Columns";
-            this.getcolsbtn.UseVisualStyleBackColor = true;
+            this.getColsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.getColsBtn.Location = new System.Drawing.Point(12, 461);
+            this.getColsBtn.Name = "getcolsbtn";
+            this.getColsBtn.Size = new System.Drawing.Size(124, 28);
+            this.getColsBtn.TabIndex = 12;
+            this.getColsBtn.Text = "Get All Columns";
+            this.getColsBtn.UseVisualStyleBackColor = true;
             // 
             // typeInstLbl
             // 
+            this.typeInstLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.typeInstLbl.AutoSize = true;
             this.typeInstLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.typeInstLbl.Location = new System.Drawing.Point(15, 422);
@@ -339,19 +314,47 @@
             // 
             // assignbylbl
             // 
+            this.assignbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.assignbylbl.AutoSize = true;
             this.assignbylbl.Location = new System.Drawing.Point(15, 420);
             this.assignbylbl.Name = "assignbylbl";
             this.assignbylbl.Size = new System.Drawing.Size(0, 17);
             this.assignbylbl.TabIndex = 6;
             // 
+            // sc1
+            // 
+            this.sc1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.sc1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.sc1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sc1.FormattingEnabled = true;
+            this.sc1.Location = new System.Drawing.Point(18, 378);
+            this.sc1.Name = "sc1";
+            this.sc1.Size = new System.Drawing.Size(205, 24);
+            this.sc1.TabIndex = 8;
+            // 
+            // dp1
+            // 
+            this.dp1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.dp1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.dp1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dp1.DropDownWidth = 209;
+            this.dp1.FormattingEnabled = true;
+            this.dp1.Location = new System.Drawing.Point(229, 378);
+            this.dp1.Name = "dp1";
+            this.dp1.Size = new System.Drawing.Size(209, 24);
+            this.dp1.Sorted = true;
+            this.dp1.TabIndex = 9;
+            this.dp1.SelectedIndexChanged += new System.EventHandler(this.dp1_SelectedIndexChanged);
+            // 
             // ExcelAssignFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 501);
+            this.Controls.Add(this.sc1);
+            this.Controls.Add(this.dp1);
             this.Controls.Add(this.typeInstLbl);
-            this.Controls.Add(this.getcolsbtn);
+            this.Controls.Add(this.getColsBtn);
             this.Controls.Add(this.closebtn);
             this.Controls.Add(this.assnbtn);
             this.Controls.Add(this.subtractbtn);
@@ -359,17 +362,17 @@
             this.Controls.Add(this.destlbl);
             this.Controls.Add(this.assignbylbl);
             this.Controls.Add(this.srclbl);
-            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.rvtgroup);
             this.Controls.Add(this.xlgroup);
             this.Name = "ExcelAssignFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Excel Assign";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExcelFormClose);
             this.xlgroup.ResumeLayout(false);
             this.xlgroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hdrRowCtrl)).EndInit();
             this.rvtgroup.ResumeLayout(false);
             this.rvtgroup.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,19 +393,18 @@
         private System.Windows.Forms.Label familylbl;
         private System.Windows.Forms.ComboBox catDrop;
         private System.Windows.Forms.Label catlbl;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ComboBox dp1;
-        private System.Windows.Forms.ComboBox sc1;
         private System.Windows.Forms.Label srclbl;
         private System.Windows.Forms.Label destlbl;
         private System.Windows.Forms.Button addbtn;
         private System.Windows.Forms.Button subtractbtn;
         private System.Windows.Forms.Button assnbtn;
         private System.Windows.Forms.Button closebtn;
-        private System.Windows.Forms.Button getcolsbtn;
+        private System.Windows.Forms.Button getColsBtn;
         private System.Windows.Forms.Label typeInstLbl;
         private System.Windows.Forms.Label assignbylbl;
         private System.Windows.Forms.Label hdrLbl;
         private System.Windows.Forms.NumericUpDown hdrRowCtrl;
+        private System.Windows.Forms.ComboBox sc1;
+        private System.Windows.Forms.ComboBox dp1;
     }
 }

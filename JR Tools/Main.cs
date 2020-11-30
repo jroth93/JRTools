@@ -50,6 +50,7 @@ namespace JR_Tools
             PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
             PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "JR_Tools.DuctTag");
             PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "JR_Tools.PanelUtil");
+            PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel\nAssigner", thisAssemblyPath, "JR_Tools.ExcelAssign");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
@@ -62,6 +63,7 @@ namespace JR_Tools
             RibbonButton calloutbutton = genrib.AddItem(button5data) as RibbonButton;
             RibbonButton elplcbutton = genrib.AddItem(button10data) as RibbonButton;
             IList<RibbonItem> stackedGroup1 = genrib.AddStackedItems(button1data, button4data);
+            RibbonButton xl2Revitbutton = genrib.AddItem(button16data) as RibbonButton;
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
@@ -88,6 +90,7 @@ namespace JR_Tools
             flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\flattentext.png"));
             ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\tagduct.png"));
             elpanelbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elecpanel.png"));
+            xl2Revitbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\xl2rvt.png"));
 
             return Result.Succeeded;
         }
