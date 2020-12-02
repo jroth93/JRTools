@@ -32,7 +32,7 @@ namespace JR_Tools
             elecrib.Title = "Electrical";
 
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
-            string imagelocation = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(typeof(AddPanel).Assembly.Location)).FullName).FullName + "\\images";
+            string imagelocation = Directory.GetParent(Directory.GetParent(Path.GetDirectoryName(typeof(AddPanel).Assembly.Location)).FullName).FullName + "\\images\\";
             
             //initialize button data
             PushButtonData button1data = new PushButtonData("cmdflip","Flip Element", thisAssemblyPath, "JR_Tools.FlipElements");
@@ -55,8 +55,8 @@ namespace JR_Tools
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
-            button1data.Image = new BitmapImage(new Uri(imagelocation + "\\flipel.png"));
-            button4data.Image = new BitmapImage(new Uri(imagelocation + "\\flipwp.png"));
+            button1data.Image = new BitmapImage(new Uri(imagelocation + "flipel.png"));
+            button4data.Image = new BitmapImage(new Uri(imagelocation + "flipwp.png"));
 
             //create ribbon
             RibbonButton settingsbtn = genrib.AddItem(button9data) as RibbonButton;
@@ -73,27 +73,27 @@ namespace JR_Tools
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
             RibbonButton elpanelbtn = elecrib.AddItem(button15data) as RibbonButton;
 
-            PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data) as PushButton;
-            PushButton txtldrbtn = txtsplit.AddPushButton(button11data) as PushButton;
-            PushButton addldrbtn = txtsplit.AddPushButton(button12data) as PushButton;
-            PushButton flattxtbtn = txtsplit.AddPushButton(button13data) as PushButton;
+            PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data);
+            PushButton txtldrbtn = txtsplit.AddPushButton(button11data);
+            PushButton addldrbtn = txtsplit.AddPushButton(button12data);
+            PushButton flattxtbtn = txtsplit.AddPushButton(button13data);
 
             //add images
-            knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "\\reload.png"));
-            pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\spacepipe.png"));
-            calloutbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\callout.png"));
-            cmbtxtbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\combine.png"));
-            ductbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\duct.png"));
-            xlbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\knxl.png"));
-            settingsbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\wkst.png"));
-            elplcbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elplc.png"));
-            txtldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\leadertext.png"));
-            addldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\addleader.png"));
-            flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\flattentext.png"));
-            ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\tagduct.png"));
-            elpanelbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elecpanel.png"));
-            xl2Revitbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\xl2rvt.png"));
-            knutilbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\keynoteutil.png"));
+            knbutton.LargeImage =  new BitmapImage(new Uri(imagelocation + "reload.png"));
+            pipebutton.LargeImage = new BitmapImage(new Uri(imagelocation + "spacepipe.png"));
+            calloutbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "callout.png"));
+            cmbtxtbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "combine.png"));
+            ductbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "duct.png"));
+            xlbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "knxl.png"));
+            settingsbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "wkst.png"));
+            elplcbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "elplc.png"));
+            txtldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "leadertext.png"));
+            addldrbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "addleader.png"));
+            flattxtbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "flattentext.png"));
+            ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "tagduct.png"));
+            elpanelbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "elecpanel.png"));
+            xl2Revitbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "xl2rvt.png"));
+            knutilbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "keynoteutil.png"));
 
             return Result.Succeeded;
         }

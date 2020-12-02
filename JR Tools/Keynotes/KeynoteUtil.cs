@@ -20,7 +20,7 @@ namespace JR_Tools
             KeynoteUtilFrm kuf = new KeynoteUtilFrm();
 
             FilteredElementCollector fecViewSheet = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet));
-            var fecPlacedKeynotes = new FilteredElementCollector(doc).OfClass(typeof(IndependentTag)).Where(x => x.Name == "Keynote");
+            var fecPlacedKeynotes = new FilteredElementCollector(doc).OfClass(typeof(IndependentTag)).Where(x => x.Name.Contains("Keynote"));
             KeyBasedTreeEntries kte = (KeynoteTable.GetKeynoteTable(doc) as KeyBasedTreeEntryTable).GetKeyBasedTreeEntries();
             List<string> sheetsPlaced = new List<string>();
 
@@ -32,21 +32,25 @@ namespace JR_Tools
                     sheetsPlaced.Add("None");
                     foreach (IndependentTag it in fecPlacedKeynotes)
                     {
-                        if (it.TagText == ke.Key)
+                        try
                         {
-                            ViewPlan vp = doc.GetElement(it.OwnerViewId) as ViewPlan;
-                            if(sheetsPlaced[0] == "None")
+                            if (it.LookupParameter("Key Value").AsString()  == ke.Key)
                             {
-                                sheetsPlaced[0] = getSheetNumber(doc, vp, fecViewSheet);
-                            }
-                            else
-                            {
-                                sheetsPlaced.Add(getSheetNumber(doc, vp, fecViewSheet));
+                                ViewPlan vp = doc.GetElement(it.OwnerViewId) as ViewPlan;
+                                if (sheetsPlaced[0] == "None")
+                                {
+                                    sheetsPlaced[0] = getSheetNumber(doc, vp, fecViewSheet);
+                                }
+                                else
+                                {
+                                    sheetsPlaced.Add(getSheetNumber(doc, vp, fecViewSheet));
+                                }
                             }
                         }
-                        sheetsPlaced.Sort();
+                        catch { }
                     }
-                    string[] row = { ke.Key, ke.KeynoteText, String.Join(", ", sheetsPlaced.ToArray()) };
+                    sheetsPlaced.Sort();
+                    string[] row = { ke.Key, ke.KeynoteText, String.Join(", ", sheetsPlaced.Distinct().ToArray()) };
                     kuf.dgv.Rows.Add(row);
                 }
             }
