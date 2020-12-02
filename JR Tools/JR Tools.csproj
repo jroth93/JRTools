@@ -56,16 +56,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
-    <Compile Include="ElecPanelDataFrm.cs">
+    <Compile Include="Forms\KeynoteUtilFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ElecPanelDataFrm.Designer.cs">
+    <Compile Include="Forms\KeynoteUtilFrm.Designer.cs">
+      <DependentUpon>KeynoteUtilFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ElecPanelDataFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ElecPanelDataFrm.Designer.cs">
       <DependentUpon>ElecPanelDataFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExcelAssignFrm.cs">
+    <Compile Include="Forms\ExcelAssignFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExcelAssignFrm.Designer.cs">
+    <Compile Include="Forms\ExcelAssignFrm.Designer.cs">
       <DependentUpon>ExcelAssignFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MsgBox.cs">
@@ -78,6 +84,7 @@
     <Compile Include="TextCommands\AddLeader.cs" />
     <Compile Include="TextCommands\TextLeader.cs" />
     <Compile Include="Elec\PanelUtil.cs" />
+    <Compile Include="Keynotes\KeynoteUtil.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="Forms\EntryBox.cs">
@@ -127,7 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="WIP\ExcelAssign.cs" />
+    <Compile Include="ExcelAssign.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -168,10 +175,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ElecPanelDataFrm.resx">
+    <EmbeddedResource Include="Forms\KeynoteUtilFrm.resx">
+      <DependentUpon>KeynoteUtilFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ElecPanelDataFrm.resx">
       <DependentUpon>ElecPanelDataFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExcelAssignFrm.resx">
+    <EmbeddedResource Include="Forms\ExcelAssignFrm.resx">
       <DependentUpon>ExcelAssignFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EntryBox.resx">
@@ -205,6 +215,7 @@
     <Content Include="images\elplc.png" />
     <Content Include="images\flipel.png" />
     <Content Include="images\flipwp.png" />
+    <Content Include="images\keynoteutil.png" />
     <Content Include="images\knxl.png" />
     <Content Include="images\reload.png" />
     <Content Include="images\spacepipe.png" />

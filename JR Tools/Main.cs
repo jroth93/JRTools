@@ -50,7 +50,8 @@ namespace JR_Tools
             PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
             PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "JR_Tools.DuctTag");
             PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "JR_Tools.PanelUtil");
-            PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel\nAssigner", thisAssemblyPath, "JR_Tools.ExcelAssign");
+            PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "JR_Tools.ExcelAssign");
+            PushButtonData button17data = new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "JR_Tools.KeynoteUtil");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
@@ -66,6 +67,7 @@ namespace JR_Tools
             RibbonButton xl2Revitbutton = genrib.AddItem(button16data) as RibbonButton;
             RibbonButton knbutton = knrib.AddItem(button3data) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(button8data) as RibbonButton;
+            RibbonButton knutilbtn = knrib.AddItem(button17data) as RibbonButton;
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
             RibbonButton ducttagbtn = mechrib.AddItem(button14data) as RibbonButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
@@ -91,6 +93,7 @@ namespace JR_Tools
             ducttagbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\tagduct.png"));
             elpanelbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\elecpanel.png"));
             xl2Revitbutton.LargeImage = new BitmapImage(new Uri(imagelocation + "\\xl2rvt.png"));
+            knutilbtn.LargeImage = new BitmapImage(new Uri(imagelocation + "\\keynoteutil.png"));
 
             return Result.Succeeded;
         }
