@@ -208,20 +208,21 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\callout.png" />
-    <Content Include="images\combine.png" />
-    <Content Include="images\duct.png" />
-    <Content Include="images\elecpanel.png" />
-    <Content Include="images\elplc.png" />
-    <Content Include="images\flipel.png" />
-    <Content Include="images\flipwp.png" />
-    <Content Include="images\keynoteutil.png" />
-    <Content Include="images\knxl.png" />
-    <Content Include="images\reload.png" />
-    <Content Include="images\spacepipe.png" />
-    <Content Include="images\tagduct.png" />
-    <Content Include="images\wkst.png" />
-    <Content Include="images\xl2rvt.png" />
+    <EmbeddedResource Include="images\callout.png" />
+    <EmbeddedResource Include="images\combine.png" />
+    <EmbeddedResource Include="images\duct.png" />
+    <EmbeddedResource Include="images\elecpanel.png" />
+    <EmbeddedResource Include="images\elplc.png" />
+    <EmbeddedResource Include="images\flipel.png" />
+    <EmbeddedResource Include="images\flipwp.png" />
+    <EmbeddedResource Include="images\keynoteutil.png" />
+    <EmbeddedResource Include="images\knxl.png" />
+    <None Include="Resources\reload.png" />
+    <EmbeddedResource Include="images\reload.png" />
+    <EmbeddedResource Include="images\spacepipe.png" />
+    <EmbeddedResource Include="images\tagduct.png" />
+    <EmbeddedResource Include="images\wkst.png" />
+    <EmbeddedResource Include="images\xl2rvt.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -229,6 +230,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="images\addleader.png" />
+    <EmbeddedResource Include="images\flattentext.png" />
+    <EmbeddedResource Include="images\leadertext.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
