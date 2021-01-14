@@ -168,7 +168,7 @@ namespace JR_Tools
                     }
                 }
             }
-            else if (viewname.ToLower().Contains("site") || viewsub.ToLower().Contains("site") && Properties.Settings.Default.workset[0] == 'E')
+            else if ((viewname.ToLower().Contains("site") || viewsub.ToLower().Contains("site")) && Properties.Settings.Default.workset[0] == 'E')
             {
                 if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
                 {
