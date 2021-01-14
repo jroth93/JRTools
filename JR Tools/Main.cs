@@ -157,13 +157,28 @@ namespace JR_Tools
             {
                 if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
                 {
-                    string enlwkst = Properties.Settings.Default.workset[0] == 'M' ? "M-Enlarged Plans" : "E-Enlarged Plans";
-                    Workset enlworkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(enlwkst)) as Workset;
+                    string enlWkst = Properties.Settings.Default.workset[0] == 'M' ? "M-Enlarged Plans" : "E-Enlarged Plans";
+                    Workset enlWorkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(enlWkst)) as Workset;
 
                     Transaction transaction = new Transaction(doc, "Change Workset");
                     if (transaction.Start() == TransactionStatus.Started)
                     {
-                        wst.SetActiveWorksetId(enlworkset.Id);
+                        wst.SetActiveWorksetId(enlWorkset.Id);
+                        transaction.Commit();
+                    }
+                }
+            }
+            else if (viewname.ToLower().Contains("site") || viewsub.ToLower().Contains("site") && Properties.Settings.Default.workset[0] == 'E')
+            {
+                if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
+                {
+                    string siteWkst = "E-Site";
+                    Workset siteWorkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(siteWkst)) as Workset;
+
+                    Transaction transaction = new Transaction(doc, "Change Workset");
+                    if (transaction.Start() == TransactionStatus.Started)
+                    {
+                        wst.SetActiveWorksetId(siteWorkset.Id);
                         transaction.Commit();
                     }
                 }

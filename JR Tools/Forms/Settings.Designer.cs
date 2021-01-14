@@ -77,9 +77,9 @@
             this.checkBox1.Location = new System.Drawing.Point(21, 59);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(367, 20);
+            this.checkBox1.Size = new System.Drawing.Size(324, 20);
             this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "Switch to enlarged workset upon change to enlarged view";
+            this.checkBox1.Text = "Switch to enlarged and site worksets automatically";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // okbutton
