@@ -85,6 +85,7 @@
     <Compile Include="TextCommands\TextLeader.cs" />
     <Compile Include="Elec\PanelUtil.cs" />
     <Compile Include="Keynotes\KeynoteUtil.cs" />
+    <Compile Include="WIP\DamperToggle.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="Forms\EntryBox.cs">
