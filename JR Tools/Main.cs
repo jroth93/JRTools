@@ -3,15 +3,11 @@ using System.Reflection;
 using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Interop;
-using System.Windows.Media;
 
-namespace JR_Tools
+namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class AddPanel : IExternalApplication
@@ -23,11 +19,11 @@ namespace JR_Tools
                 += new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(Application_DocumentOpened);
             application.ViewActivated += Application_ViewActivated;
 
-            application.CreateRibbonTab("JR Tools");
-            RibbonPanel genrib = application.CreateRibbonPanel("JR Tools","General");
-            RibbonPanel knrib = application.CreateRibbonPanel("JR Tools", "Keynotes");
-            RibbonPanel mechrib = application.CreateRibbonPanel("JR Tools", "Mechanical");
-            RibbonPanel elecrib = application.CreateRibbonPanel("JR Tools", "Electrical");
+            application.CreateRibbonTab("Proficient");
+            RibbonPanel genrib = application.CreateRibbonPanel("Proficient","General");
+            RibbonPanel knrib = application.CreateRibbonPanel("Proficient", "Keynotes");
+            RibbonPanel mechrib = application.CreateRibbonPanel("Proficient", "Mechanical");
+            RibbonPanel elecrib = application.CreateRibbonPanel("Proficient", "Electrical");
             genrib.Title = "General";
             knrib.Title = "Keynotes";
             mechrib.Title = "Mechanical";
@@ -36,23 +32,23 @@ namespace JR_Tools
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             
             //initialize button data
-            PushButtonData button1data = new PushButtonData("cmdflip","Flip Element", thisAssemblyPath, "JR_Tools.FlipElements");
-            PushButtonData button2data = new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "JR_Tools.PipeSpacer");
-            PushButtonData button3data = new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "JR_Tools.KeynoteReload");
-            PushButtonData button4data = new PushButtonData("cmdflipplane", "Flip Workplane", thisAssemblyPath, "JR_Tools.FlipWorkPlane");
-            PushButtonData button5data = new PushButtonData("cmdchangecallout", "Change Callout\nReference", thisAssemblyPath, "JR_Tools.ChangeCalloutRef");
-            PushButtonData button6data = new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "JR_Tools.CombineText");
-            PushButtonData button7data = new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "JR_Tools.DuctLauncher");
-            PushButtonData button8data = new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "JR_Tools.KNXLLauncher");
-            PushButtonData button9data = new PushButtonData("cmdstg", "Edit\nSettings", thisAssemblyPath, "JR_Tools.EditSettings");
-            PushButtonData button10data = new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "JR_Tools.ElementPlacer");
-            PushButtonData button11data = new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "JR_Tools.TextLeader");
-            PushButtonData button12data = new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "JR_Tools.AddLeader");
-            PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "JR_Tools.FlattenText");
-            PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "JR_Tools.DuctTag");
-            PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "JR_Tools.PanelUtil");
-            PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "JR_Tools.ExcelAssign");
-            PushButtonData button17data = new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "JR_Tools.KeynoteUtil");
+            PushButtonData button1data = new PushButtonData("cmdflip","Flip Element", thisAssemblyPath, "Proficient.FlipElements");
+            PushButtonData button2data = new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "Proficient.PipeSpacer");
+            PushButtonData button3data = new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "Proficient.KeynoteReload");
+            PushButtonData button4data = new PushButtonData("cmdflipplane", "Flip Workplane", thisAssemblyPath, "Proficient.FlipWorkPlane");
+            PushButtonData button5data = new PushButtonData("cmdchangecallout", "Change Callout\nReference", thisAssemblyPath, "Proficient.ChangeCalloutRef");
+            PushButtonData button6data = new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "Proficient.CombineText");
+            PushButtonData button7data = new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "Proficient.DuctLauncher");
+            PushButtonData button8data = new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "Proficient.KNXLLauncher");
+            PushButtonData button9data = new PushButtonData("cmdstg", "Edit\nSettings", thisAssemblyPath, "Proficient.EditSettings");
+            PushButtonData button10data = new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "Proficient.ElementPlacer");
+            PushButtonData button11data = new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "Proficient.TextLeader");
+            PushButtonData button12data = new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "Proficient.AddLeader");
+            PushButtonData button13data = new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "Proficient.FlattenText");
+            PushButtonData button14data = new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "Proficient.DuctTag");
+            PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "Proficient.PanelUtil");
+            PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "Proficient.ExcelAssign");
+            PushButtonData button17data = new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "Proficient.KeynoteUtil");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 

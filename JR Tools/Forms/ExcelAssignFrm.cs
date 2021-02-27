@@ -1,91 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.IO;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Excel = Microsoft.Office.Interop.Excel;
-using Autodesk.Revit.DB;
-using Microsoft.Office.Interop.Excel;
 
-namespace JR_Tools
+namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public partial class ExcelAssignFrm : System.Windows.Forms.Form
     {
-        private Document rvtDoc;
-
-        private Excel.Application xl;
-        private Excel.Workbook xlwb;
-        private Excel.Worksheet xlws;
-        private List<string> cols = new List<string>();
-
+        private int parCnt = 1;
+        private String[] cols;
         private bool byType;
-        private int parCnt=1;
-        private bool xlIsOpen = false;
-        private string errorLog = "";
-
         private List<ComboBox> colDrops = new List<ComboBox>();
         private List<ComboBox> parDrops = new List<ComboBox>();
 
-        public ExcelAssignFrm(Document doc)
+        public ExcelAssignFrm()
         {
             InitializeComponent();
-
-            getColsBtn.Visible = false;
-            rvtDoc = doc;
-            List<string> cList = new List<string>();
-            foreach(Category c in doc.Settings.Categories)
-            {
-                FilteredElementCollector cElCol = new FilteredElementCollector(rvtDoc).OfCategoryId(c.Id);
-
-                if (c.AllowsBoundParameters && cElCol.Count() > 0)
-                {
-                    cList.Add(c.Name);
-                }
-            }
-            cList.Sort();
-            catDrop.Items.AddRange(cList.ToArray());
+            getColsBtn.Visible = false;            
+            catDrop.Items.AddRange(ExcelAssign.GetCategories());
             catDrop.SelectedIndex = 0;
             colDrops.Add(sc1);
             parDrops.Add(dp1);
-
-        }
-
-        private void CleanupExcel()
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            if (xlIsOpen)
-            {
-                File.Delete(xlwb.FullName);
-            }
-            else
-            {
-                xlwb.Close(false);
-            }
-
-            Marshal.FinalReleaseComObject(xlws);
-            Marshal.FinalReleaseComObject(xlwb);
-            xl.Quit();
-            Marshal.FinalReleaseComObject(xl);
         }
 
         private int DropDownWidth(ComboBox myCombo)
         {
             int maxWidth = 0;
             int temp = 0;
-            System.Windows.Forms.Label label1 = new System.Windows.Forms.Label();
+            Label label1 = new Label();
 
             foreach (var obj in myCombo.Items)
             {
-                label1.Text = obj.ToString();
+                label1.Text = Convert.ToString(obj);
                 temp = label1.PreferredWidth;
                 if (temp > maxWidth)
                 {
@@ -94,215 +40,7 @@ namespace JR_Tools
             }
             label1.Dispose();
             return maxWidth + SystemInformation.VerticalScrollBarWidth;
-        }
-
-        private void AssignParameterValues(int i)
-        {
-            errorLog = "";
-            string parName = parDrops[i - 1].SelectedItem.ToString();
-            parName = parName.Substring(0, parName.Length - 7);
-            int keyCol = keyColDrop.SelectedIndex + 1;
-            int parCol = keyColDrop.Items.IndexOf(colDrops[i - 1].SelectedItem) + 1;
-            int startRow = Convert.ToInt32(hdrRowCtrl.Value) + 1;
-            int totRows = xlws.UsedRange.Rows.Count;
-            string keyCellVal = null;
-
-            if (byType)
-            {
-                var fslist = new FilteredElementCollector(rvtDoc)
-                    .OfClass(typeof(FamilySymbol))
-                    .Where(q => (q as FamilySymbol).Family.Name == familyDrop.SelectedItem.ToString())
-                    .OrderBy(q => q.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_MARK).AsString());
-
-                string typeMark = null;
-                string parType = fslist.First().LookupParameter(parName).StorageType.ToString();
-
-                foreach (FamilySymbol fs in fslist)
-                {
-                    typeMark = fs.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_MARK).AsString();
-                    for (int r = startRow; r <= totRows; r++)
-                    {
-                        keyCellVal = xlws.Cells[r, keyCol].Value.ToString();
-                        if (typeMark == keyCellVal)
-                        {
-                            bool hasUnits;
-                            try
-                            {
-                                DisplayUnitType dut = fs.LookupParameter(parName).DisplayUnitType;
-                                hasUnits = true;
-                            }
-                            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
-                            {
-                                hasUnits = false;
-                            }
-
-                            using (Transaction tx = new Transaction(rvtDoc, "Assign Type Parameter"))
-                            {
-                                if (tx.Start() == TransactionStatus.Started)
-                                {
-                                    var newVal = hasUnits ? GetCellVal(r, parCol, parType, fs.LookupParameter(parName).DisplayUnitType) : GetCellVal(r, parCol, parType);
-
-                                    if (newVal != null)
-                                    {
-                                        fs.LookupParameter(parName).Set(newVal);
-                                        tx.Commit();
-                                    }
-                                    else
-                                    {
-                                        errorLog += $"Incorrect data type in Excel File for element '{typeMark}' parameter '{parName}.' Parameter will not be assigned.\n";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                List<Element> filist = new FilteredElementCollector(rvtDoc)
-                    .OfClass(typeof(FamilyInstance))
-                    .Where(q => (q as FamilyInstance).Symbol.Family.Name == familyDrop.SelectedItem.ToString()).ToList();
-
-                string mark = null;
-                string parType = filist.First().LookupParameter(parName).StorageType.ToString();
-
-                foreach (FamilyInstance fi in filist)
-                {
-                    mark = fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
-                    for (int r = startRow; r <= totRows; r++)
-                    {
-                        keyCellVal = xlws.Cells[r, keyCol].Value.ToString();
-                        if (mark == keyCellVal)
-                        {
-                            bool hasUnits;
-                            try
-                            {
-                                DisplayUnitType dut = fi.LookupParameter(parName).DisplayUnitType;
-                                hasUnits = true;
-                            }
-                            catch (Autodesk.Revit.Exceptions.InvalidOperationException)
-                            {
-                                hasUnits = false;
-                            }
-
-                            var newVal = hasUnits ? GetCellVal(r, parCol, parType, fi.LookupParameter(parName).DisplayUnitType) : GetCellVal(r, parCol, parType);
-
-                            using (Transaction tx = new Transaction(rvtDoc, "Assign Instance Parameter"))
-                            {
-                                if (tx.Start() == TransactionStatus.Started)
-                                {
-                                    if (newVal != null)
-                                    {
-                                        fi.LookupParameter(parName).Set(newVal);
-                                        tx.Commit();
-                                    }
-                                    else
-                                    {
-                                        errorLog += $"Incorrect data type in Excel File for element '{mark}' parameter '{parName}.' Parameter will not be assigned.\n";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(errorLog != "")
-            {
-                MessageBox.Show("There were errors in the parameter assignment. Please see the error log in the Excel file directory for details.", "Assignment Errors", MessageBoxButtons.OK);
-
-                string logFilePath = xlwb.Path + @"\" + "ExcelToRevitErrorLog.txt";
-
-                using (StreamWriter sw = File.CreateText(logFilePath))
-                {
-                    sw.Write(errorLog);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Parameters have been assigned.", "Success!", MessageBoxButtons.OK);
-            }
-        }
-
-        private dynamic GetCellVal(int row, int col, string parType, DisplayUnitType dispUnit)
-        {
-            switch(parType)
-            {
-                case "String":
-                    return Convert.ToString(xlws.Cells[row, col].Value);
-                case "Integer":
-                    try
-                    {
-                        int val = Convert.ToInt32(xlws.Cells[row, col].Value);
-                        val = (int)UnitUtils.ConvertToInternalUnits(val, dispUnit);
-                        return val;
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                case "Double":
-                    try
-                    {
-                        double val = Convert.ToDouble(xlws.Cells[row, col].Value);
-                        val = UnitUtils.ConvertToInternalUnits(val, dispUnit);
-                        return val;
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-
-                case "ElementID":
-                    try
-                    {
-                        return new ElementId(Convert.ToInt32(xlws.Cells[row, col].Value));
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-            }
-            return null;
-        }
-
-        private dynamic GetCellVal(int row, int col, string parType)
-        {
-            switch (parType)
-            {
-                case "String":
-                    return Convert.ToString(xlws.Cells[row, col].Value);
-                case "Integer":
-                    try
-                    {
-                        return Convert.ToInt32(xlws.Cells[row, col].Value);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                case "Double":
-                    try
-                    {
-                        return Convert.ToDouble(xlws.Cells[row, col].Value);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-
-                case "ElementID":
-                    try
-                    {
-                        return new ElementId(Convert.ToInt32(xlws.Cells[row, col].Value));
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-            }
-            return null;
-        }
+        }        
 
         private void xlfilebtn_Click(object sender, EventArgs e)
         {
@@ -312,53 +50,46 @@ namespace JR_Tools
             fd.ShowDialog();
             if (fd.FileName != "")
             {
-                string xlPath = fd.FileName;
-                filelocationtxt.Text = xlPath;
-
-                xl = new Excel.Application();
-
-                FileStream stream = null;
-                try
-                {
-                    stream = File.Open(xlPath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-                }
-                catch (IOException ex)
-                {
-                    if (ex.Message.Contains("being used by another process"))
-                    {
-
-                        string newPath = Path.GetExtension(xlPath) == ".xlsx" ? Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
-                        File.Copy(xlPath, newPath);
-                        xlPath = newPath;
-                        xlIsOpen = true;
-                    }
-                }
-                finally
-                {
-                    if (stream != null)
-                        stream.Close();
-                }
-
-                xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
-                xlwb = xl.ActiveWorkbook;
-
-                String[] xlsheets = new String[xlwb.Worksheets.Count];
-                int i = 0;
-                foreach (Excel.Worksheet wSheet in xlwb.Worksheets)
-                {
-                    xlsheets[i] = wSheet.Name;
-                    i++;
-                }
-                wkshtDrop.Items.AddRange(xlsheets);
-                wkshtDrop.SelectedIndex = 0; 
+                filelocationtxt.Text = fd.FileName;
+                String[] xlSheets = ExcelAssign.OpenExcel(fd.FileName);
+                wkshtDrop.Items.AddRange(xlSheets);
+                wkshtDrop.SelectedIndex = 0;
             }
-            
         }
 
         private void assnbtn_Click(object sender, EventArgs e)
-        {  
-            for(int i = 1; i <= parCnt; i++) 
-                AssignParameterValues(i);
+        {
+            string errorLog = String.Empty;
+            for (int i = 1; i <= parCnt; i++)
+            {
+                string parName = Convert.ToString(parDrops[i - 1].SelectedItem);
+                parName = parName.Substring(0, parName.Length - 7);
+                string familyName = Convert.ToString(familyDrop.SelectedItem);
+                int keyCol = keyColDrop.SelectedIndex + 1;
+                int parCol = keyColDrop.Items.IndexOf(colDrops[i - 1].SelectedItem) + 1;
+                int startRow = Convert.ToInt32(hdrRowCtrl.Value) + 1;
+
+                if(byType)
+                {
+                    errorLog += ExcelAssign.AssignParameterValuesType(familyName, parName, keyCol, startRow, parCol);
+                }
+                else
+                {
+                    errorLog += ExcelAssign.AssignParameterValuesInst(familyName, parName, keyCol, startRow, parCol);
+                }
+                
+            }
+
+            if (errorLog != String.Empty)
+            {
+                MessageBox.Show("There were errors in the parameter assignment. Please see the error log in the Excel file directory for details.", "Assignment Errors", MessageBoxButtons.OK);
+                ExcelAssign.WriteErrorFile(errorLog);
+            }
+            else
+            {
+                MessageBox.Show("Parameters have been assigned.", "Success!", MessageBoxButtons.OK);
+            }
+
         }
 
         private void closebtn_Click(object sender, EventArgs e)
@@ -368,43 +99,29 @@ namespace JR_Tools
 
         private void wkshtDrop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cols.Clear();
-            xlws = xlwb.Worksheets.Item[wkshtDrop.SelectedIndex + 1];
-            int totCols = xlws.UsedRange.Columns.Count;
+            int wsIndex = wkshtDrop.SelectedIndex + 1;
             int hdrRow = Convert.ToInt32(hdrRowCtrl.Value);
-            string cellVal = "";
+            cols = ExcelAssign.GetExcelColumns(wsIndex, hdrRow);
 
-            if (totCols > 0)
-            {
-                for (int i = 1; i <= totCols; i++)
-                {
-                    cellVal = xlws.Cells[hdrRow, i].Value == null ? "" : Convert.ToString(xlws.Cells[hdrRow, i].Value);
-                    cols.Add(cellVal);
-                }
+            keyColDrop.Items.Clear();
+            keyColDrop.Items.AddRange(cols);
+            keyColDrop.SelectedIndex = 0;
 
-                keyColDrop.Items.Clear();
-                keyColDrop.Items.AddRange(cols.ToArray());
-                keyColDrop.SelectedIndex = 0; 
-            } 
         }
 
         private void catDrop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string[] fn = (new FilteredElementCollector(rvtDoc)
-                .OfClass(typeof(Family))
-                .Where(q => (q as Family).FamilyCategory.Name == catDrop.SelectedItem.ToString())
-                .Select(q => q.Name) as IEnumerable<string>).ToArray();
-
+            string catName = Convert.ToString(catDrop.SelectedItem);
             familyDrop.Items.Clear();
-            familyDrop.Items.AddRange(fn);
+            familyDrop.Items.AddRange(ExcelAssign.GetFamiliesOfCategory(catName));
         }
 
         private void keycolumndrop_SelectedIndexChanged(object sender, EventArgs e)
         {
             sc1.Items.Clear();
-            sc1.Items.AddRange(cols.ToArray());
+            sc1.Items.AddRange(cols);
             sc1.Items.Remove(keyColDrop.SelectedItem);
-            if(cols.Count > 1)
+            if(cols.Length > 1)
                 sc1.SelectedIndex = 0;
         }
 
@@ -412,39 +129,16 @@ namespace JR_Tools
         {
             dp1.Items.Clear();
 
-            FamilySymbol fs = new FilteredElementCollector(rvtDoc)
-                .OfClass(typeof(FamilySymbol))
-                .Where(q => (q as FamilySymbol).Family.Name == familyDrop.SelectedItem.ToString())
-                .FirstOrDefault() as FamilySymbol;
-            foreach(Autodesk.Revit.DB.Parameter par in fs.Parameters)
-            {
-                if (!par.IsReadOnly)
-                {
-                    dp1.Items.Add(par.Definition.Name + " (type)");
-                }
-            }
+            string familyName = Convert.ToString(familyDrop.SelectedItem);
 
-            FamilyInstance fi = new FilteredElementCollector(rvtDoc)
-                .OfClass(typeof(FamilyInstance))
-                .Where(q => (q as FamilyInstance).Symbol.Family.Name == familyDrop.SelectedItem.ToString())
-                .FirstOrDefault() as FamilyInstance;
-            if (fi != null)
-            {
-                foreach (Autodesk.Revit.DB.Parameter par in fi.Parameters)
-                {
-                    if (!par.IsReadOnly)
-                    {
-                        dp1.Items.Add(par.Definition.Name + " (inst)");
-                    }
-                } 
-            }
+            dp1.Items.AddRange(ExcelAssign.GetFamilyParameters(familyName));
             dp1.SelectedIndex = 0;
             dp1.DropDownWidth = DropDownWidth(dp1);
         }
 
         private void dp1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string curItem = dp1.SelectedItem.ToString();
+            string curItem = Convert.ToString(dp1.SelectedItem);
             string typeInst = curItem.Substring(curItem.Length - 5, 4);
             if(typeInst == "inst")
             {
@@ -467,7 +161,7 @@ namespace JR_Tools
                         typeInst = par.Substring(par.Length - 5, 4);
                         if (byType && typeInst == "type")
                             cb.Items.Add(par);
-                        else if (!byType && typeInst == "inst")
+                        else if (byType && typeInst == "inst")
                             cb.Items.Add(par);
 
                     }
@@ -479,8 +173,7 @@ namespace JR_Tools
 
         private void ExcelFormClose(object sender, FormClosingEventArgs e)
         {
-            if(xl != null)
-                CleanupExcel();
+            ExcelAssign.CleanupExcel();
         }
 
         private void addbtn_Click(object sender, EventArgs e)
@@ -505,7 +198,7 @@ namespace JR_Tools
             parDrops[parCnt].Top += 35;
             parDrops[parCnt].DropDownWidth = parDrops[parCnt-1].DropDownWidth;
 
-            colDrops[parCnt].Items.AddRange(cols.ToArray());
+            colDrops[parCnt].Items.AddRange(cols);
             colDrops[parCnt].Items.Remove(keyColDrop.SelectedItem);
 
             string typeInst = "";
@@ -522,11 +215,11 @@ namespace JR_Tools
             if(parDrops[parCnt].Items.Count > 0)
                 parDrops[parCnt].SelectedIndex = 0;
 
-            if (cols.Count >= parCnt + 2)
+            if (cols.Length >= parCnt + 2)
                 colDrops[parCnt].SelectedIndex = parCnt;
-            else if (cols.Count > 2)
-                colDrops[parCnt].SelectedIndex = cols.Count - 2;
-            else if (cols.Count > 1)
+            else if (cols.Length > 2)
+                colDrops[parCnt].SelectedIndex = cols.Length - 2;
+            else if (cols.Length > 1)
                 colDrops[parCnt].SelectedIndex = 0;
 
             parCnt++;

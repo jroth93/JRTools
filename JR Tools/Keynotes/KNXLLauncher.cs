@@ -7,7 +7,7 @@ using Autodesk.Revit.UI;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace JR_Tools
+namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class KNXLLauncher : IExternalCommand

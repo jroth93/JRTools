@@ -1,4 +1,4 @@
-﻿namespace JR_Tools
+﻿namespace Proficient
 {
     partial class ElecPanelDataFrm
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JR_Tools
+namespace Proficient
 {
     public partial class PlaceElFrm : Form
     {

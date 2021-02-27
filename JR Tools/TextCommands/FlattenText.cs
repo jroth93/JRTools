@@ -7,7 +7,7 @@ using Autodesk.Revit.UI.Selection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JR_Tools
+namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class FlattenText : IExternalCommand

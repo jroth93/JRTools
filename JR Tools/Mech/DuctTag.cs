@@ -9,7 +9,7 @@ using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI.Selection;
 
 
-namespace JR_Tools
+namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class DuctTag : IExternalCommand
