@@ -25,10 +25,10 @@ namespace JR_Tools
             string kndir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Morrissey Engineering, Inc\\All Morrissey - Documents\\Keynotes\\";
             string xlpath =  $"{kndir}{pn}.xlsx";
             string tmppath = $"{kndir}Template.xlsx";
-            Excel.Application xl = new Excel.Application();
+            
 
             ModelPath modelpath = doc.GetWorksharingCentralModelPath();
-            string filepath = Autodesk.Revit.DB.ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
+            string filepath = ModelPathUtils.ConvertModelPathToUserVisiblePath(modelpath);
             (string filedirectory, bool blcont2) = Path.GetDirectoryName(filepath).Substring(0, 7) == "BIM 360" ? KeynoteReload.GetCloudProjectFolder(doc, uiapp) : (Path.GetDirectoryName(filepath), true);
             if (!blcont2) { return Result.Cancelled; }
 
@@ -87,7 +87,30 @@ namespace JR_Tools
                 }
             }
 
-            xl.Workbooks.Open(xlpath);
+            Excel.Application xl = null;
+            try
+            {
+                xl = (Excel.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application");
+            }
+            catch (COMException)
+            {
+                xl = new Excel.Application();
+            }
+
+
+            bool isopen = false;
+            foreach (Excel.Workbook wb in xl.Workbooks)
+            {
+                if (wb.Name == Path.GetFileName(xlpath))
+                {
+                    isopen = true;
+                }
+            }
+            
+            if(!isopen)
+            {
+                xl.Workbooks.Open(xlpath);
+            }
             
             //bring to front
             string caption = xl.Caption;
@@ -103,6 +126,6 @@ namespace JR_Tools
         static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
     }
 }
