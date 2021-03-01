@@ -7,8 +7,8 @@
     <ProjectGuid>{16BC830B-3511-46DA-93DC-F9A0C8AC16F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JR_Tools</RootNamespace>
-    <AssemblyName>JR Tools</AssemblyName>
+    <RootNamespace>Proficient</RootNamespace>
+    <AssemblyName>Proficient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdWindows, Version=2017.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\AdWindows.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
@@ -86,6 +90,8 @@
     <Compile Include="Elec\PanelUtil.cs" />
     <Compile Include="Keynotes\KeynoteUtil.cs" />
     <Compile Include="WIP\DamperToggle.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="WIP\ReceptaclePlacer.cs" />
     <Compile Include="WIP\_Template.cs" />
     <Compile Include="ElementPlacer.cs" />
     <Compile Include="Forms\EntryBox.cs">

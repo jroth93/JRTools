@@ -19,28 +19,47 @@ namespace Proficient
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             View view = doc.GetElement(uidoc.ActiveView.Id) as View;
-
+            List<RoutingPreferenceRule> rprList = new List<RoutingPreferenceRule>();
             FilteredElementCollector ductTypeFec = new FilteredElementCollector(doc).OfClass(typeof(DuctType));
 
-            foreach(DuctType dt in ductTypeFec)
+            using (Transaction tx = new Transaction(doc, "Damper Toggle"))
             {
-                RoutingPreferenceManager rpm = dt.RoutingPreferenceManager;
-                for(int i = 1; i < rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions); i++)
-                {
-                    RoutingPreferenceRule rpr = rpm.GetRule(RoutingPreferenceRuleGroupType.Junctions, i - 1);
-                    rpr.Equals(null);
-                }
-            }
-
-
-
-            using (Transaction tx = new Transaction(doc, "commandname"))
-            {
+                string alert = String.Empty;
                 if (tx.Start() == TransactionStatus.Started)
                 {
+                    foreach (DuctType dt in ductTypeFec)
+                    {
+                        rprList.Clear();
+                        RoutingPreferenceManager rpm = dt.RoutingPreferenceManager;
+                        int count = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
+                        if (count > 1)
+                        {
+                            
+                            for (int i = 1; i <= count; i++)
+                            {
+                                rprList.Add(rpm.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0));
+                                rpm.RemoveRule(RoutingPreferenceRuleGroupType.Junctions, 0);
+                            }
+
+                            RoutingPreferenceRule temp = rprList[0];
+                            rprList[0] = rprList[1];
+                            rprList[1] = temp;
+
+                            for (int i = 1; i <= rprList.Count; i++)
+                            {
+                                rpm.AddRule(RoutingPreferenceRuleGroupType.Junctions, rprList[i - 1]);
+                            }
+                            FamilySymbol fs = doc.GetElement(rprList[0].MEPPartId) as FamilySymbol;
+
+                            alert += $"{dt.Name}: {fs.FamilyName} - {fs.Name}\n";
+                        }
+
+                    }
                 }
 
                 tx.Commit();
+
+                Util.BalloonTip("Routing Preferences Updated", alert, String.Empty);                
             }
 
             return Result.Succeeded;
