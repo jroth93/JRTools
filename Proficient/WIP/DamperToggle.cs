@@ -15,10 +15,8 @@ namespace Proficient
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-            UIApplication app = revit.Application; 
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
-            View view = doc.GetElement(uidoc.ActiveView.Id) as View;
             List<RoutingPreferenceRule> rprList = new List<RoutingPreferenceRule>();
             FilteredElementCollector ductTypeFec = new FilteredElementCollector(doc).OfClass(typeof(DuctType));
 

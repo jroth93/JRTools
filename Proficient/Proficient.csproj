@@ -30,6 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=2017.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,6 +67,76 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeCalloutRef.cs" />
+    <Compile Include="Ductulator\Backend.cs" />
+    <Compile Include="Ductulator\DuctMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ductulator\DuctMain.Designer.cs">
+      <DependentUpon>DuctMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ductulator\DuctSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ductulator\DuctSettings.Designer.cs">
+      <DependentUpon>DuctSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ductulator\FunctionsConstants.cs" />
+    <Compile Include="Ductulator\mxparser\Argument.cs" />
+    <Compile Include="Ductulator\mxparser\ArgumentExtension.cs" />
+    <Compile Include="Ductulator\mxparser\Constant.cs" />
+    <Compile Include="Ductulator\mxparser\Expression.cs" />
+    <Compile Include="Ductulator\mxparser\Function.cs" />
+    <Compile Include="Ductulator\mxparser\FunctionExtension.cs" />
+    <Compile Include="Ductulator\mxparser\FunctionExtensionVariadic.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\AstronomicalConstants.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\BinaryRelations.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\BooleanAlgebra.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\Calculus.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\Coefficients.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\Evaluate.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\MathConstants.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\MathFunctions.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\NumberTheory.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\PhysicalConstants.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\PrimesCache.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\ProbabilityDistributions.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\SpecialFunctions.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\SpecialValue.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\SpecialValueTrigonometric.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\Statistics.cs" />
+    <Compile Include="Ductulator\mxparser\mathcollection\Units.cs" />
+    <Compile Include="Ductulator\mxparser\Miscellaneous.cs" />
+    <Compile Include="Ductulator\mxparser\mXparser.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\BinaryRelation.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\BitwiseOperator.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\BooleanOperator.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\CalculusOperator.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\ConstantValue.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Function1Arg.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Function2Arg.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Function3Arg.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\FunctionVariadic.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\KeyWord.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Operator.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\ParserSymbol.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\RandomVariable.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Token.cs" />
+    <Compile Include="Ductulator\mxparser\parsertokens\Unit.cs" />
+    <Compile Include="Ductulator\mxparser\PrimitiveElement.cs" />
+    <Compile Include="Ductulator\mxparser\RecursiveArgument.cs" />
+    <Compile Include="Ductulator\mxparser\regressiontesting\PerformanceTests.cs" />
+    <Compile Include="Ductulator\mxparser\regressiontesting\RegTestExpression.cs" />
+    <Compile Include="Ductulator\mxparser\regressiontesting\RegTestExpressionAPI.cs" />
+    <Compile Include="Ductulator\mxparser\regressiontesting\RegTestSyntax.cs" />
+    <Compile Include="Ductulator\mxparser\regressiontesting\RunTest.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\ParseException.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\SimpleCharStream.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\SyntaxChecker.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\SyntaxCheckerConstants.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\Token.cs" />
+    <Compile Include="Ductulator\mxparser\syntaxchecker\TokenMgrError.cs" />
+    <Compile Include="Ductulator\mxparser\Tutorial.cs" />
     <Compile Include="Forms\KeynoteUtilFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +259,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Ductulator\DuctMain.resx">
+      <DependentUpon>DuctMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ductulator\DuctSettings.resx">
+      <DependentUpon>DuctSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\KeynoteUtilFrm.resx">
       <DependentUpon>KeynoteUtilFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,7 +307,8 @@
     <EmbeddedResource Include="images\flipwp.png" />
     <EmbeddedResource Include="images\keynoteutil.png" />
     <EmbeddedResource Include="images\knxl.png" />
-    <None Include="Resources\reload.png" />
+    <None Include="Ductulator\mxparser\syntaxchecker\generate-SyntaxChecker.bat" />
+    <None Include="Ductulator\mxparser\syntaxchecker\SyntaxChecker.jj" />
     <EmbeddedResource Include="images\reload.png" />
     <EmbeddedResource Include="images\spacepipe.png" />
     <EmbeddedResource Include="images\tagduct.png" />
@@ -242,6 +326,13 @@
     <EmbeddedResource Include="images\addleader.png" />
     <EmbeddedResource Include="images\flattentext.png" />
     <EmbeddedResource Include="images\leadertext.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ductulator\mxparser\syntaxchecker\csjavacc.jar" />
+    <EmbeddedResource Include="images\damper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

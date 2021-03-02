@@ -67,9 +67,18 @@ namespace Proficient
                                 sheets.Add(viewSheetDict[viewid]);
                             }
                         }
-                        string sheetsOutput = sheets.Count > 1 ? string.Join(", ", sheets.Distinct().OrderBy(x=>x).ToArray()) : sheets[0];
-                        string[] row = { ke.Key, ke.KeynoteText, sheetsOutput };
-                        kuf.dgv.Rows.Add(row);
+
+                        if(sheets.Count > 0)
+                        {
+                            string sheetsOutput = sheets.Count > 1 ? string.Join(", ", sheets.Distinct().OrderBy(x => x).ToArray()) : sheets[0];
+                            string[] row = { ke.Key, ke.KeynoteText, sheetsOutput };
+                            kuf.dgv.Rows.Add(row);
+                        }
+                        else
+                        {
+                            string[] row = { ke.Key, ke.KeynoteText, "None" };
+                            kuf.dgv.Rows.Add(row);
+                        }
                     }
                     else
                     {

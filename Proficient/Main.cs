@@ -49,6 +49,7 @@ namespace Proficient
             PushButtonData button15data = new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "Proficient.PanelUtil");
             PushButtonData button16data = new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "Proficient.ExcelAssign");
             PushButtonData button17data = new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "Proficient.KeynoteUtil");
+            PushButtonData button18data = new PushButtonData("cmddampertoggle", "Damper\nToggle", thisAssemblyPath, "Proficient.DamperToggle");
 
             SplitButtonData sbdata = new SplitButtonData("splttxttools", "Text Tools");
 
@@ -68,6 +69,7 @@ namespace Proficient
             RibbonButton pipebutton = mechrib.AddItem(button2data) as RibbonButton;
             RibbonButton ducttagbtn = mechrib.AddItem(button14data) as RibbonButton;
             RibbonButton ductbutton = mechrib.AddItem(button7data) as RibbonButton;
+            RibbonButton damperbtn = mechrib.AddItem(button18data) as RibbonButton;
             RibbonButton elpanelbtn = elecrib.AddItem(button15data) as RibbonButton;
 
             PushButton cmbtxtbutton = txtsplit.AddPushButton(button6data);
@@ -91,6 +93,7 @@ namespace Proficient
             elpanelbtn.LargeImage = NewBitmapImage( "elecpanel.png");
             xl2Revitbutton.LargeImage = NewBitmapImage("xl2rvt.png");
             knutilbtn.LargeImage = NewBitmapImage("keynoteutil.png");
+            damperbtn.LargeImage = NewBitmapImage("damper.png");
 
             return Result.Succeeded;
         }
