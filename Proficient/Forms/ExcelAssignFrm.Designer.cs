@@ -62,25 +62,28 @@
             // xllbl
             // 
             this.xllbl.AutoSize = true;
-            this.xllbl.Location = new System.Drawing.Point(15, 40);
+            this.xllbl.Location = new System.Drawing.Point(11, 32);
+            this.xllbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.xllbl.Name = "xllbl";
-            this.xllbl.Size = new System.Drawing.Size(92, 17);
+            this.xllbl.Size = new System.Drawing.Size(70, 13);
             this.xllbl.TabIndex = 0;
             this.xllbl.Text = "File Location:";
             // 
             // filelocationtxt
             // 
-            this.filelocationtxt.Location = new System.Drawing.Point(112, 37);
+            this.filelocationtxt.Location = new System.Drawing.Point(84, 30);
+            this.filelocationtxt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.filelocationtxt.Name = "filelocationtxt";
             this.filelocationtxt.ReadOnly = true;
-            this.filelocationtxt.Size = new System.Drawing.Size(259, 22);
+            this.filelocationtxt.Size = new System.Drawing.Size(195, 20);
             this.filelocationtxt.TabIndex = 1;
             // 
             // xlfilebtn
             // 
-            this.xlfilebtn.Location = new System.Drawing.Point(378, 36);
+            this.xlfilebtn.Location = new System.Drawing.Point(284, 29);
+            this.xlfilebtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.xlfilebtn.Name = "xlfilebtn";
-            this.xlfilebtn.Size = new System.Drawing.Size(31, 23);
+            this.xlfilebtn.Size = new System.Drawing.Size(23, 19);
             this.xlfilebtn.TabIndex = 2;
             this.xlfilebtn.Text = "...";
             this.xlfilebtn.UseVisualStyleBackColor = true;
@@ -97,9 +100,11 @@
             this.xlgroup.Controls.Add(this.xllbl);
             this.xlgroup.Controls.Add(this.xlfilebtn);
             this.xlgroup.Controls.Add(this.filelocationtxt);
-            this.xlgroup.Location = new System.Drawing.Point(12, 12);
+            this.xlgroup.Location = new System.Drawing.Point(9, 10);
+            this.xlgroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.xlgroup.Name = "xlgroup";
-            this.xlgroup.Size = new System.Drawing.Size(427, 184);
+            this.xlgroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.xlgroup.Size = new System.Drawing.Size(320, 150);
             this.xlgroup.TabIndex = 3;
             this.xlgroup.TabStop = false;
             this.xlgroup.Text = "Excel";
@@ -107,22 +112,24 @@
             // hdrLbl
             // 
             this.hdrLbl.AutoSize = true;
-            this.hdrLbl.Location = new System.Drawing.Point(19, 116);
+            this.hdrLbl.Location = new System.Drawing.Point(14, 94);
+            this.hdrLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.hdrLbl.Name = "hdrLbl";
-            this.hdrLbl.Size = new System.Drawing.Size(90, 17);
+            this.hdrLbl.Size = new System.Drawing.Size(70, 13);
             this.hdrLbl.TabIndex = 9;
             this.hdrLbl.Text = "Header Row:";
             // 
             // hdrRowCtrl
             // 
-            this.hdrRowCtrl.Location = new System.Drawing.Point(112, 114);
+            this.hdrRowCtrl.Location = new System.Drawing.Point(84, 93);
+            this.hdrRowCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.hdrRowCtrl.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.hdrRowCtrl.Name = "hdrRowCtrl";
-            this.hdrRowCtrl.Size = new System.Drawing.Size(75, 22);
+            this.hdrRowCtrl.Size = new System.Drawing.Size(56, 20);
             this.hdrRowCtrl.TabIndex = 4;
             this.hdrRowCtrl.ThousandsSeparator = true;
             this.hdrRowCtrl.Value = new decimal(new int[] {
@@ -138,18 +145,20 @@
             this.keyColDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.keyColDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.keyColDrop.FormattingEnabled = true;
-            this.keyColDrop.Location = new System.Drawing.Point(112, 150);
+            this.keyColDrop.Location = new System.Drawing.Point(84, 122);
+            this.keyColDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.keyColDrop.Name = "keyColDrop";
-            this.keyColDrop.Size = new System.Drawing.Size(259, 24);
+            this.keyColDrop.Size = new System.Drawing.Size(195, 21);
             this.keyColDrop.TabIndex = 5;
             this.keyColDrop.SelectedIndexChanged += new System.EventHandler(this.keycolumndrop_SelectedIndexChanged);
             // 
             // keycolumnlbl
             // 
             this.keycolumnlbl.AutoSize = true;
-            this.keycolumnlbl.Location = new System.Drawing.Point(19, 153);
+            this.keycolumnlbl.Location = new System.Drawing.Point(14, 124);
+            this.keycolumnlbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.keycolumnlbl.Name = "keycolumnlbl";
-            this.keycolumnlbl.Size = new System.Drawing.Size(87, 17);
+            this.keycolumnlbl.Size = new System.Drawing.Size(66, 13);
             this.keycolumnlbl.TabIndex = 2;
             this.keycolumnlbl.Text = "Key Column:";
             // 
@@ -159,18 +168,20 @@
             this.wkshtDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.wkshtDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.wkshtDrop.FormattingEnabled = true;
-            this.wkshtDrop.Location = new System.Drawing.Point(112, 74);
+            this.wkshtDrop.Location = new System.Drawing.Point(84, 60);
+            this.wkshtDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.wkshtDrop.Name = "wkshtDrop";
-            this.wkshtDrop.Size = new System.Drawing.Size(259, 24);
+            this.wkshtDrop.Size = new System.Drawing.Size(195, 21);
             this.wkshtDrop.TabIndex = 3;
             this.wkshtDrop.SelectedIndexChanged += new System.EventHandler(this.wkshtDrop_SelectedIndexChanged);
             // 
             // Wkshtlbl
             // 
             this.Wkshtlbl.AutoSize = true;
-            this.Wkshtlbl.Location = new System.Drawing.Point(27, 77);
+            this.Wkshtlbl.Location = new System.Drawing.Point(20, 63);
+            this.Wkshtlbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Wkshtlbl.Name = "Wkshtlbl";
-            this.Wkshtlbl.Size = new System.Drawing.Size(80, 17);
+            this.Wkshtlbl.Size = new System.Drawing.Size(62, 13);
             this.Wkshtlbl.TabIndex = 3;
             this.Wkshtlbl.Text = "Worksheet:";
             // 
@@ -180,9 +191,11 @@
             this.rvtgroup.Controls.Add(this.catlbl);
             this.rvtgroup.Controls.Add(this.familyDrop);
             this.rvtgroup.Controls.Add(this.familylbl);
-            this.rvtgroup.Location = new System.Drawing.Point(12, 202);
+            this.rvtgroup.Location = new System.Drawing.Point(9, 164);
+            this.rvtgroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rvtgroup.Name = "rvtgroup";
-            this.rvtgroup.Size = new System.Drawing.Size(427, 134);
+            this.rvtgroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rvtgroup.Size = new System.Drawing.Size(320, 109);
             this.rvtgroup.TabIndex = 4;
             this.rvtgroup.TabStop = false;
             this.rvtgroup.Text = "Revit";
@@ -193,18 +206,20 @@
             this.catDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.catDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.catDrop.FormattingEnabled = true;
-            this.catDrop.Location = new System.Drawing.Point(112, 37);
+            this.catDrop.Location = new System.Drawing.Point(84, 30);
+            this.catDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.catDrop.Name = "catDrop";
-            this.catDrop.Size = new System.Drawing.Size(259, 24);
+            this.catDrop.Size = new System.Drawing.Size(195, 21);
             this.catDrop.TabIndex = 6;
             this.catDrop.SelectedIndexChanged += new System.EventHandler(this.catDrop_SelectedIndexChanged);
             // 
             // catlbl
             // 
             this.catlbl.AutoSize = true;
-            this.catlbl.Location = new System.Drawing.Point(37, 37);
+            this.catlbl.Location = new System.Drawing.Point(28, 30);
+            this.catlbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.catlbl.Name = "catlbl";
-            this.catlbl.Size = new System.Drawing.Size(69, 17);
+            this.catlbl.Size = new System.Drawing.Size(52, 13);
             this.catlbl.TabIndex = 4;
             this.catlbl.Text = "Category:";
             // 
@@ -214,9 +229,10 @@
             this.familyDrop.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.familyDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.familyDrop.FormattingEnabled = true;
-            this.familyDrop.Location = new System.Drawing.Point(112, 81);
+            this.familyDrop.Location = new System.Drawing.Point(84, 66);
+            this.familyDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.familyDrop.Name = "familyDrop";
-            this.familyDrop.Size = new System.Drawing.Size(259, 24);
+            this.familyDrop.Size = new System.Drawing.Size(195, 21);
             this.familyDrop.Sorted = true;
             this.familyDrop.TabIndex = 7;
             this.familyDrop.SelectedIndexChanged += new System.EventHandler(this.familydrop_SelectedIndexChanged);
@@ -224,36 +240,40 @@
             // familylbl
             // 
             this.familylbl.AutoSize = true;
-            this.familylbl.Location = new System.Drawing.Point(54, 84);
+            this.familylbl.Location = new System.Drawing.Point(40, 68);
+            this.familylbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.familylbl.Name = "familylbl";
-            this.familylbl.Size = new System.Drawing.Size(52, 17);
+            this.familylbl.Size = new System.Drawing.Size(39, 13);
             this.familylbl.TabIndex = 2;
             this.familylbl.Text = "Family:";
             // 
             // srclbl
             // 
             this.srclbl.AutoSize = true;
-            this.srclbl.Location = new System.Drawing.Point(15, 352);
+            this.srclbl.Location = new System.Drawing.Point(11, 286);
+            this.srclbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.srclbl.Name = "srclbl";
-            this.srclbl.Size = new System.Drawing.Size(108, 17);
+            this.srclbl.Size = new System.Drawing.Size(82, 13);
             this.srclbl.TabIndex = 6;
             this.srclbl.Text = "Source Column:";
             // 
             // destlbl
             // 
             this.destlbl.AutoSize = true;
-            this.destlbl.Location = new System.Drawing.Point(227, 355);
+            this.destlbl.Location = new System.Drawing.Point(170, 288);
+            this.destlbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.destlbl.Name = "destlbl";
-            this.destlbl.Size = new System.Drawing.Size(153, 17);
+            this.destlbl.Size = new System.Drawing.Size(114, 13);
             this.destlbl.TabIndex = 7;
             this.destlbl.Text = "Destination Parameter:";
             // 
             // addbtn
             // 
             this.addbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addbtn.Location = new System.Drawing.Point(384, 411);
+            this.addbtn.Location = new System.Drawing.Point(288, 334);
+            this.addbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.addbtn.Name = "addbtn";
-            this.addbtn.Size = new System.Drawing.Size(25, 23);
+            this.addbtn.Size = new System.Drawing.Size(19, 19);
             this.addbtn.TabIndex = 10;
             this.addbtn.Text = "+";
             this.addbtn.UseVisualStyleBackColor = true;
@@ -262,9 +282,10 @@
             // subtractbtn
             // 
             this.subtractbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.subtractbtn.Location = new System.Drawing.Point(415, 411);
+            this.subtractbtn.Location = new System.Drawing.Point(311, 334);
+            this.subtractbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.subtractbtn.Name = "subtractbtn";
-            this.subtractbtn.Size = new System.Drawing.Size(25, 23);
+            this.subtractbtn.Size = new System.Drawing.Size(19, 19);
             this.subtractbtn.TabIndex = 11;
             this.subtractbtn.Text = "-";
             this.subtractbtn.UseVisualStyleBackColor = true;
@@ -273,9 +294,10 @@
             // assnbtn
             // 
             this.assnbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.assnbtn.Location = new System.Drawing.Point(262, 461);
+            this.assnbtn.Location = new System.Drawing.Point(196, 375);
+            this.assnbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.assnbtn.Name = "assnbtn";
-            this.assnbtn.Size = new System.Drawing.Size(86, 28);
+            this.assnbtn.Size = new System.Drawing.Size(64, 23);
             this.assnbtn.TabIndex = 13;
             this.assnbtn.Text = "Assign";
             this.assnbtn.UseVisualStyleBackColor = true;
@@ -284,20 +306,22 @@
             // closebtn
             // 
             this.closebtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.closebtn.Location = new System.Drawing.Point(354, 461);
+            this.closebtn.Location = new System.Drawing.Point(266, 375);
+            this.closebtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.closebtn.Name = "closebtn";
-            this.closebtn.Size = new System.Drawing.Size(86, 28);
+            this.closebtn.Size = new System.Drawing.Size(64, 23);
             this.closebtn.TabIndex = 14;
             this.closebtn.Text = "Close";
             this.closebtn.UseVisualStyleBackColor = true;
             this.closebtn.Click += new System.EventHandler(this.closebtn_Click);
             // 
-            // getcolsbtn
+            // getColsBtn
             // 
             this.getColsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.getColsBtn.Location = new System.Drawing.Point(12, 461);
-            this.getColsBtn.Name = "getcolsbtn";
-            this.getColsBtn.Size = new System.Drawing.Size(124, 28);
+            this.getColsBtn.Location = new System.Drawing.Point(9, 375);
+            this.getColsBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.getColsBtn.Name = "getColsBtn";
+            this.getColsBtn.Size = new System.Drawing.Size(93, 23);
             this.getColsBtn.TabIndex = 12;
             this.getColsBtn.Text = "Get All Columns";
             this.getColsBtn.UseVisualStyleBackColor = true;
@@ -307,18 +331,20 @@
             this.typeInstLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.typeInstLbl.AutoSize = true;
             this.typeInstLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.typeInstLbl.Location = new System.Drawing.Point(15, 422);
+            this.typeInstLbl.Location = new System.Drawing.Point(11, 343);
+            this.typeInstLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.typeInstLbl.Name = "typeInstLbl";
-            this.typeInstLbl.Size = new System.Drawing.Size(0, 17);
+            this.typeInstLbl.Size = new System.Drawing.Size(0, 13);
             this.typeInstLbl.TabIndex = 13;
             // 
             // assignbylbl
             // 
             this.assignbylbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.assignbylbl.AutoSize = true;
-            this.assignbylbl.Location = new System.Drawing.Point(15, 420);
+            this.assignbylbl.Location = new System.Drawing.Point(11, 341);
+            this.assignbylbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.assignbylbl.Name = "assignbylbl";
-            this.assignbylbl.Size = new System.Drawing.Size(0, 17);
+            this.assignbylbl.Size = new System.Drawing.Size(0, 13);
             this.assignbylbl.TabIndex = 6;
             // 
             // sc1
@@ -327,9 +353,10 @@
             this.sc1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.sc1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sc1.FormattingEnabled = true;
-            this.sc1.Location = new System.Drawing.Point(18, 378);
+            this.sc1.Location = new System.Drawing.Point(14, 307);
+            this.sc1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.sc1.Name = "sc1";
-            this.sc1.Size = new System.Drawing.Size(205, 24);
+            this.sc1.Size = new System.Drawing.Size(155, 21);
             this.sc1.TabIndex = 8;
             // 
             // dp1
@@ -339,18 +366,19 @@
             this.dp1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.dp1.DropDownWidth = 209;
             this.dp1.FormattingEnabled = true;
-            this.dp1.Location = new System.Drawing.Point(229, 378);
+            this.dp1.Location = new System.Drawing.Point(172, 307);
+            this.dp1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dp1.Name = "dp1";
-            this.dp1.Size = new System.Drawing.Size(209, 24);
+            this.dp1.Size = new System.Drawing.Size(158, 21);
             this.dp1.Sorted = true;
             this.dp1.TabIndex = 9;
             this.dp1.SelectedIndexChanged += new System.EventHandler(this.dp1_SelectedIndexChanged);
             // 
             // ExcelAssignFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 501);
+            this.ClientSize = new System.Drawing.Size(339, 407);
             this.Controls.Add(this.sc1);
             this.Controls.Add(this.dp1);
             this.Controls.Add(this.typeInstLbl);
@@ -364,10 +392,10 @@
             this.Controls.Add(this.srclbl);
             this.Controls.Add(this.rvtgroup);
             this.Controls.Add(this.xlgroup);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ExcelAssignFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Excel Assign";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExcelFormClose);
             this.xlgroup.ResumeLayout(false);
             this.xlgroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hdrRowCtrl)).EndInit();

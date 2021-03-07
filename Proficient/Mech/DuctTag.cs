@@ -37,8 +37,11 @@ namespace Proficient
                         Reference ductref = new Reference(ductel);
                         Location loc = ductel.Location;
                         LocationCurve loccurve = loc as LocationCurve;
-                        bool boolductlongenough = loccurve.Curve.Length > 3 ? true : false;
-                        double ductwidth = ductel.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble();
+                        bool boolductlongenough = loccurve.Curve.Length > 3;
+                        double ductwidth = 
+                            ductel.Name == "Round Duct" ?
+                            ductel.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble():
+                            ductel.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble();
                         double minnoleadersize = 144 / Convert.ToDouble(view.Scale);
                         bool isvertical = Math.Round(loccurve.Curve.GetEndPoint(0).X,4) == Math.Round(loccurve.Curve.GetEndPoint(1).X,4);
                         bool ishorizontal = Math.Round(loccurve.Curve.GetEndPoint(0).Y, 4) == Math.Round(loccurve.Curve.GetEndPoint(1).Y, 4);

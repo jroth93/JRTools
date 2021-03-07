@@ -36,10 +36,9 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 48);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(289, 52);
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -48,7 +47,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(12, 68);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(289, 22);
+            this.textBox1.Size = new System.Drawing.Size(289, 20);
             this.textBox1.TabIndex = 1;
             // 
             // okbutton
@@ -79,7 +78,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.CancelButton = this.cancelbutton;
-            this.ClientSize = new System.Drawing.Size(313, 148);
+            this.ClientSize = new System.Drawing.Size(391, 185);
             this.Controls.Add(this.cancelbutton);
             this.Controls.Add(this.okbutton);
             this.Controls.Add(this.textBox1);
@@ -95,9 +94,9 @@
 
         #endregion
 
-        public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.TextBox textBox1;
-        public System.Windows.Forms.Button okbutton;
-        public System.Windows.Forms.Button cancelbutton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button okbutton;
+        private System.Windows.Forms.Button cancelbutton;
     }
 }

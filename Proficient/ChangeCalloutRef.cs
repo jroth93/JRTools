@@ -16,7 +16,7 @@ namespace Proficient
             ElementId viewid = uidoc.ActiveView.Id;
             View view = doc.GetElement(viewid) as View;
 
-            IEnumerable<ElementId> selectedids = uidoc.Selection.GetElementIds();
+            var selectedids = uidoc.Selection.GetElementIds();
             if(selectedids.Count() == 0) { return Result.Cancelled; }
             var selectedelements = selectedids.Select(curid => doc.GetElement(curid));
             IList<ElementId> viewelementsid = new List<ElementId>();
@@ -34,34 +34,34 @@ namespace Proficient
                 }
             }
 
-            IEnumerable<ElementId> calloutids = viewelementsid
+            var calloutids = viewelementsid
                 .Where(curview => doc.GetElement(curview).get_Parameter(BuiltInParameter.SECTION_PARENT_VIEW_NAME) != null)
                 .Where(curview => doc.GetElement(curview).OwnerViewId.IntegerValue != -1);
 
             if(calloutids.Count() == 0) { return Result.Cancelled; }
 
-            IEnumerable<Element> calloutelements = calloutids.Select(curid => doc.GetElement(curid));
+            var calloutelements = calloutids.Select(curid => doc.GetElement(curid));
 
             FilteredElementCollector coll = new FilteredElementCollector(doc);
             coll.WherePasses(new ElementClassFilter(typeof(View)));
-            IList<View> calloutviews = new List<View>();
-
-            ViewForm form1 = new ViewForm();
+            List<View> calloutViews = new List<View>();
 
             foreach (View v in coll)
             {
                 if (Convert.ToString(v.ViewType) == "FloorPlan" && v.get_Parameter(BuiltInParameter.SECTION_PARENT_VIEW_NAME) != null)
                 {
-                    calloutviews.Add(v);
-                    form1.viewdropdown.Items.Add(v.Name.ToString());
+                    calloutViews.Add(v);
                 }
             }
-            
+
+            ViewForm form1 = new ViewForm(calloutViews.Select(v=>v.Name.ToString()).ToArray());
+
             form1.ShowDialog();
 
-            if (form1.iscancelled == true) { return Result.Cancelled; }
+            if (form1.DialogResult == System.Windows.Forms.DialogResult.Cancel) 
+                return Result.Cancelled;
 
-            View newview = calloutviews[form1.viewdropdown.SelectedIndex];
+            View newview = calloutViews[form1.selectedViewIndex];
 
             using (Transaction tx = new Transaction(doc, "Change Callout Reference"))
             {
@@ -70,7 +70,6 @@ namespace Proficient
                     foreach(ElementId currentid in calloutids)
                     {
                             ReferenceableViewUtils.ChangeReferencedView(doc, currentid, newview.Id);
-
                     }
                 }
 

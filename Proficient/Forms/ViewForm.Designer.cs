@@ -41,6 +41,7 @@
             this.viewdropdown.Size = new System.Drawing.Size(478, 21);
             this.viewdropdown.TabIndex = 0;
             this.viewdropdown.Text = "Select new view...";
+            this.viewdropdown.SelectedIndexChanged += new System.EventHandler(this.viewdropdown_SelectedIndexChanged);
             // 
             // okbutton
             // 
@@ -77,8 +78,8 @@
 
         #endregion
 
-        public System.Windows.Forms.ComboBox viewdropdown;
-        public System.Windows.Forms.Button okbutton;
-        public System.Windows.Forms.Button cancelbutton;
+        private System.Windows.Forms.ComboBox viewdropdown;
+        private System.Windows.Forms.Button okbutton;
+        private System.Windows.Forms.Button cancelbutton;
     }
 }

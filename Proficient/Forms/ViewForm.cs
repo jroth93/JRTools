@@ -12,23 +12,29 @@ namespace Proficient
 {
     public partial class ViewForm : Form
     {
-        public ViewForm()
+        public int selectedViewIndex { get; private set; }
+        public ViewForm(string[] calloutViews)
         {
             InitializeComponent();
+            this.viewdropdown.Items.AddRange(calloutViews);
             this.StartPosition = FormStartPosition.CenterScreen;
-            
+            selectedViewIndex = 0;
         }
-
-        public Boolean iscancelled = false;
 
         private void Okbutton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
         private void Cancelbutton_Click(object sender, EventArgs e)
         {
-            iscancelled = true;
-            this.Hide();
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void viewdropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedViewIndex = viewdropdown.SelectedIndex;
         }
     }
 }

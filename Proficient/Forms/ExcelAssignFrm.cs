@@ -171,11 +171,6 @@ namespace Proficient
             }
         }
 
-        private void ExcelFormClose(object sender, FormClosingEventArgs e)
-        {
-            ExcelAssign.CleanupExcel();
-        }
-
         private void addbtn_Click(object sender, EventArgs e)
         {
 

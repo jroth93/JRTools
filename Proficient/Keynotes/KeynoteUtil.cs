@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
 
 namespace Proficient
 {
@@ -15,8 +11,7 @@ namespace Proficient
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
             UIApplication app = revit.Application; 
-            UIDocument uidoc = revit.Application.ActiveUIDocument;
-            Document doc = uidoc.Document;
+            Document doc = revit.Application.ActiveUIDocument.Document;
             KeynoteUtilFrm kuf = new KeynoteUtilFrm();
             //get association between views and sheets
             Dictionary<ElementId, string> viewSheetDict = GetViewsOnSheets(doc);
@@ -41,10 +36,7 @@ namespace Proficient
                     foreach (ElementId viewId in dvIds)
                     {
                         View curView = doc.GetElement(viewId) as View;
-                        if (IsInView(curView.CropBox, it.TagHeadPosition))
-                        {
-                            knViewDict[knNum].Add(viewId);
-                        }
+                        if (IsInView(curView.CropBox, it.TagHeadPosition)) knViewDict[knNum].Add(viewId);
                     }
                 }
                 else
@@ -62,10 +54,7 @@ namespace Proficient
                         List<string> sheets = new List<string>();
                         foreach (ElementId viewid in knViewDict[ke.Key])
                         {
-                            if(viewSheetDict.ContainsKey(viewid))
-                            {
-                                sheets.Add(viewSheetDict[viewid]);
-                            }
+                            if(viewSheetDict.ContainsKey(viewid)) sheets.Add(viewSheetDict[viewid]);
                         }
 
                         if(sheets.Count > 0)
@@ -99,29 +88,18 @@ namespace Proficient
             {
                 foreach(ElementId vID in vs.GetAllPlacedViews())
                 {
-                    if (!viewSheetPairs.ContainsKey(vID))
-                    {
-                        viewSheetPairs.Add(vID, vs.SheetNumber);
-                    }
+                    if (!viewSheetPairs.ContainsKey(vID)) viewSheetPairs.Add(vID, vs.SheetNumber);
                 }
             }
-
             return viewSheetPairs;
         }
 
         private bool IsInView(BoundingBoxXYZ bb, XYZ elementPosition)
         {
-            if (elementPosition.X <= bb.Max.X 
-                && elementPosition.X >= bb.Min.X 
-                && elementPosition.Y <= bb.Max.Y 
-                && elementPosition.Y >= bb.Min.Y)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return elementPosition.X <= bb.Max.X
+                && elementPosition.X >= bb.Min.X
+                && elementPosition.Y <= bb.Max.Y
+                && elementPosition.Y >= bb.Min.Y;
         }
     }
 }

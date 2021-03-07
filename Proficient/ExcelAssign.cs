@@ -5,7 +5,7 @@ using System.IO;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using System.Runtime.InteropServices;
-using Excel = Microsoft.Office.Interop.Excel;
+using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
 {
@@ -13,17 +13,18 @@ namespace Proficient
     class ExcelAssign : IExternalCommand
     {
         private static Document doc;
-
-        private static Excel.Application xl;
-        private static Excel.Workbook xlwb;
-        private static Excel.Worksheet xlws;
-        public static bool xlIsOpen { get; set; }
+        private static XL.Application xl;
+        private static XL.Workbook wb;
+        private static XL.Worksheet ws;
+        private static bool xlReadOnly = false;
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
             doc = revit.Application.ActiveUIDocument.Document;
-            xlIsOpen = false;
             ExcelAssignFrm eafrm = new ExcelAssignFrm();
             eafrm.ShowDialog();
+
+            if (xlReadOnly) File.Delete(wb.FullName);
+            else wb.Close(false);
 
             return Result.Succeeded;
         }
@@ -31,16 +32,16 @@ namespace Proficient
         public static String[] GetExcelColumns(int wsIndex, int hdrRow)
         {
             List<string> cols = new List<string>();
-            xlws = xlwb.Worksheets.Item[wsIndex];
+            ws = wb.Worksheets.Item[wsIndex];
 
-            int totCols = xlws.UsedRange.Columns.Count;
-            string cellVal = "";
+            int totCols = ws.UsedRange.Columns.Count;
+            string cellVal = String.Empty;
 
             if (totCols > 0)
             {
                 for (int i = 1; i <= totCols; i++)
                 {
-                    cellVal = xlws.Cells[hdrRow, i].Value == null ? "" : Convert.ToString(xlws.Cells[hdrRow, i].Value);
+                    cellVal = ws.Cells[hdrRow, i].Value == null ? "" : Convert.ToString(ws.Cells[hdrRow, i].Value);
                     cols.Add(cellVal);
                 }
             }
@@ -50,42 +51,30 @@ namespace Proficient
 
         public static String[] OpenExcel(string xlPath)
         {
-            xl = new Excel.Application();
+            xl = new XL.Application();
 
-            FileStream stream = null;
             try
             {
-                stream = File.Open(xlPath, FileMode.Open, FileAccess.Read);
+                FileStream stream = File.Open(xlPath, FileMode.Open, FileAccess.Read);
+                stream.Close();
             }
             catch (IOException ex)
             {
                 if (ex.Message.Contains("being used by another process"))
                 {
-
-                    string newPath = Path.GetExtension(xlPath) == ".xlsx" ? Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
+                    string newPath = 
+                        Path.GetExtension(xlPath) == ".xlsx" ? 
+                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : 
+                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
                     File.Copy(xlPath, newPath);
                     xlPath = newPath;
-                    xlIsOpen = true;
+                    xlReadOnly = true;
                 }
             }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
 
-            xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
-            xlwb = xl.ActiveWorkbook;
+            wb = xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
 
-            String[] xlSheets = new String[xlwb.Worksheets.Count];
-            int i = 0;
-            foreach (Excel.Worksheet wSheet in xlwb.Worksheets)
-            {
-                xlSheets[i] = wSheet.Name;
-                i++;
-            }
-
-            return xlSheets;
+            return (wb.Worksheets as IEnumerable<XL.Worksheet>).Select(ws => ws.Name).ToArray();
             
         }
 
@@ -94,11 +83,11 @@ namespace Proficient
             switch (parType)
             {
                 case "String":
-                    return Convert.ToString(xlws.Cells[row, col].Value);
+                    return Convert.ToString(ws.Cells[row, col].Value);
                 case "Integer":
                     try
                     {
-                        int val = Convert.ToInt32(xlws.Cells[row, col].Value);
+                        int val = Convert.ToInt32(ws.Cells[row, col].Value);
                         val = (int)UnitUtils.ConvertToInternalUnits(val, dispUnit);
                         return val;
                     }
@@ -109,7 +98,7 @@ namespace Proficient
                 case "Double":
                     try
                     {
-                        double val = Convert.ToDouble(xlws.Cells[row, col].Value);
+                        double val = Convert.ToDouble(ws.Cells[row, col].Value);
                         val = UnitUtils.ConvertToInternalUnits(val, dispUnit);
                         return val;
                     }
@@ -121,7 +110,7 @@ namespace Proficient
                 case "ElementID":
                     try
                     {
-                        return new ElementId(Convert.ToInt32(xlws.Cells[row, col].Value));
+                        return new ElementId(Convert.ToInt32(ws.Cells[row, col].Value));
                     }
                     catch
                     {
@@ -136,11 +125,11 @@ namespace Proficient
             switch (parType)
             {
                 case "String":
-                    return Convert.ToString(xlws.Cells[row, col].Value);
+                    return Convert.ToString(ws.Cells[row, col].Value);
                 case "Integer":
                     try
                     {
-                        return Convert.ToInt32(xlws.Cells[row, col].Value);
+                        return Convert.ToInt32(ws.Cells[row, col].Value);
                     }
                     catch
                     {
@@ -149,7 +138,7 @@ namespace Proficient
                 case "Double":
                     try
                     {
-                        return Convert.ToDouble(xlws.Cells[row, col].Value);
+                        return Convert.ToDouble(ws.Cells[row, col].Value);
                     }
                     catch
                     {
@@ -159,7 +148,7 @@ namespace Proficient
                 case "ElementID":
                     try
                     {
-                        return new ElementId(Convert.ToInt32(xlws.Cells[row, col].Value));
+                        return new ElementId(Convert.ToInt32(ws.Cells[row, col].Value));
                     }
                     catch
                     {
@@ -169,32 +158,9 @@ namespace Proficient
             return null;
         }
 
-        public static void CleanupExcel()
-        {
-            if (xl != null)
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                if (xlIsOpen)
-                {
-                    File.Delete(xlwb.FullName);
-                }
-                else
-                {
-                    xlwb.Close(false);
-                }
-
-                Marshal.FinalReleaseComObject(xlws);
-                Marshal.FinalReleaseComObject(xlwb);
-                xl.Quit();
-                Marshal.FinalReleaseComObject(xl); 
-            }
-        }
-
         public static void WriteErrorFile(string errorLog)
         {
-            string logFilePath = xlwb.Path + "\\ExcelToRevitErrorLog.txt";
+            string logFilePath = wb.Path + "\\ExcelToRevitErrorLog.txt";
 
             using (StreamWriter sw = File.CreateText(logFilePath))
             {
@@ -268,7 +234,7 @@ namespace Proficient
         {
             string errorLog = String.Empty;
 
-            int totRows = xlws.UsedRange.Rows.Count;
+            int totRows = ws.UsedRange.Rows.Count;
             string keyCellVal = null;
 
             var fslist = new FilteredElementCollector(doc)
@@ -284,7 +250,7 @@ namespace Proficient
                 typeMark = fs.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_MARK).AsString();
                 for (int r = startRow; r <= totRows; r++)
                 {
-                    keyCellVal = Convert.ToString(xlws.Cells[r, keyCol].Value);
+                    keyCellVal = Convert.ToString(ws.Cells[r, keyCol].Value);
                     if (typeMark == keyCellVal)
                     {
                         bool hasUnits;
@@ -327,7 +293,7 @@ namespace Proficient
         {
             string errorLog = String.Empty;
 
-            int totRows = xlws.UsedRange.Rows.Count;
+            int totRows = ws.UsedRange.Rows.Count;
             string keyCellVal = null;
 
             List<Element> filist = new FilteredElementCollector(doc)
@@ -342,7 +308,7 @@ namespace Proficient
                 mark = fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
                 for (int r = startRow; r <= totRows; r++)
                 {
-                    keyCellVal = Convert.ToString(xlws.Cells[r, keyCol].Value);
+                    keyCellVal = Convert.ToString(ws.Cells[r, keyCol].Value);
                     if (mark == keyCellVal)
                     {
                         bool hasUnits;
