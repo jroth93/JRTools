@@ -397,7 +397,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release copy "$(TargetPath)" "C:\ProgramData\Autodesk\ApplicationPlugins\Proficient.bundle\Contents"
-if $(ConfigurationName) == Publish copy "$(TargetPath)" "C:\ProgramData\Autodesk\ApplicationPlugins\Proficient.bundle\Contents"
 if $(ConfigurationName) == Publish copy "$(TargetPath)" "Z:\Revit\Custom Add Ins\Proficient.bundle\Contents"</PostBuildEvent>
   </PropertyGroup>
 </Project>

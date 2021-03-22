@@ -25,11 +25,13 @@ namespace Proficient
             if (String.IsNullOrEmpty(pn)) return Result.Cancelled;
 
             string filePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
-            bool oldFile = Path.GetExtension(filePath) == ".xlsm";
+            
             string fileDir = doc.IsModelInCloud ? Util.GetProjectFolder(revit) : Path.GetDirectoryName(filePath);
             if (String.IsNullOrEmpty(fileDir)) return Result.Cancelled;
 
             string xlPath = Util.GetKNXLPath(fileDir, pn);
+            bool oldFile = Path.GetExtension(xlPath) == ".xlsm";
+
             if (xlPath.Contains("Morrissey"))
             {
                 MessageBox.Show("Keynotes located on the cloud. Please use new keynotes tools");
@@ -45,7 +47,11 @@ namespace Proficient
 
                 XL.Range rng = ws.UsedRange;
                 for (int row = 1; row <= rng.Rows.Count; row++)
-                    knList.Add(oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value, ws.Name, rng.Cells[row, 2].Value));
+                {
+                    KeynoteEntry ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value, ws.Name, rng.Cells[row, 2].Value);
+                    if(ke != null) knList.Add(ke);
+                }
+                    
             }
 
             wb.Close(false);
@@ -71,6 +77,8 @@ namespace Proficient
 
         private static KeynoteEntry MacroFilePatch(string wsName, XL.Range rng, int row)
         {
+            if (rng.Cells[row, 1].Value == null || rng.Cells[row, 2].Value == null) return null;
+
             if (wsName.Contains("DEMO") && row <= 100)
             {
                 if (row <= 10) return new KeynoteEntry($"{wsName[0]}00{rng.Cells[row, 1].Value}", wsName, rng.Cells[row, 2].Value);
