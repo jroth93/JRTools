@@ -26,6 +26,18 @@ namespace Proficient
             Autodesk.Windows.ComponentManager.InfoCenterPaletteManager.ShowBalloon(ri);
         }
 
+        public static void BalloonTip(string category, string title, string text, string uri)
+        {
+            Autodesk.Internal.InfoCenter.ResultItem ri = new Autodesk.Internal.InfoCenter.ResultItem();
+
+            ri.Category = category;
+            ri.Title = title;
+            ri.TooltipText = text;
+            ri.Uri = new Uri(uri);
+
+            Autodesk.Windows.ComponentManager.InfoCenterPaletteManager.ShowBalloon(ri);
+        }
+
         public static void SetStatusText(string text)
         {
             IntPtr mainWindow = Process.GetCurrentProcess().MainWindowHandle;
@@ -125,11 +137,11 @@ namespace Proficient
 
             if (File.Exists($"{fileDir}\\{pn} Keynotes.xlsx"))
             {
-                xlPath = $"{fileDir}\\{pn} Keynotes.xlsx";
+                return $"{fileDir}\\{pn} Keynotes.xlsx";
             }
             else if (File.Exists($"{fileDir}\\{pn} Keynotes.xlsm"))
             {
-                xlPath = $"{fileDir}\\{pn} Keynotes.xlsm";
+                return $"{fileDir}\\{pn} Keynotes.xlsm";
             }
             else
             {

@@ -8,7 +8,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    class KNXLLauncher : IExternalCommand
+    class LegacyKNLauncher : IExternalCommand
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -21,6 +22,8 @@ namespace Proficient
             SettingsForm form1 = new SettingsForm();
             form1.checkBox1.Checked = Properties.Settings.Default.switchenlarged;
             form1.pipespaceupdown.Value = Properties.Settings.Default.pipedist;
+            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            form1.lblVersion.Text = $"Proficient Version {assemblyVersion}"; 
             
             foreach (Workset ws in wscol)
             {

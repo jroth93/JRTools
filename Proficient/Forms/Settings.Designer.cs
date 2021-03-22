@@ -41,6 +41,7 @@
             this.mechbox = new System.Windows.Forms.GroupBox();
             this.pipespaceupdown = new System.Windows.Forms.NumericUpDown();
             this.pipespacelbl = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.wkstbox.SuspendLayout();
             this.frame.SuspendLayout();
             this.txtsettingsbox.SuspendLayout();
@@ -207,6 +208,14 @@
             this.pipespacelbl.TabIndex = 0;
             this.pipespacelbl.Text = "Pipe Spacing on 1/8\" Plan (inches):";
             // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(13, 255);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(0, 13);
+            this.lblVersion.TabIndex = 7;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okbutton;
@@ -216,6 +225,7 @@
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.CancelButton = this.cancelbutton;
             this.ClientSize = new System.Drawing.Size(428, 285);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.cancelbutton);
             this.Controls.Add(this.okbutton);
             this.Controls.Add(this.frame);
@@ -237,6 +247,7 @@
             this.mechbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pipespaceupdown)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -255,5 +266,6 @@
         private System.Windows.Forms.GroupBox txtsettingsbox;
         private System.Windows.Forms.Label txtstylelbl;
         public System.Windows.Forms.ComboBox defaulttext;
+        public System.Windows.Forms.Label lblVersion;
     }
 }
