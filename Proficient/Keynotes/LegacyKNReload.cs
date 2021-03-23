@@ -48,7 +48,7 @@ namespace Proficient
                 XL.Range rng = ws.UsedRange;
                 for (int row = 1; row <= rng.Rows.Count; row++)
                 {
-                    KeynoteEntry ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value, ws.Name, rng.Cells[row, 2].Value);
+                    KeynoteEntry ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value ?? String.Empty, ws.Name, rng.Cells[row, 2].Value ?? String.Empty);
                     if(ke != null) knList.Add(ke);
                 }
                     
