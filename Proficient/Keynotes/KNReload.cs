@@ -12,6 +12,7 @@ namespace Proficient
     {
         private static List<KeynoteEntry> knList;
         private static RevitTask rvtTask = new RevitTask();
+        public static Guid dbID;
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
             AsyncGetKN(revit);
@@ -30,7 +31,7 @@ namespace Proficient
         private static void RvtKNWork(Document doc)
         {
             ExternalService externalResourceService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.ExternalResourceService);
-            ExternalResourceDBServer knSrv = externalResourceService.GetServer(new Guid("5F3CAA13-F073-4F93-BDC2-B7F4B806CDAF")) as ExternalResourceDBServer;
+            ExternalResourceDBServer knSrv = externalResourceService.GetServer(dbID) as ExternalResourceDBServer;
             knSrv.knList = knList;
 
             using (Transaction tx = new Transaction(doc, "Reload Keynotes"))

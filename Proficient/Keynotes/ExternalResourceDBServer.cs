@@ -52,12 +52,14 @@ namespace Proficient
     /// </summary>
     public class ExternalResourceDBServer : IExternalResourceServer
     {
-
+        private Guid dbGuid;
         /// <summary>
         /// Default constructor
         /// </summary>
         public ExternalResourceDBServer()
-        { 
+        {
+            dbGuid = Guid.NewGuid();
+            KNReload.dbID = dbGuid;
         }
 
         // Methods that must be implemented by a server for any of Revit's external services
@@ -74,7 +76,7 @@ namespace Proficient
         /// Uniquely identifies this server to Revit's ExternalService registry
         public System.Guid GetServerId()
         {
-            return new Guid("5F3CAA13-F073-4F93-BDC2-B7F4B806CDAF");
+            return dbGuid;
         }
 
         /// <summary>
