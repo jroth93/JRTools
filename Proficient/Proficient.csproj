@@ -383,9 +383,7 @@
     <EmbeddedResource Include="images\ducttoggle.png" />
     <EmbeddedResource Include="images\damper.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="Microsoft.Graph">
       <Version>3.27.0</Version>
