@@ -64,7 +64,8 @@ namespace Proficient
                 string[][] rngarray = rng.Text.ToObject<string[][]>();
                 foreach (string[] row in rngarray)
                 {
-                    knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
+                    if(row[0] != null && row[0] != String.Empty && row[1] != null && row[1] != String.Empty)
+                        knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
                 }
             }
 
