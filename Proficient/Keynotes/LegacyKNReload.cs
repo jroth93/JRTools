@@ -48,8 +48,12 @@ namespace Proficient
                 XL.Range rng = ws.UsedRange;
                 for (int row = 1; row <= rng.Rows.Count; row++)
                 {
-                    KeynoteEntry ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value ?? String.Empty, ws.Name, rng.Cells[row, 2].Value ?? String.Empty);
-                    if(ke != null) knList.Add(ke);
+                    KeynoteEntry ke = null;
+                    if (rng.Cells[row, 1].Value != null && rng.Cells[row, 1].Value != String.Empty && rng.Cells[row, 2].Value != null && rng.Cells[row, 2].Value != String.Empty)
+                    {
+                        ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value, ws.Name, rng.Cells[row, 2].Value);
+                        knList.Add(ke);
+                    }
                 }
                     
             }
@@ -77,8 +81,6 @@ namespace Proficient
 
         private static KeynoteEntry MacroFilePatch(string wsName, XL.Range rng, int row)
         {
-            if (rng.Cells[row, 1].Value == null || rng.Cells[row, 2].Value == null) return null;
-
             if (wsName.Contains("DEMO") && row <= 100)
             {
                 if (row <= 10) return new KeynoteEntry($"{wsName[0]}00{rng.Cells[row, 1].Value}", wsName, rng.Cells[row, 2].Value);
