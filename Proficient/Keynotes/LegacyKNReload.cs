@@ -26,7 +26,7 @@ namespace Proficient
 
             string filePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
             
-            string fileDir = doc.IsModelInCloud ? Util.GetProjectFolder(revit) : Path.GetDirectoryName(filePath);
+            string fileDir = filePath.Substring(0, 7) == "BIM 360" ? Util.GetProjectFolder(revit) : Path.GetDirectoryName(filePath);
             if (String.IsNullOrEmpty(fileDir)) return Result.Cancelled;
 
             string xlPath = Util.GetKNXLPath(fileDir, pn);

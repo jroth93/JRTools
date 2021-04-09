@@ -1,10 +1,5 @@
-﻿using System;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI.Selection;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Proficient
@@ -18,7 +13,7 @@ namespace Proficient
             Document doc = uidoc.Document;
             ElementId viewid = uidoc.ActiveView.Id;
             View curview = doc.GetElement(viewid) as View;
-            IList<ElementId> ids = uidoc.Selection.GetElementIds() as IList<ElementId>;
+
             XYZ pl = uidoc.Selection.PickPoint();
             XYZ pt = uidoc.Selection.PickPoint();
 
@@ -26,8 +21,6 @@ namespace Proficient
             TextNoteType txttype = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Where(type => type.Name == Properties.Settings.Default.defaulttxt).ElementAt(0) as TextNoteType;
             TextNoteOptions txtoptions = new TextNoteOptions(txttype.Id);
 
-            //TextNote txt = (doc.GetElement(ids[0]) as TextNote);
-            //Leader ldr = txt.GetLeaders()[0];
             using (Transaction tx = new Transaction(doc, "Remove Line Breaks"))
             {
                 if (tx.Start() == TransactionStatus.Started)

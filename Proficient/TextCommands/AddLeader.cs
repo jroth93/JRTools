@@ -20,11 +20,13 @@ namespace Proficient
             View curview = doc.GetElement(viewid) as View;
             IList<ElementId> ids = uidoc.Selection.GetElementIds() as IList<ElementId>;
             if(ids.Count() == 0)
-            {
-                ids.Add(doc.GetElement(uidoc.Selection.PickObject(ObjectType.Element, "Pick Text")).Id);
-            }
+                ids.Add(doc.GetElement(uidoc.Selection.PickObject(ObjectType.Element, "Pick Element")).Id);
             ElementId txtid = ids.Where(id => (doc.GetElement(id) as TextNote) != null).FirstOrDefault();
-            TextNote txt = (doc.GetElement(txtid) as TextNote);           
+
+            //"MEI Callout"
+
+
+            TextNote txt = (doc.GetElement(txtid) as TextNote);      
 
             if(txt == null)
             {
