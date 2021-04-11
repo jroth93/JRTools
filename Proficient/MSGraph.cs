@@ -1,54 +1,40 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
 using Microsoft.Identity.Client;
-using Microsoft.Identity.Client.Desktop;
 using Microsoft.Graph;
+using Microsoft.Graph.Auth;
 using Autodesk.Revit.DB;
+using Newtonsoft.Json;
 
 namespace Proficient
 {
     class MSGraph
     {
-        private const string ClientId = "426adfbc-cda1-4e53-9bae-aa82b37fc517";
-        private const string AMGroupId = "38a7fa3e-0f52-4c33-b715-1340f32dad99";
-        private const string KNFolderId = "01AAUGCRWA5BSGF2DQMBCL5V3BW7RSB7RG";
-        private const string TemplateId = "01AAUGCRTZZR7LCABIIVA2HBKWWY4GF7BI";
-        private static readonly ItemReference knFolderRef = new ItemReference
-        {
-            DriveId = "b!2pgXE-Qovk-1_2bf_HJCnVl303IJuEpEpfObtEUOEGL7uA0dLT_bT68uwGNQa5FO",
-            Id = "01AAUGCRWA5BSGF2DQMBCL5V3BW7RSB7RG"
-        };
-
-        static string[] scopes = new string[] { "files.readwrite.all" };
-        public static IPublicClientApplication PublicClientApp { get; set; }
-
+        private static GraphConfig config;
+        private const string configFile = @"Z:\Revit\Custom Add Ins\Proficient Config Files\appsettings.json";
+        
         public static async void OpenKNFile(string pn)
         {
-            GraphServiceClient graphClient = await SignInAndInitializeGraphServiceClient();
-
+            GraphServiceClient graphClient = await GetGraphClient();
             var file = await GetKNFile(graphClient, pn);
-
             System.Diagnostics.Process.Start(file.WebUrl);
         }
 
         public static async Task<List<KeynoteEntry>> GetKNData(string pn)
         {
             List<KeynoteEntry> knList = new List<KeynoteEntry>();
-
-            GraphServiceClient graphClient = await SignInAndInitializeGraphServiceClient();
+            GraphServiceClient graphClient = await GetGraphClient();
             
             var curFile = await GetKNFile(graphClient, pn);
 
-            var session = await graphClient.Groups[AMGroupId].Drive.Items[curFile.Id].Workbook
+            var session = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook
                 .CreateSession(false)
                 .Request()
                 .PostAsync();
 
-            var xlFile = await graphClient.Groups[AMGroupId].Drive.Items[curFile.Id].Workbook.Worksheets
+            var xlFile = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook.Worksheets
                 .Request()
                 .Header("workbook-session-id", $"{session.Id}")
                 .GetAsync();
@@ -57,7 +43,7 @@ namespace Proficient
             {
                 knList.Add(new KeynoteEntry(ws.Name, string.Empty, string.Empty));
                 Console.WriteLine(ws.Name);
-                WorkbookRange rng = await graphClient.Groups[AMGroupId].Drive.Items[curFile.Id].Workbook.Worksheets[ws.Id].Range().UsedRange()
+                WorkbookRange rng = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook.Worksheets[ws.Id].Range().UsedRange()
                     .Request()
                     .Header("workbook-session-id", $"{session.Id}")
                     .GetAsync();
@@ -69,7 +55,7 @@ namespace Proficient
                 }
             }
 
-            await graphClient.Groups[AMGroupId].Drive.Items[curFile.Id].Workbook
+            await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook
                 .CloseSession()
                 .Request()
                 .Header("workbook-session-id", $"{session.Id}")
@@ -80,7 +66,7 @@ namespace Proficient
 
         private static async Task<DriveItem> GetKNFile(GraphServiceClient graphClient, string pn)
         {
-            var files = await graphClient.Groups[AMGroupId].Drive.Items[KNFolderId].Children
+            var files = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[config.KeynoteFolderId].Children
                 .Request()
                 .GetAsync();
 
@@ -92,14 +78,20 @@ namespace Proficient
             {
                 var name = $"{pn}.xlsx";
 
-                await graphClient.Groups[AMGroupId].Drive.Items[TemplateId]
+                ItemReference knFolderRef = new ItemReference
+                {
+                    DriveId = config.KeynoteFolderDriveId,
+                    Id = config.KeynoteFolderId
+                };
+
+                await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[config.TemplateId]
                             .Copy(name, knFolderRef)
                             .Request()
                             .PostAsync();
 
                 do
                 {
-                    files = await graphClient.Groups[AMGroupId].Drive.Items[KNFolderId].Children
+                    files = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[config.KeynoteFolderId].Children
                         .Request()
                         .GetAsync();
                 }
@@ -109,49 +101,24 @@ namespace Proficient
             }
         }
 
-        private async static Task<GraphServiceClient> SignInAndInitializeGraphServiceClient()
+        private async static Task<GraphServiceClient> GetGraphClient()
         {
-            GraphServiceClient graphClient = new GraphServiceClient("https://graph.microsoft.com/v1.0/",
-                new DelegateAuthenticationProvider(async (requestMessage) => {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", await SignInUserAndGetTokenUsingMSAL());
-                }));
+            string json = System.IO.File.ReadAllText(configFile);
+            config = JsonConvert.DeserializeObject<GraphConfig>(json);            
 
-            return await Task.FromResult(graphClient);
-        }
-
-        private static async Task<string> SignInUserAndGetTokenUsingMSAL()
-        {
-            // Initialize the MSAL library by building a public client application
-            PublicClientApp = PublicClientApplicationBuilder.Create(ClientId)
-                .WithAuthority(@"https://login.microsoftonline.com/common")
-                .WithDefaultRedirectUri()
-                .WithExperimentalFeatures()
-                .WithWindowsBroker(true)
+            IConfidentialClientApplication app = ConfidentialClientApplicationBuilder
+                .Create(config.ClientId)
+                .WithClientSecret(config.ClientSecret)
+                .WithAuthority(new Uri(config.Authority))
                 .Build();
 
-            IAccount firstAccount = Microsoft.Identity.Client.PublicClientApplication.OperatingSystemAccount;
+            string[] scopes = new string[] { $"{config.ApiUrl}.default" };
 
-            AuthenticationResult authResult;
-            try
-            {
-                authResult = await PublicClientApp.AcquireTokenSilent(scopes, firstAccount)
-                                                  .ExecuteAsync();
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                PublicClientApp = PublicClientApplicationBuilder.Create(ClientId)
-                    .WithAuthority(@"https://login.microsoftonline.com/common")
-                    .WithDefaultRedirectUri()
-                    .Build();
-                // A MsalUiRequiredException happened on AcquireTokenSilentAsync. This indicates you need to call AcquireTokenAsync to acquire a token
-                Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
+            ClientCredentialProvider authProvider = new ClientCredentialProvider(app);
 
-                authResult = await PublicClientApp.AcquireTokenInteractive(scopes)
-                                                  .ExecuteAsync()
-                                                  .ConfigureAwait(false);
+            GraphServiceClient graphClient = new GraphServiceClient(authProvider);
 
-            }
-            return authResult.AccessToken;
+            return await Task.FromResult(graphClient);
         }
     }
 }
