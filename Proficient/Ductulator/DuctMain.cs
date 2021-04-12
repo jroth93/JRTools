@@ -1,14 +1,9 @@
-﻿using System;
+﻿using org.mariuszgromada.math.mxparser;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using org.mariuszgromada.math.mxparser;
+using System.Windows.Forms;
 
 namespace Proficient
 {
@@ -19,7 +14,7 @@ namespace Proficient
             InitializeComponent();
             this.TopMost = Properties.Settings.Default.appontop;
             this.ActiveControl = Airflowtxt1;
-            if(Properties.Settings.Default.appvertical) {VerticalApplication();}
+            if (Properties.Settings.Default.appvertical) { VerticalApplication(); }
         }
 
         private void Tab1Control(object sender, EventArgs e)
@@ -27,7 +22,7 @@ namespace Proficient
             TotalCFM.Text = "";
             Output1.Text = "";
             Output2.Text = "";
-            Output10.Text = "";           
+            Output10.Text = "";
 
             List<string> inputs = new List<string>() { Airflowtxt1.Text, Frictiontxt1.Text, Depthmintxt1.Text, Depthmaxtxt1.Text };
 
@@ -42,8 +37,8 @@ namespace Proficient
             int maxdepth = Convert.ToInt32(new Expression(inputs[3]).calculate());
 
             Match result = Regex.Match(inputs[0], Constants.numpattern);
-            TotalCFM.Text = result.Success ? "" : $"{Convert.ToInt32(airflow)} CFM Total";           
-           
+            TotalCFM.Text = result.Success ? "" : $"{Convert.ToInt32(airflow)} CFM Total";
+
             List<string> outputs = Backend.AirflowFriction(airflow, friction, mindepth, maxdepth);
 
             Output1.Text = outputs[0];
@@ -59,7 +54,7 @@ namespace Proficient
             Output4.Text = "";
             Output11.Text = "";
 
-            List<string> inputs = new List<string>() {Airflowtxt2.Text, Veltxt1.Text, Depthmintxt2.Text, Depthmaxtxt2.Text};
+            List<string> inputs = new List<string>() { Airflowtxt2.Text, Veltxt1.Text, Depthmintxt2.Text, Depthmaxtxt2.Text };
 
             if (Parser(inputs) == false)
             {
@@ -86,7 +81,7 @@ namespace Proficient
 
         private void Tab3Control(object sender, EventArgs e)
         {
-            
+
             Boolean boolrnd = radiornd1.Checked;
             Depthlbl1.Visible = !boolrnd;
             Depthtxt1.Visible = !boolrnd;
@@ -109,7 +104,7 @@ namespace Proficient
             TotalCFM3.Text = "";
             Output5.Text = "";
 
-            List<string> inputs = boolrnd ? new List<string>() { Airflowtxt3.Text, Diatxt1.Text} : new List<string>() { Airflowtxt3.Text, Widthtxt1.Text, Depthtxt1.Text };
+            List<string> inputs = boolrnd ? new List<string>() { Airflowtxt3.Text, Diatxt1.Text } : new List<string>() { Airflowtxt3.Text, Widthtxt1.Text, Depthtxt1.Text };
 
             if (Parser(inputs) == false)
             {
@@ -128,7 +123,7 @@ namespace Proficient
             int velocity = Convert.ToInt32(Functions.Velocitysolver(airflow, dia, width, depth, boolrnd));
             double friction = Math.Ceiling(Functions.Frictionsolver(airflow, dia, width, depth, boolrnd) * Constants.fprecision) / Constants.fprecision;
 
-            Output5.Text = $"{friction} In./100 ft.\n\n{velocity} FPM";            
+            Output5.Text = $"{friction} In./100 ft.\n\n{velocity} FPM";
         }
 
         private void Tab4Control(object sender, EventArgs e)
@@ -143,7 +138,7 @@ namespace Proficient
             label6.Visible = !boolrnd;
             label7.Visible = !boolrnd;
 
-            if(boolrnd & Properties.Settings.Default.appvertical)
+            if (boolrnd & Properties.Settings.Default.appvertical)
             {
                 Output6.Location = new Point(40, 130);
             }
@@ -208,8 +203,8 @@ namespace Proficient
             int width = boolrnd ? 0 : Convert.ToInt32(new Expression(inputs[1]).calculate());
             int depth = boolrnd ? 0 : Convert.ToInt32(new Expression(inputs[2]).calculate());
 
-            int airflow = Convert.ToInt32(boolrnd ? velocity * Math.PI * Math.Pow(dia, 2) / 576 : velocity * width * depth/144.0);
-            double friction = Convert.ToInt32(Functions.Frictionsolver(airflow, dia, width, depth, boolrnd)* Constants.fprecision) / Constants.fprecision;
+            int airflow = Convert.ToInt32(boolrnd ? velocity * Math.PI * Math.Pow(dia, 2) / 576 : velocity * width * depth / 144.0);
+            double friction = Convert.ToInt32(Functions.Frictionsolver(airflow, dia, width, depth, boolrnd) * Constants.fprecision) / Constants.fprecision;
 
             Output8.Text = $"{airflow} CFM\n\n{friction} In./100 ft.";
         }
@@ -223,7 +218,7 @@ namespace Proficient
             widthtxt4.Visible = !boolrnd;
             depthtxt4.Visible = !boolrnd;
             depthlbl6.Visible = !boolrnd;
-            label18.Top = boolrnd? 89 : 127;
+            label18.Top = boolrnd ? 89 : 127;
             depthmintxt3.Top = boolrnd ? 92 : 130;
             depthmaxtxt3.Top = boolrnd ? 92 : 130;
             label15.Top = boolrnd ? 95 : 133;
@@ -240,7 +235,7 @@ namespace Proficient
 
             Output9.Text = "";
 
-            List<string> inputs = boolrnd ? new List<string>() {diatxt4.Text, "1", depthmintxt3.Text, depthmaxtxt3.Text } : new List<string>() { widthtxt4.Text, depthtxt4.Text, depthmintxt3.Text, depthmaxtxt3.Text };
+            List<string> inputs = boolrnd ? new List<string>() { diatxt4.Text, "1", depthmintxt3.Text, depthmaxtxt3.Text } : new List<string>() { widthtxt4.Text, depthtxt4.Text, depthmintxt3.Text, depthmaxtxt3.Text };
 
             if (Parser(inputs) == false)
             {
@@ -263,7 +258,7 @@ namespace Proficient
 
         public bool Parser(List<string> inputs)
         {
-            
+
             foreach (string input in inputs)
             {
                 Match result = Regex.Match(input, Constants.pattern);
@@ -282,7 +277,7 @@ namespace Proficient
 
         private void WindowSize(int size)
         {
-            if(Properties.Settings.Default.appvertical)
+            if (Properties.Settings.Default.appvertical)
             {
                 this.Height = size > 170 ? size + 300 : 450;
             }
@@ -290,7 +285,7 @@ namespace Proficient
             {
                 this.Height = size > 150 ? size + 130 : 275;
             }
-                
+
         }
 
         private void SettingsButtonClick(object sender, EventArgs e)
@@ -305,7 +300,7 @@ namespace Proficient
             this.Width = 330;
             this.Height = 450;
             //tab1
-            pictureBox1.Location = new Point(255,5);
+            pictureBox1.Location = new Point(255, 5);
             Output1.Location = new Point(40, 165);
             Output2.Location = new Point(110, 165);
             Output10.Location = new Point(170, 165);
@@ -321,7 +316,8 @@ namespace Proficient
             Output8.Location = new Point(40, 170);
             //tab6
             Output9.Location = new Point(40, 170);
-;        }
+            ;
+        }
 
         // Drag from any point on form
         public const int WM_NCLBUTTONDOWN = 0xA1;

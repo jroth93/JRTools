@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * AstronomicalConstants - class representing the most important astronomical constants.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -78,147 +79,148 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.0.0
 	 */
-	[CLSCompliant(true)]
-	public sealed class AstronomicalConstants {
-		/**
+    [CLSCompliant(true)]
+    public sealed class AstronomicalConstants
+    {
+        /**
 		 * Light year
 		 */
-		public const double LIGHT_YEAR = PhysicalConstants.LIGHT_SPEED * Units.JULIAN_YEAR;
-		/**
+        public const double LIGHT_YEAR = PhysicalConstants.LIGHT_SPEED * Units.JULIAN_YEAR;
+        /**
 		 * Astronomical unit
 		 */
-		public const double ASTRONOMICAL_UNIT = 149597870700.0 * Units.METRE;
-		/**
+        public const double ASTRONOMICAL_UNIT = 149597870700.0 * Units.METRE;
+        /**
 		 * Parsec
 		 */
-		public const double PARSEC = 206264.806247096 * ASTRONOMICAL_UNIT;
-		/**
+        public const double PARSEC = 206264.806247096 * ASTRONOMICAL_UNIT;
+        /**
 		 * Kiloparsec
 		 */
-		public const double KILOPARSEC = Units.KILO * PARSEC;
-		/**
+        public const double KILOPARSEC = Units.KILO * PARSEC;
+        /**
 		 * Earth equatorial radius
 		 */
-		public const double EARTH_RADIUS_EQUATORIAL = 6378.1370 * Units.KILOMETRE;
-		/**
+        public const double EARTH_RADIUS_EQUATORIAL = 6378.1370 * Units.KILOMETRE;
+        /**
 		 * Earth polar radius
 		 */
-		public const double EARTH_RADIUS_POLAR = 6356.7523 * Units.KILOMETRE;
-		/**
+        public const double EARTH_RADIUS_POLAR = 6356.7523 * Units.KILOMETRE;
+        /**
 		 * Earth mean radius
 		 */
-		public const double EARTH_RADIUS_MEAN = 6371.0088 * Units.KILOMETRE;
-		/**
+        public const double EARTH_RADIUS_MEAN = 6371.0088 * Units.KILOMETRE;
+        /**
 		 * Earth mass
 		 */
-		public const double EARTH_MASS = 5.9722 * Units.YOTTA * Units.KILOGRAM;
-		/**
+        public const double EARTH_MASS = 5.9722 * Units.YOTTA * Units.KILOGRAM;
+        /**
 		 * Earth semi-major axis
 		 */
-		public const double EARTH_SEMI_MAJOR_AXIS = 1.000001018 * ASTRONOMICAL_UNIT;
-		/**
+        public const double EARTH_SEMI_MAJOR_AXIS = 1.000001018 * ASTRONOMICAL_UNIT;
+        /**
 		 * Moon mean radius
 		 */
-		public const double MOON_RADIUS_MEAN = 1737.1 * Units.KILOMETRE;
-		/**
+        public const double MOON_RADIUS_MEAN = 1737.1 * Units.KILOMETRE;
+        /**
 		 * Moon mass
 		 */
-		public const double MOON_MASS = 0.012300037 * EARTH_MASS;
-		/**
+        public const double MOON_MASS = 0.012300037 * EARTH_MASS;
+        /**
 		 * Moon semi-major axis
 		 */
-		public const double MONN_SEMI_MAJOR_AXIS = 384399 * Units.KILOMETRE;
-		/**
+        public const double MONN_SEMI_MAJOR_AXIS = 384399 * Units.KILOMETRE;
+        /**
 		 * Solar radius
 		 */
-		public const double SOLAR_RADIUS = 695700 * Units.KILOMETRE;
-		/**
+        public const double SOLAR_RADIUS = 695700 * Units.KILOMETRE;
+        /**
 		 * Solar mass
 		 */
-		public const double SOLAR_MASS = 332946.0487 * EARTH_MASS;
-		/**
+        public const double SOLAR_MASS = 332946.0487 * EARTH_MASS;
+        /**
 		 * Mercury radius
 		 */
-		public const double MERCURY_RADIUS_MEAN = 2439.7 * Units.KILOMETRE;
-		/**
+        public const double MERCURY_RADIUS_MEAN = 2439.7 * Units.KILOMETRE;
+        /**
 		 * Mercury mass
 		 */
-		public const double MERCURY_MASS = 0.0553 * EARTH_MASS;
-		/**
+        public const double MERCURY_MASS = 0.0553 * EARTH_MASS;
+        /**
 		 * Mercury semi-major axis
 		 */
-		public const double MERCURY_SEMI_MAJOR_AXIS = 0.387098 * ASTRONOMICAL_UNIT;
-		/**
+        public const double MERCURY_SEMI_MAJOR_AXIS = 0.387098 * ASTRONOMICAL_UNIT;
+        /**
 		 * Venus radius
 		 */
-		public const double VENUS_RADIUS_MEAN = 6051.8 * Units.KILOMETRE;
-		/**
+        public const double VENUS_RADIUS_MEAN = 6051.8 * Units.KILOMETRE;
+        /**
 		 * Venus mass
 		 */
-		public const double VENUS_MASS = 0.815 * EARTH_MASS;
-		/**
+        public const double VENUS_MASS = 0.815 * EARTH_MASS;
+        /**
 		 * Venus semi-major axis
 		 */
-		public const double VENUS_SEMI_MAJOR_AXIS = 0.723332 * ASTRONOMICAL_UNIT;
-		/**
+        public const double VENUS_SEMI_MAJOR_AXIS = 0.723332 * ASTRONOMICAL_UNIT;
+        /**
 		 * Mars radius
 		 */
-		public const double MARS_RADIUS_MEAN = 3389.5 * Units.KILOMETRE;
-		/**
+        public const double MARS_RADIUS_MEAN = 3389.5 * Units.KILOMETRE;
+        /**
 		 * Mars mass
 		 */
-		public const double MARS_MASS = 0.107 * EARTH_MASS;
-		/**
+        public const double MARS_MASS = 0.107 * EARTH_MASS;
+        /**
 		 * Mars semi-major axis
 		 */
-		public const double MARS_SEMI_MAJOR_AXIS = 1.523679 * ASTRONOMICAL_UNIT;
-		/**
+        public const double MARS_SEMI_MAJOR_AXIS = 1.523679 * ASTRONOMICAL_UNIT;
+        /**
 		 * Jupiter radius
 		 */
-		public const double JUPITER_RADIUS_MEAN = 69911 * Units.KILOMETRE;
-		/**
+        public const double JUPITER_RADIUS_MEAN = 69911 * Units.KILOMETRE;
+        /**
 		 * Jupiter mass
 		 */
-		public const double JUPITER_MASS = 317.8 * EARTH_MASS;
-		/**
+        public const double JUPITER_MASS = 317.8 * EARTH_MASS;
+        /**
 		 * Jupiter semi-major axis
 		 */
-		public const double JUPITER_SEMI_MAJOR_AXIS = 5.20260 * ASTRONOMICAL_UNIT;
-		/**
+        public const double JUPITER_SEMI_MAJOR_AXIS = 5.20260 * ASTRONOMICAL_UNIT;
+        /**
 		 * Saturn radius
 		 */
-		public const double SATURN_RADIUS_MEAN = 58232 * Units.KILOMETRE;
-		/**
+        public const double SATURN_RADIUS_MEAN = 58232 * Units.KILOMETRE;
+        /**
 		 * Saturn mass
 		 */
-		public const double SATURN_MASS = 95.159 * EARTH_MASS;
-		/**
+        public const double SATURN_MASS = 95.159 * EARTH_MASS;
+        /**
 		 * Saturn semi-major axis
 		 */
-		public const double SATURN_SEMI_MAJOR_AXIS = 9.5549 * ASTRONOMICAL_UNIT;
-		/**
+        public const double SATURN_SEMI_MAJOR_AXIS = 9.5549 * ASTRONOMICAL_UNIT;
+        /**
 		 * Uranus radius
 		 */
-		public const double URANUS_RADIUS_MEAN = 25362 * Units.KILOMETRE;
-		/**
+        public const double URANUS_RADIUS_MEAN = 25362 * Units.KILOMETRE;
+        /**
 		 * Uranus mass
 		 */
-		public const double URANUS_MASS = 14.536 * EARTH_MASS;
-		/**
+        public const double URANUS_MASS = 14.536 * EARTH_MASS;
+        /**
 		 * Uranus semi-major axis
 		 */
-		public const double URANUS_SEMI_MAJOR_AXIS = 19.2184 * ASTRONOMICAL_UNIT;
-		/**
+        public const double URANUS_SEMI_MAJOR_AXIS = 19.2184 * ASTRONOMICAL_UNIT;
+        /**
 		 * Neptune radius
 		 */
-		public const double NEPTUNE_RADIUS_MEAN = 24622 * Units.KILOMETRE;
-		/**
+        public const double NEPTUNE_RADIUS_MEAN = 24622 * Units.KILOMETRE;
+        /**
 		 * Neptune mass
 		 */
-		public const double NEPTUNE_MASS = 17.147 * EARTH_MASS;
-		/**
+        public const double NEPTUNE_MASS = 17.147 * EARTH_MASS;
+        /**
 		 * Neptune semi-major axis
 		 */
-		public const double NEPTUNE_SEMI_MAJOR_AXIS = 30.110387 * ASTRONOMICAL_UNIT;
-	}
+        public const double NEPTUNE_SEMI_MAJOR_AXIS = 30.110387 * ASTRONOMICAL_UNIT;
+    }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Proficient
 {
@@ -32,7 +28,7 @@ namespace Proficient
                         int count = rpm.GetNumberOfRules(RoutingPreferenceRuleGroupType.Junctions);
                         if (count > 1)
                         {
-                            
+
                             for (int i = 1; i <= count; i++)
                             {
                                 rprList.Add(rpm.GetRule(RoutingPreferenceRuleGroupType.Junctions, 0));
@@ -57,7 +53,7 @@ namespace Proficient
 
                 tx.Commit();
 
-                Util.BalloonTip("Routing Preferences Updated", alert, String.Empty);                
+                Util.BalloonTip("Routing Preferences Updated", alert, String.Empty);
             }
 
             return Result.Succeeded;

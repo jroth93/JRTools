@@ -1,11 +1,9 @@
-﻿using System;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Proficient
 {
@@ -19,9 +17,9 @@ namespace Proficient
 
             IList<ElementId> selectedIds = uidoc.Selection.GetElementIds() as IList<ElementId>;
 
-            if (selectedIds.Count>0)
+            if (selectedIds.Count > 0)
             {
-                
+
                 foreach (ElementId elemid in selectedIds)
                 {
                     using (Transaction tx = new Transaction(doc, "Flip"))
@@ -57,7 +55,7 @@ namespace Proficient
                         if (tx.Start() == TransactionStatus.Started)
                         {
                             if (faminst.CanFlipFacing) { faminst.flipFacing(); }
-                            if ((faminst.MEPModel as MechanicalFitting).PartType.ToString()  == "Tee") { FlipTee(uidoc, doc, faminst); }
+                            if ((faminst.MEPModel as MechanicalFitting).PartType.ToString() == "Tee") { FlipTee(uidoc, doc, faminst); }
                         }
                         tx.Commit();
                     }

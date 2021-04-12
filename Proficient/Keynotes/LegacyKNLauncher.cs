@@ -1,7 +1,7 @@
-using System;
-using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -15,8 +15,8 @@ namespace Proficient
             Document doc = revit.Application.ActiveUIDocument.Document;
 
             string pn = Util.GetProjectNumber(revit);
-            if (String.IsNullOrEmpty(pn)) return Result.Cancelled; 
-            
+            if (String.IsNullOrEmpty(pn)) return Result.Cancelled;
+
             string filePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath()) ?? doc.PathName;
             string fileDir = Path.GetDirectoryName(filePath).Substring(0, 7) == "BIM 360" ? Util.GetProjectFolder(revit) : Path.GetDirectoryName(filePath);
             if (String.IsNullOrEmpty(fileDir)) return Result.Cancelled;
@@ -28,18 +28,18 @@ namespace Proficient
             try
             {
                 xl = Marshal.GetActiveObject("Excel.Application") as Excel.Application;
-                foreach(Excel.Workbook wb in xl.Workbooks) if (wb.Name == Path.GetFileName(xlPath)) isOpen = true;
+                foreach (Excel.Workbook wb in xl.Workbooks) if (wb.Name == Path.GetFileName(xlPath)) isOpen = true;
             }
-            catch(COMException)
+            catch (COMException)
             {
                 xl = new Excel.Application();
             }
 
-            if(!isOpen) xl.Workbooks.Open(xlPath);
+            if (!isOpen) xl.Workbooks.Open(xlPath);
 
             SetForegroundWindow(FindWindow(null, xl.Caption));
-            xl.Visible = true;            
-            
+            xl.Visible = true;
+
             return Result.Succeeded;
         }
 

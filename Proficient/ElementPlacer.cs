@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
 
 
 namespace Proficient
@@ -34,8 +34,8 @@ namespace Proficient
                 td.Show();
                 return Result.Failed;
             }
-            
-            if(!pathcurve.IsBound)
+
+            if (!pathcurve.IsBound)
             {
                 TaskDialog td = new TaskDialog("Unbounded Curve");
                 td.MainContent = "Please try again with a bounded curve.";
@@ -52,7 +52,7 @@ namespace Proficient
                 elfs = elfi.Symbol;
                 ishosted = elfi.Host == null ? false : true;
             }
-            catch(System.NullReferenceException)
+            catch (System.NullReferenceException)
             {
                 TaskDialog td = new TaskDialog("Invalid Element Selection");
                 td.MainContent = "Invalid Element Selection. Please try again.";
@@ -64,18 +64,18 @@ namespace Proficient
             bool rbnm = true;
             double usrin = 0.0;
             double offset = 0.0;
-            while(true)
+            while (true)
             {
                 pef.ShowDialog();
-                if(pef.DialogResult == System.Windows.Forms.DialogResult.Cancel) { return Result.Cancelled;}
+                if (pef.DialogResult == System.Windows.Forms.DialogResult.Cancel) { return Result.Cancelled; }
                 rbnm = pef.radionumber.Checked;
                 try
                 {
                     usrin = Convert.ToDouble(pef.textBox1.Text);
                     offset = rbnm ? 0 : Convert.ToDouble(pef.startoffset.Text);
                     break;
-                } 
-                catch(System.FormatException)
+                }
+                catch (System.FormatException)
                 {
                     TaskDialog td = new TaskDialog("Invalid Form Entry");
                     td.MainContent = "Invalid Entry. Please try again.";
@@ -85,7 +85,7 @@ namespace Proficient
 
             pef.Close();
 
-            double stepsize = rbnm ? pathcurve.Length/(usrin-1) : usrin;
+            double stepsize = rbnm ? pathcurve.Length / (usrin - 1) : usrin;
             double dist = offset == 0 ? 0 : stepsize - offset;
 
             List<XYZ> tess = new List<XYZ>();
@@ -97,9 +97,9 @@ namespace Proficient
             {
                 List<double> eval = new List<double>();
 
-                if(rbnm)
+                if (rbnm)
                 {
-                    for(int i=0; i<usrin; i++)
+                    for (int i = 0; i < usrin; i++)
                     {
                         pts.Add(pathcurve.Evaluate(i * stepsize / pathcurve.Length, true));
                         newdir.Add(pathcurve.ComputeDerivatives(i * stepsize / pathcurve.Length, true).get_Basis(0));
@@ -109,7 +109,7 @@ namespace Proficient
                 else
                 {
                     double curlen = offset;
-                    while(curlen < pathcurve.Length)
+                    while (curlen < pathcurve.Length)
                     {
                         pts.Add(pathcurve.Evaluate(curlen / pathcurve.Length, true));
                         newdir.Add(pathcurve.ComputeDerivatives(curlen / pathcurve.Length, true).get_Basis(0));
@@ -129,7 +129,7 @@ namespace Proficient
                 }
 
                 XYZ p = pathcurve.GetEndPoint(0);
-                
+
                 foreach (XYZ q in tess)
                 {
                     if (0 == pts.Count && 0 == offset)
@@ -162,7 +162,7 @@ namespace Proficient
                         newdir.Add(deriv.Last());
                         break;
                     }
-                } 
+                }
             }
 
             using (Transaction tx = new Transaction(doc, "Place Elements"))
@@ -172,7 +172,7 @@ namespace Proficient
                     foreach (XYZ pt in pts)
                     {
                         FamilyInstance newel = ishosted ?
-                            doc.Create.NewFamilyInstance(elfi.HostFace, pt, new XYZ(1, 0, 0), elfs):
+                            doc.Create.NewFamilyInstance(elfi.HostFace, pt, new XYZ(1, 0, 0), elfs) :
                             doc.Create.NewFamilyInstance(pt, elfs, view.GenLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
 
                         Line rotax = Line.CreateBound(pt, pt.Add(XYZ.BasisZ));

@@ -57,8 +57,9 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
 
-namespace org.mariuszgromada.math.mxparser {
-	/**
+namespace org.mariuszgromada.math.mxparser
+{
+    /**
 	 * RecursiveArgument class enables to declare the argument
 	 * (variable) which is defined in a recursive way. Such an argument
 	 * can be used in further processing in expressions, functions and dependent
@@ -112,43 +113,45 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see Function
 	 * @see Constant
 	 */
-	[CLSCompliant(true)]
-	public class RecursiveArgument : Argument {
-		/**
+    [CLSCompliant(true)]
+    public class RecursiveArgument : Argument
+    {
+        /**
 		 * Type identifier for recursive arguments.
 		 */
-		public const int TYPE_ID_RECURSIVE			= 102;
-		public const String TYPE_DESC_RECURSIVE		= "User defined recursive argument";
-		/**
+        public const int TYPE_ID_RECURSIVE = 102;
+        public const String TYPE_DESC_RECURSIVE = "User defined recursive argument";
+        /**
 		 * Base values
 		 */
-		private List<Double> baseValues;
-		/**
+        private List<Double> baseValues;
+        /**
 		 * To avoid never ending loops
 		 */
-		private int recursiveCounter;
-		private int startingIndex;
-		/**
+        private int recursiveCounter;
+        private int startingIndex;
+        /**
 		 * Constructor - creates recursive argument.
 		 *
 		 * @param      argumentName                  the argument name
 		 * @param      recursiveExpressionString     the recursive expression string
 		 * @param      indexName                     index argument name
 		 */
-		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName)
-			: base(argumentName, recursiveExpressionString)
-		{
-			if (argumentName.Equals(this.getArgumentName())) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				this.n = new Argument(indexName);
-				base.argumentExpression.addArguments(n);
-				base.argumentExpression.addArguments(this);
-				base.argumentExpression.setDescription(argumentName);
-				recursiveCounter = -1;
-			}
-		}
-		/**
+        public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName)
+            : base(argumentName, recursiveExpressionString)
+        {
+            if (argumentName.Equals(this.getArgumentName()))
+            {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                this.n = new Argument(indexName);
+                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.setDescription(argumentName);
+                recursiveCounter = -1;
+            }
+        }
+        /**
 		 * Constructor - creates recursive argument.
 		 *
 		 * @param      argumentName                  the argument name
@@ -160,21 +163,22 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        PrimitiveElement
 		 * @see        Argument
 		 */
-		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements)
-			: base(argumentName, recursiveExpressionString)
-		{
-			if (argumentName.Equals(this.getArgumentName())) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				this.n = n;
-				base.argumentExpression.addArguments(n);
-				base.argumentExpression.addArguments(this);
-				base.argumentExpression.addDefinitions(elements);
-				base.argumentExpression.setDescription(argumentName);
-				recursiveCounter = -1;
-			}
-		}
-		/**
+        public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements)
+            : base(argumentName, recursiveExpressionString)
+        {
+            if (argumentName.Equals(this.getArgumentName()))
+            {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                this.n = n;
+                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.addDefinitions(elements);
+                base.argumentExpression.setDescription(argumentName);
+                recursiveCounter = -1;
+            }
+        }
+        /**
 		 * Constructor - creates argument based on the argument definition string.
 		 *
 		 * @param      argumentDefinitionString        Argument definition string, i.e.:
@@ -193,136 +197,149 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 * @see    Argument
 		 */
-		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
-		{
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				recursiveCounter = -1;
-				base.argumentExpression.addArguments(base.n);
-				base.argumentExpression.addArguments(this);
-				base.argumentExpression.addDefinitions(elements);
-				base.argumentExpression.setDescription(argumentDefinitionString);
-			}
-			else {
-				base.argumentExpression = new Expression();
-				base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
-			}
-		}
-		/**
+        public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
+        {
+            if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp))
+            {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                recursiveCounter = -1;
+                base.argumentExpression.addArguments(base.n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.addDefinitions(elements);
+                base.argumentExpression.setDescription(argumentDefinitionString);
+            }
+            else
+            {
+                base.argumentExpression = new Expression();
+                base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
+            }
+        }
+        /**
 		 * Adds base case
 		 *
 		 * @param      index               the base case index
 		 * @param      value               the base case value
 		 */
-		public void addBaseCase(int index, double value) {
-			int recSize = baseValues.Count;
-			if (index > recSize-1) {
-				/*
+        public void addBaseCase(int index, double value)
+        {
+            int recSize = baseValues.Count;
+            if (index > recSize - 1)
+            {
+                /*
 				 * Expand base values array if necessary
 				 */
-				for (int i = recSize; i < index; i++)
-					baseValues.Add( Double.NaN );
-				baseValues.Add(value);
-			} else
-				baseValues[index] = value;
-		}
-		/**
+                for (int i = recSize; i < index; i++)
+                    baseValues.Add(Double.NaN);
+                baseValues.Add(value);
+            }
+            else
+                baseValues[index] = value;
+        }
+        /**
 		 * Clears all based cases and stored calculated values
 		 */
-		public void resetAllCases()
-		{
-			baseValues.Clear();
-			recursiveCounter = -1;
-		}
-		/**
+        public void resetAllCases()
+        {
+            baseValues.Clear();
+            recursiveCounter = -1;
+        }
+        /**
 		 * Gets recursive argument value
 		 *
 		 * @param      index               the index
 		 *
 		 * @return     value as double
 		 */
-		public double getArgumentValue(double index) {
-			/*
+        public double getArgumentValue(double index)
+        {
+            /*
 			 * Remember starting index
 			 */
-			if (recursiveCounter == -1)
-				startingIndex = (int)Math.Round(index);
-			int recSize = baseValues.Count;
-			int idx = (int)Math.Round(index);
-			/*
+            if (recursiveCounter == -1)
+                startingIndex = (int)Math.Round(index);
+            int recSize = baseValues.Count;
+            int idx = (int)Math.Round(index);
+            /*
 			 * Count recursive calls
 			 */
-			recursiveCounter++;
-			if ((recursiveCounter <= startingIndex) && (idx <= startingIndex)) {
-				/*
+            recursiveCounter++;
+            if ((recursiveCounter <= startingIndex) && (idx <= startingIndex))
+            {
+                /*
 				 * if recursive counter is still lower than starting index
 				 * and current index is not increasing
 				 */
-				if ((idx >= 0) && (idx < recSize) && (!Double.IsNaN( baseValues[idx] )) ) {
-					/*
+                if ((idx >= 0) && (idx < recSize) && (!Double.IsNaN(baseValues[idx])))
+                {
+                    /*
 					 * decrease recursive counter and return value
 					 * if recursive value for the current index was already
 					 * calculated and remembered in the base values table
 					 */
-					recursiveCounter--;
-					return baseValues[idx];
-				}
-				else if (idx >= 0) {
-					/*
+                    recursiveCounter--;
+                    return baseValues[idx];
+                }
+                else if (idx >= 0)
+                {
+                    /*
 					 * value is to be calculated by the recursive calls
 					 */
-					/*
+                    /*
 					 * Set n to the current index
 					 */
-					n.setArgumentValue(idx);
-					/*
+                    n.setArgumentValue(idx);
+                    /*
 					 * create new expression
 					 */
-					Expression newExp = new Expression(
-							base.argumentExpression.expressionString
-							,base.argumentExpression.argumentsList
-							,base.argumentExpression.functionsList
-							,base.argumentExpression.constantsList
-							,Expression.INTERNAL
-							,base.argumentExpression.UDFExpression
-							,base.argumentExpression.UDFVariadicParamsAtRunTime);
-					newExp.setDescription(base.getArgumentName());
-					//newExp.setRecursiveMode();
-					if (base.getVerboseMode() == true)
-					{
-						//System.out.println(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
-						newExp.setVerboseMode();
-					}
-					/*
+                    Expression newExp = new Expression(
+                            base.argumentExpression.expressionString
+                            , base.argumentExpression.argumentsList
+                            , base.argumentExpression.functionsList
+                            , base.argumentExpression.constantsList
+                            , Expression.INTERNAL
+                            , base.argumentExpression.UDFExpression
+                            , base.argumentExpression.UDFVariadicParamsAtRunTime);
+                    newExp.setDescription(base.getArgumentName());
+                    //newExp.setRecursiveMode();
+                    if (base.getVerboseMode() == true)
+                    {
+                        //System.out.println(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
+                        newExp.setVerboseMode();
+                    }
+                    /*
 					 * perform recursive call
 					 */
-					double value = newExp.calculate();
-					/*
+                    double value = newExp.calculate();
+                    /*
 					 * remember calculated in the base values array
 					 */
-					addBaseCase(idx, value);
-					/*
+                    addBaseCase(idx, value);
+                    /*
 					 * decrease recursive counter and return value
 					 */
-					recursiveCounter--;
-					return value;
-				} else {
-					/*
+                    recursiveCounter--;
+                    return value;
+                }
+                else
+                {
+                    /*
 					 * decrease recursive counter and
 					 * return Double.NaN for negative index call
 					 */
-					recursiveCounter--;
-					return Double.NaN;
-				}
-			} else {
-				/* stop never ending loop
+                    recursiveCounter--;
+                    return Double.NaN;
+                }
+            }
+            else
+            {
+                /* stop never ending loop
 				 * decrease recursive counter and
 				 * return Double.NaN
 				 */
-				recursiveCounter--;
-				return Double.NaN;
-			}
-		}
-	}
+                recursiveCounter--;
+                return Double.NaN;
+            }
+        }
+    }
 }

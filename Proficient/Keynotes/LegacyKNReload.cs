@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExternalService;
-using XL = Microsoft.Office.Interop.Excel;
+using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
+using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
 {
@@ -25,7 +23,7 @@ namespace Proficient
             if (String.IsNullOrEmpty(pn)) return Result.Cancelled;
 
             string filePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
-            
+
             string fileDir = filePath.Substring(0, 7) == "BIM 360" ? Util.GetProjectFolder(revit) : Path.GetDirectoryName(filePath);
             if (String.IsNullOrEmpty(fileDir)) return Result.Cancelled;
 
@@ -55,7 +53,7 @@ namespace Proficient
                         knList.Add(ke);
                     }
                 }
-                    
+
             }
 
             wb.Close(false);
@@ -90,6 +88,6 @@ namespace Proficient
             {
                 return new KeynoteEntry($"{wsName[0]}{rng.Cells[row, 1].Value}", wsName, rng.Cells[row, 2].Value);
             }
-        }        
+        }
     }
 }

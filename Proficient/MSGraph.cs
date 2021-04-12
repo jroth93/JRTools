@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Identity.Client;
+﻿using Autodesk.Revit.DB;
 using Microsoft.Graph;
 using Microsoft.Graph.Auth;
-using Autodesk.Revit.DB;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Proficient
 {
@@ -14,7 +14,7 @@ namespace Proficient
     {
         private static GraphConfig config;
         private const string configFile = @"Z:\Revit\Custom Add Ins\Proficient Config Files\appsettings.json";
-        
+
         public static async void OpenKNFile(string pn)
         {
             GraphServiceClient graphClient = await GetGraphClient();
@@ -26,7 +26,7 @@ namespace Proficient
         {
             List<KeynoteEntry> knList = new List<KeynoteEntry>();
             GraphServiceClient graphClient = await GetGraphClient();
-            
+
             var curFile = await GetKNFile(graphClient, pn);
 
             var session = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook
@@ -41,17 +41,18 @@ namespace Proficient
 
             foreach (var ws in xlFile)
             {
-                knList.Add(new KeynoteEntry(ws.Name, string.Empty, string.Empty));
                 Console.WriteLine(ws.Name);
                 WorkbookRange rng = await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook.Worksheets[ws.Id].Range().UsedRange()
                     .Request()
                     .Header("workbook-session-id", $"{session.Id}")
                     .GetAsync();
-                string[][] rngarray = rng.Text.ToObject<string[][]>();
-                foreach (string[] row in rngarray)
+
+                foreach (var row in rng.Values.RootElement.EnumerateArray())
                 {
-                    if(row[0] != null && row[0] != String.Empty && row[1] != null && row[1] != String.Empty)
-                        knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
+                    string key = row[0].GetString();
+                    string note = row[1].GetString();
+                    if (key != null && key != String.Empty && note != null && note != String.Empty)
+                        knList.Add(new KeynoteEntry(key, ws.Name, note));
                 }
             }
 
@@ -59,7 +60,7 @@ namespace Proficient
                 .CloseSession()
                 .Request()
                 .Header("workbook-session-id", $"{session.Id}")
-                .PostAsync();            
+                .PostAsync();
 
             return knList;
         }
@@ -104,7 +105,7 @@ namespace Proficient
         private async static Task<GraphServiceClient> GetGraphClient()
         {
             string json = System.IO.File.ReadAllText(configFile);
-            config = JsonConvert.DeserializeObject<GraphConfig>(json);            
+            config = JsonConvert.DeserializeObject<GraphConfig>(json);
 
             IConfidentialClientApplication app = ConfidentialClientApplicationBuilder
                 .Create(config.ClientId)
@@ -115,7 +116,6 @@ namespace Proficient
             string[] scopes = new string[] { $"{config.ApiUrl}.default" };
 
             ClientCredentialProvider authProvider = new ClientCredentialProvider(app);
-
             GraphServiceClient graphClient = new GraphServiceClient(authProvider);
 
             return await Task.FromResult(graphClient);

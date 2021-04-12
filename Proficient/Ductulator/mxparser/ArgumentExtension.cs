@@ -55,9 +55,10 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser {
+namespace org.mariuszgromada.math.mxparser
+{
 
-	/**
+    /**
 	 * ArgumentExtension provides interface for argument algorithm definition.
 	 * Argument can be interpreted as function with no (zero) parameters.
 	 * In this case algorithm definition is based on source code using
@@ -90,15 +91,16 @@ namespace org.mariuszgromada.math.mxparser {
 	 *
 	 * @see Argument
 	 */
-	[CLSCompliant(true)]
-	public interface ArgumentExtension {
-		/**
+    [CLSCompliant(true)]
+    public interface ArgumentExtension
+    {
+        /**
 		 * Actual algorithm implementation.
 		 *
 		 * @return Argument Extension value.
 		 */
-		double getArgumentValue();
-		/**
+        double getArgumentValue();
+        /**
 		 * Cloning in case of usage in Expression
 		 * with recursive statements.
 		 *
@@ -106,6 +108,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see Expression#getRecursiveMode()
 		 */
-		ArgumentExtension clone();
-	}
+        ArgumentExtension clone();
+    }
 }

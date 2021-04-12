@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI.Selection;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +16,7 @@ namespace Proficient
             View curview = doc.GetElement(viewid) as View;
 
             var selectedids = uidoc.Selection.GetElementIds() as IEnumerable<ElementId>;
-            if (selectedids.Count() == 0) {return Result.Cancelled;}
+            if (selectedids.Count() == 0) { return Result.Cancelled; }
 
             var els = selectedids.Select(id => doc.GetElement(id) as TextElement).Where(el => el != null);
 
@@ -42,7 +38,7 @@ namespace Proficient
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;
-            
+
         }
     }
 }

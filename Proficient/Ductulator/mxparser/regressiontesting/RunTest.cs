@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.regressiontesting {
-	/**
+namespace org.mariuszgromada.math.mxparser.regressiontesting
+{
+    /**
 	 * Use this class to run one of the following test
 	 * <ul>
 	 * <li>Param: reg - Expression regression test
@@ -85,8 +86,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *
 	 * @version        4.3.0
 	 */
-	public class RunTest {
-		/**
+    public class RunTest
+    {
+        /**
 		 * Use this class to run one of the following test
 		 * <ul>
 		 * <li>Param: reg - Expression regression test
@@ -99,59 +101,65 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 *              Param: syn - Syntax checking test, perf - Performance test
 		 * @return Number of tests with error result.
 		 */
-		public static int Start(params string[] args) {
-			int nError = 0;
-			if (args != null)
-				foreach (String test in args) {
-					if (test.Equals("reg")) {
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln("=== Expression regression tests - Starting");
-						nError += RegTestExpression.Start();
-						mXparser.consolePrintln("=== Expression regression tests - Finished");
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-					}
-					if (test.Equals("api")) {
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln("=== mXparser API regression test - Starting");
-						nError += RegTestExpressionAPI.Start();
-						mXparser.consolePrintln("=== mXparser API regression test - Finished");
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-					}
-					if (test.Equals("syn")) {
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
-						nError += RegTestSyntax.Start();
-						mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-					}
-					if (test.Equals("perf")) {
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln("=== Performance tests - Starting");
-						nError += PerformanceTests.Start();
-						mXparser.consolePrintln("=== Performance tests - Finished");
-						mXparser.consolePrintln("====================================================================");
-						mXparser.consolePrintln();
-						mXparser.consolePrintln();
-					}
-				}
-			mXparser.resetCancelCurrentCalculationFlag();
-			return nError;
-		}
-		/**
+        public static int Start(params string[] args)
+        {
+            int nError = 0;
+            if (args != null)
+                foreach (String test in args)
+                {
+                    if (test.Equals("reg"))
+                    {
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln("=== Expression regression tests - Starting");
+                        nError += RegTestExpression.Start();
+                        mXparser.consolePrintln("=== Expression regression tests - Finished");
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                    }
+                    if (test.Equals("api"))
+                    {
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln("=== mXparser API regression test - Starting");
+                        nError += RegTestExpressionAPI.Start();
+                        mXparser.consolePrintln("=== mXparser API regression test - Finished");
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                    }
+                    if (test.Equals("syn"))
+                    {
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
+                        nError += RegTestSyntax.Start();
+                        mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                    }
+                    if (test.Equals("perf"))
+                    {
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln("=== Performance tests - Starting");
+                        nError += PerformanceTests.Start();
+                        mXparser.consolePrintln("=== Performance tests - Finished");
+                        mXparser.consolePrintln("====================================================================");
+                        mXparser.consolePrintln();
+                        mXparser.consolePrintln();
+                    }
+                }
+            mXparser.resetCancelCurrentCalculationFlag();
+            return nError;
+        }
+        /**
 		 * Use this class to run one of the following test
 		 * <ul>
 		 * <li>Param: reg - Expression regression test
@@ -163,9 +171,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param args  reg - Expression regression test, api - mXparser API test
 		 *              Param: syn - Syntax checking test, perf - Performance test
 		 */
-		public static void Main(string[] args) {
-			Start(args);
-			mXparser.resetCancelCurrentCalculationFlag();
-		}
-	}
+        public static void Main(string[] args)
+        {
+            Start(args);
+            mXparser.resetCancelCurrentCalculationFlag();
+        }
+    }
 }

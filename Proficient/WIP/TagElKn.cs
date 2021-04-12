@@ -1,12 +1,7 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI.Selection;
 
 namespace Proficient
 {
@@ -18,13 +13,13 @@ namespace Proficient
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = revit.Application.ActiveUIDocument.Document;
             ElementId viewid = uidoc.ActiveView.Id;
-            View view = doc.GetElement(viewid) as View;          
+            View view = doc.GetElement(viewid) as View;
 
             FilteredElementCollector coll = new FilteredElementCollector(doc).WherePasses(new ElementClassFilter(typeof(FamilySymbol)));
             ElementId knfamid = coll.Where(el => (el as FamilySymbol).FamilyName.Contains("MEI Keynote Tag")).First().Id as ElementId;
             var fsel = coll
                 .Select(el => el.LookupParameter("Keynote"))
-                .Where(el=>el !=null && el.HasValue == true)
+                .Where(el => el != null && el.HasValue == true)
                 .Select(el => el.Element);
 
             FilteredElementCollector elcoll = GetMEPElements(doc);
@@ -39,7 +34,7 @@ namespace Proficient
                         {
                             if (el.GetTypeId() == fel.Id)
                             {
-                                Reference newref = new Reference(el);                                                              
+                                Reference newref = new Reference(el);
                                 IndependentTag newkn = IndependentTag.Create(doc, knfamid, viewid, newref, true, TagOrientation.Horizontal, (el.Location as LocationPoint).Point);
                                 newkn.get_Parameter(BuiltInParameter.KEY_VALUE).Set(fel.LookupParameter("Keynote").AsString());
                                 newkn.LeaderEndCondition = LeaderEndCondition.Attached;
@@ -60,7 +55,7 @@ namespace Proficient
         static FilteredElementCollector GetMEPElements(Document doc)
         {
 
-                BuiltInCategory[] bics = new BuiltInCategory[] {
+            BuiltInCategory[] bics = new BuiltInCategory[] {
                 BuiltInCategory.OST_CableTray,
                 BuiltInCategory.OST_CableTrayFitting,
                 BuiltInCategory.OST_Conduit,

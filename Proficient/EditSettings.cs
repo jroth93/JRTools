@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System;
+using System.Linq;
+using System.Reflection;
 
 
 namespace Proficient
@@ -23,11 +20,11 @@ namespace Proficient
             form1.checkBox1.Checked = Properties.Settings.Default.switchenlarged;
             form1.pipespaceupdown.Value = Properties.Settings.Default.pipedist;
             string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            form1.lblVersion.Text = $"Proficient Version {assemblyVersion}"; 
-            
+            form1.lblVersion.Text = $"Proficient Version {assemblyVersion}";
+
             foreach (Workset ws in wscol)
             {
-                if(ws.Kind == WorksetKind.UserWorkset)
+                if (ws.Kind == WorksetKind.UserWorkset)
                 {
                     form1.defaultworkset.Items.Add(ws.Name);
                 }
@@ -62,6 +59,6 @@ namespace Proficient
 
             return Result.Succeeded;
         }
-                
+
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using System.Runtime.InteropServices;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
@@ -62,9 +61,9 @@ namespace Proficient
             {
                 if (ex.Message.Contains("being used by another process"))
                 {
-                    string newPath = 
-                        Path.GetExtension(xlPath) == ".xlsx" ? 
-                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : 
+                    string newPath =
+                        Path.GetExtension(xlPath) == ".xlsx" ?
+                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" :
                         Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
                     File.Copy(xlPath, newPath);
                     xlPath = newPath;
@@ -75,7 +74,7 @@ namespace Proficient
             wb = xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
 
             return (wb.Worksheets as IEnumerable<XL.Worksheet>).Select(ws => ws.Name).ToArray();
-            
+
         }
 
         private static dynamic GetCellVal(int row, int col, string parType, DisplayUnitType dispUnit)
@@ -284,7 +283,7 @@ namespace Proficient
                     }
                 }
             }
-            
+
 
             return errorLog;
         }
@@ -342,7 +341,7 @@ namespace Proficient
                     }
                 }
             }
-            
+
 
             return errorLog;
         }

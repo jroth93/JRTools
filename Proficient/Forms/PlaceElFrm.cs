@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Proficient
@@ -22,7 +15,7 @@ namespace Proficient
 
         private void radionumber_CheckedChanged(object sender, EventArgs e)
         {
-            if(radionumber.Checked)
+            if (radionumber.Checked)
             {
                 txtlabel.Text = "Number of Elements:";
                 startoffsetlbl.Visible = false;
@@ -32,7 +25,7 @@ namespace Proficient
 
         private void radiooffset_CheckedChanged(object sender, EventArgs e)
         {
-            if(radiooffset.Checked)
+            if (radiooffset.Checked)
             {
                 txtlabel.Text = "Distance between Elements (ft):";
                 startoffset.Visible = true;

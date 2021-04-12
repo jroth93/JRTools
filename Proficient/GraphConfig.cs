@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Globalization;
-using System.IO;
 
 namespace Proficient
 {
@@ -18,7 +16,7 @@ namespace Proficient
         /// instance of Azure AD, for example public Azure or a Sovereign cloud (Azure China, Germany, US government, etc ...)
         /// </summary>
         public string Instance { get; set; } = "https://login.microsoftonline.com/{0}";
-       
+
         /// <summary>
         /// Graph API endpoint, could be public Azure (default) or a Sovereign cloud (US government, etc ...)
         /// </summary>
@@ -57,7 +55,7 @@ namespace Proficient
         /// (and identified by the CertificateName property belows)
         /// <remarks> 
         public string ClientSecret { get; set; }
-        
+
         public string AllMorrisseyGroupId { get; set; }
         public string KeynoteFolderDriveId { get; set; }
         public string KeynoteFolderId { get; set; }

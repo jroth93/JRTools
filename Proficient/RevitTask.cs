@@ -48,7 +48,7 @@ public class RevitTask
         return task;
     }
 
-        /// <summary>
+    /// <summary>
     /// Sets required <paramref name="act"/> as a body
     /// of <see cref="IExternalEventHandler.Execute(UIApplication)"/>
     /// method and raises related <see cref="Autodesk.Revit.UI.ExternalEvent"/>

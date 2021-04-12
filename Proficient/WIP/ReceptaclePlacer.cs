@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Linq;
 
 namespace Proficient
 {
@@ -15,17 +11,17 @@ namespace Proficient
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-            UIApplication app = revit.Application; 
+            UIApplication app = revit.Application;
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             Selection sel = uidoc.Selection;
             Space sp = doc.GetElement(sel.GetElementIds().First()) as Space;
-            var bsList = sp.GetBoundarySegments(new SpatialElementBoundaryOptions())[0].Select(x=>x.GetCurve() as Curve);
+            var bsList = sp.GetBoundarySegments(new SpatialElementBoundaryOptions())[0].Select(x => x.GetCurve() as Curve);
             double per = bsList.Select(x => x.Length).Sum();
 
             View view = doc.GetElement(uidoc.ActiveView.Id) as View;
 
-            
+
 
             using (Transaction tx = new Transaction(doc, "commandname"))
             {

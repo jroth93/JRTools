@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser {
-	/**
+namespace org.mariuszgromada.math.mxparser
+{
+    /**
 	 * FunctionExtensionVariadic similarly to FunctionExtension
 	 * provides interface for function algorithm definition.
 	 * FunctionExtension is used for user defined functions with
@@ -95,16 +96,17 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see Function
 	 *
 	 */
-	[CLSCompliant(true)]
-	public interface FunctionExtensionVariadic {
-		/**
+    [CLSCompliant(true)]
+    public interface FunctionExtensionVariadic
+    {
+        /**
 		 * Actual algorithm implementation.
 		 * @param parameters Variadic list of parameters
 		 *
 		 * @return Function Extension value.
 		 */
-		double calculate(params double[] parameters);
-		/**
+        double calculate(params double[] parameters);
+        /**
 		 * Cloning in case of usage in Expression
 		 * with recursive statements.
 		 *
@@ -112,6 +114,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see Expression#getRecursiveMode()
 		 */
-		FunctionExtensionVariadic clone();
-	}
+        FunctionExtensionVariadic clone();
+    }
 }

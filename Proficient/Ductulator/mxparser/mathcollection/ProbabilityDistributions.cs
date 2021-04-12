@@ -59,8 +59,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * ProbabilityDistributions - random number generators, PDF - Probability Distribution Functions,
 	 * CDF - Cumulative Distribution Functions, QNT - Quantile Functions (Inverse Cumulative Distribution
 	 * Functions).
@@ -84,13 +85,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.3.0
 	 */
-	[CLSCompliant(true)]
-	public class ProbabilityDistributions {
-		/**
+    [CLSCompliant(true)]
+    public class ProbabilityDistributions
+    {
+        /**
 		 * Random number generator
 		 */
-		public static Random randomGenerator = new Random();
-		/**
+        public static Random randomGenerator = new Random();
+        /**
 		 * Random number from Uniform Continuous distribution over interval [a, b).
 		 *
 		 * @param a       Interval limit - left / lower.
@@ -99,42 +101,46 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise returns random number.
 		 */
-		public static double rndUniformContinuous(double a, double b, Random rnd) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (b < a) return Double.NaN;
-			if (a == b) return a;
-			double r = a + rnd.NextDouble() * (b - a);
-			return r;
-		}
-		/**
+        public static double rndUniformContinuous(double a, double b, Random rnd)
+        {
+            if (Double.IsNaN(a)) return Double.NaN;
+            if (Double.IsNaN(b)) return Double.NaN;
+            if (b < a) return Double.NaN;
+            if (a == b) return a;
+            double r = a + rnd.NextDouble() * (b - a);
+            return r;
+        }
+        /**
 		 * Random number from dUniform Continuous distribution over interval [a, b).
 		 * @param a       Interval limit - left / lower.
 		 * @param b       Interval limit - right / upper.
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise returns random number.
 		 */
-		public static double rndUniformContinuous(double a, double b) {
-			return rndUniformContinuous(a, b, randomGenerator);
-		}
-		/**
+        public static double rndUniformContinuous(double a, double b)
+        {
+            return rndUniformContinuous(a, b, randomGenerator);
+        }
+        /**
 		 * Random number from Uniform Continuous distribution over interval [0, 1).
 		 *
 		 * @param rnd     Random number generator.
 		 * @return        Random number.
 		 */
-		public static double rndUniformContinuous(Random rnd) {
-			return rnd.NextDouble();
-		}
-		/**
+        public static double rndUniformContinuous(Random rnd)
+        {
+            return rnd.NextDouble();
+        }
+        /**
 		 * Random number from Uniform Continuous distribution over interval [0, 1).
 		 *
 		 * @return        Random number.
 		 */
-		public static double randomUniformContinuous() {
-			return rndUniformContinuous(randomGenerator);
-		}
-		/**
+        public static double randomUniformContinuous()
+        {
+            return rndUniformContinuous(randomGenerator);
+        }
+        /**
 		 * PDF - Probability Distribution Function - Uniform Continuous distribution
 		 * over interval [a, b).
 		 *
@@ -144,21 +150,23 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise function value.
 		 */
-		public static double pdfUniformContinuous(double x, double a, double b) {
-			if (Double.IsNaN(x)) return Double.NaN;
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (b < a) return Double.NaN;
-			if (a == b) {
-				if (x == a) return 1;
-				else return 0;
-			}
-			if ((x < a) || (x > b)) return 0;
-			if (x == Double.NegativeInfinity) return 0.0;
-			if (x == Double.PositiveInfinity) return 0.0;
-			return 1.0 / (b - a);
-		}
-		/**
+        public static double pdfUniformContinuous(double x, double a, double b)
+        {
+            if (Double.IsNaN(x)) return Double.NaN;
+            if (Double.IsNaN(a)) return Double.NaN;
+            if (Double.IsNaN(b)) return Double.NaN;
+            if (b < a) return Double.NaN;
+            if (a == b)
+            {
+                if (x == a) return 1;
+                else return 0;
+            }
+            if ((x < a) || (x > b)) return 0;
+            if (x == Double.NegativeInfinity) return 0.0;
+            if (x == Double.PositiveInfinity) return 0.0;
+            return 1.0 / (b - a);
+        }
+        /**
 		 * CDF - Cumulative Distribution Function - Uniform Continuous distribution
 		 * over interval [a, b).
 		 *
@@ -168,22 +176,24 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise function value.
 		 */
-		public static double cdfUniformContinuous(double x, double a, double b) {
-			if (Double.IsNaN(x)) return Double.NaN;
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (b < a) return Double.NaN;
-			if (a == b) {
-				if (x < a) return 0.0;
-				else return 1.0;
-			}
-			if (x < a) return 0.0;
-			if (x >= b) return 1.0;
-			if (x == Double.NegativeInfinity) return 0.0;
-			if (x == Double.PositiveInfinity) return 1.0;
-			return (x - a) / (b - a);
-		}
-		/**
+        public static double cdfUniformContinuous(double x, double a, double b)
+        {
+            if (Double.IsNaN(x)) return Double.NaN;
+            if (Double.IsNaN(a)) return Double.NaN;
+            if (Double.IsNaN(b)) return Double.NaN;
+            if (b < a) return Double.NaN;
+            if (a == b)
+            {
+                if (x < a) return 0.0;
+                else return 1.0;
+            }
+            if (x < a) return 0.0;
+            if (x >= b) return 1.0;
+            if (x == Double.NegativeInfinity) return 0.0;
+            if (x == Double.PositiveInfinity) return 1.0;
+            return (x - a) / (b - a);
+        }
+        /**
 		 * QNT - Quantile Function - Uniform Continuous distribution over interval [a, b).
 		 * (Inverse of Cumulative Distribution Function).
 		 *
@@ -194,21 +204,23 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                or q is lower than 0 or q is greater than 1 -
 		 *                otherwise function value.
 		 */
-		public static double qntUniformContinuous(double q, double a, double b) {
-			if (Double.IsNaN(q)) return Double.NaN;
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if ((q < 0.0) || (q > 1.0)) return Double.NaN;
-			if (b < a) return Double.NaN;
-			if (a == b) {
-				if (q == 1.0) return b;
-				else return Double.NaN;
-			}
-			if (q == 0.0) return a;
-			if (q == 1.0) return b;
-			return a + q * (b - a);
-		}
-		/**
+        public static double qntUniformContinuous(double q, double a, double b)
+        {
+            if (Double.IsNaN(q)) return Double.NaN;
+            if (Double.IsNaN(a)) return Double.NaN;
+            if (Double.IsNaN(b)) return Double.NaN;
+            if ((q < 0.0) || (q > 1.0)) return Double.NaN;
+            if (b < a) return Double.NaN;
+            if (a == b)
+            {
+                if (q == 1.0) return b;
+                else return Double.NaN;
+            }
+            if (q == 0.0) return a;
+            if (q == 1.0) return b;
+            return a + q * (b - a);
+        }
+        /**
 		 * Random number from Uniform Discrete distribution.
 		 * over set interval (a, a+1, ..., b-1, b).
 		 *
@@ -218,16 +230,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise returns random number.
 		 */
-		public static double rndInteger(int a, int b, Random rnd) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (b < a) return Double.NaN;
-			if (a == b) return a;
-			int n = (b - a) + 1;
-			int r = a + rnd.Next(n);
-			return r;
-		}
-		/**
+        public static double rndInteger(int a, int b, Random rnd)
+        {
+            if (Double.IsNaN(a)) return Double.NaN;
+            if (Double.IsNaN(b)) return Double.NaN;
+            if (b < a) return Double.NaN;
+            if (a == b) return a;
+            int n = (b - a) + 1;
+            int r = a + rnd.Next(n);
+            return r;
+        }
+        /**
 		 * Random number from Uniform Discrete distribution.
 		 * over set interval (a, a+1, ..., b-1, b).
 		 *
@@ -236,49 +249,54 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise returns random number.
 		 */
-		public static double rndInteger(int a, int b) {
-			return rndInteger(a, b, randomGenerator);
-		}
-		/**
+        public static double rndInteger(int a, int b)
+        {
+            return rndInteger(a, b, randomGenerator);
+        }
+        /**
 		 * Random integer.
 		 *
 		 * @param rnd     Random number generator.
 		 * @return        Returns random number.
 		 */
-		public static int rndInteger(Random rnd) {
-			return rnd.Next(int.MinValue, int.MaxValue);
-		}
-		/**
+        public static int rndInteger(Random rnd)
+        {
+            return rnd.Next(int.MinValue, int.MaxValue);
+        }
+        /**
 		 * Random index from 0 to n-1,
 		 *
 		 * @param n          Bound.
 		 * @param rnd        Random number generator.
 		 * @return           if n &lt; 0 returns -1, otherwise random index.
 		 */
-		public static int rndIndex(int n, Random rnd) {
-			if (n < 0) return -1;
-			return rnd.Next(n);
-		}
-		/**
+        public static int rndIndex(int n, Random rnd)
+        {
+            if (n < 0) return -1;
+            return rnd.Next(n);
+        }
+        /**
 		 * Random index from 0 to n-1,
 		 *
 		 * @param n          Bound.
 		 * @return           if n &lt; 0 returns -1, otherwise random index.
 		 */
-		public static int rndIndex(int n) {
-			if (n < 0) return -1;
-			return randomGenerator.Next(n);
-		}
-		/**
+        public static int rndIndex(int n)
+        {
+            if (n < 0) return -1;
+            return randomGenerator.Next(n);
+        }
+        /**
 		 * Random integer.
 		 *
 		 * @return        Double.NaN if a or b is null, or b is lower than a -
 		 *                otherwise returns random number.
 		 */
-		public static int rndInteger() {
-			return rndInteger(randomGenerator);
-		}
-		/**
+        public static int rndInteger()
+        {
+            return rndInteger(randomGenerator);
+        }
+        /**
 		 * Random number from normal distribution N(mean, stddev).
 		 *
 		 * @param mean              Mean value.
@@ -287,35 +305,40 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                  Double.NaN if mean or stddev or rnd is null or stddev is lower than 0 -
 		 *                          otherwise random number.
 		 */
-		public static double rndNormal(double mean, double stddev, Random rnd) {
-			if (Double.IsNaN(mean)) return Double.NaN;
-			if (Double.IsNaN(stddev)) return Double.NaN;
-			if (rnd == null) return Double.NaN;
-			if (stddev < 0) return Double.NaN;
-			if (stddev == 0) return mean;
-			double x, a, v1;
-			double b, v2;
-			double r, fac;
-			bool polarTransform;
-			do {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				a = rnd.NextDouble();
-				b = rnd.NextDouble();
-				v1 = 2.0 * a - 1.0;
-				v2 = 2.0 * b - 1.0;
-				r = (v1 * v1) + (v2 * v2);
-				if (r >= 1.0 || r == 0.0) {
-					x = 0.0;
-					polarTransform = false;
-				} else {
-					fac = MathFunctions.sqrt(-2.0 * MathFunctions.ln(r) / r);
-					x = v1 * fac;
-					polarTransform = true;
-				}
-			} while (!polarTransform);
-			return mean + (stddev * x);
-		}
-		/**
+        public static double rndNormal(double mean, double stddev, Random rnd)
+        {
+            if (Double.IsNaN(mean)) return Double.NaN;
+            if (Double.IsNaN(stddev)) return Double.NaN;
+            if (rnd == null) return Double.NaN;
+            if (stddev < 0) return Double.NaN;
+            if (stddev == 0) return mean;
+            double x, a, v1;
+            double b, v2;
+            double r, fac;
+            bool polarTransform;
+            do
+            {
+                if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                a = rnd.NextDouble();
+                b = rnd.NextDouble();
+                v1 = 2.0 * a - 1.0;
+                v2 = 2.0 * b - 1.0;
+                r = (v1 * v1) + (v2 * v2);
+                if (r >= 1.0 || r == 0.0)
+                {
+                    x = 0.0;
+                    polarTransform = false;
+                }
+                else
+                {
+                    fac = MathFunctions.sqrt(-2.0 * MathFunctions.ln(r) / r);
+                    x = v1 * fac;
+                    polarTransform = true;
+                }
+            } while (!polarTransform);
+            return mean + (stddev * x);
+        }
+        /**
 		 * Random number from normal distribution N(mean, stddev).
 		 *
 		 * @param mean              Mean value.
@@ -323,10 +346,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 		 *                          otherwise random number.
 		 */
-		public static double rndNormal(double mean, double stddev) {
-			return rndNormal(mean, stddev, randomGenerator);
-		}
-		/**
+        public static double rndNormal(double mean, double stddev)
+        {
+            return rndNormal(mean, stddev, randomGenerator);
+        }
+        /**
 		 * PDF - Probability Distribution Function - Normal distribution N(mean, stddev).
 		 *
 		 * @param x                 Point to evaluate pdf function.
@@ -335,21 +359,23 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 		 *                          otherwise function value.
 		 */
-		public static double pdfNormal(double x, double mean, double stddev) {
-			if (Double.IsNaN(x)) return Double.NaN;
-			if (Double.IsNaN(mean)) return Double.NaN;
-			if (Double.IsNaN(stddev)) return Double.NaN;
-			if (stddev < 0) return Double.NaN;
-			if (stddev == 0) {
-				if (x == mean) return 1.0;
-				else return 0;
-			}
-			if (x == Double.NegativeInfinity) return 0.0;
-			if (x == Double.PositiveInfinity) return 0.0;
-			double d = (x - mean) / stddev;
-			return MathFunctions.exp(-0.5 * d * d) / (MathConstants.SQRT2Pi * stddev);
-		}
-		/**
+        public static double pdfNormal(double x, double mean, double stddev)
+        {
+            if (Double.IsNaN(x)) return Double.NaN;
+            if (Double.IsNaN(mean)) return Double.NaN;
+            if (Double.IsNaN(stddev)) return Double.NaN;
+            if (stddev < 0) return Double.NaN;
+            if (stddev == 0)
+            {
+                if (x == mean) return 1.0;
+                else return 0;
+            }
+            if (x == Double.NegativeInfinity) return 0.0;
+            if (x == Double.PositiveInfinity) return 0.0;
+            double d = (x - mean) / stddev;
+            return MathFunctions.exp(-0.5 * d * d) / (MathConstants.SQRT2Pi * stddev);
+        }
+        /**
 		 * CDF - Cumulative Distribution Function - Normal distribution N(mean, stddev).
 		 *
 		 * @param x                 Point to evaluate pdf function.
@@ -358,20 +384,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 		 *                          otherwise function value.
 		 */
-		public static double cdfNormal(double x, double mean, double stddev) {
-			if (Double.IsNaN(x)) return Double.NaN;
-			if (Double.IsNaN(mean)) return Double.NaN;
-			if (Double.IsNaN(stddev)) return Double.NaN;
-			if (stddev < 0) return Double.NaN;
-			if (stddev == 0) {
-				if (x < mean) return 0.0;
-				else return 1.0;
-			}
-			if (x == Double.NegativeInfinity) return 0.0;
-			if (x == Double.PositiveInfinity) return 1.0;
-			return 0.5 * SpecialFunctions.erfc((mean - x) / (stddev * MathConstants.SQRT2));
-		}
-		/**
+        public static double cdfNormal(double x, double mean, double stddev)
+        {
+            if (Double.IsNaN(x)) return Double.NaN;
+            if (Double.IsNaN(mean)) return Double.NaN;
+            if (Double.IsNaN(stddev)) return Double.NaN;
+            if (stddev < 0) return Double.NaN;
+            if (stddev == 0)
+            {
+                if (x < mean) return 0.0;
+                else return 1.0;
+            }
+            if (x == Double.NegativeInfinity) return 0.0;
+            if (x == Double.PositiveInfinity) return 1.0;
+            return 0.5 * SpecialFunctions.erfc((mean - x) / (stddev * MathConstants.SQRT2));
+        }
+        /**
 		 * QNT - Quantile Function - Normal distribution N(mean, stddev).
 		 * (Inverse of Cumulative Distribution Function).
 		 *
@@ -382,19 +410,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                          or q is lower than 0 or q is greater than 1 -
 		 *                          otherwise function value.
 		 */
-		public static double qntNormal(double q, double mean, double stddev) {
-			if (Double.IsNaN(q)) return Double.NaN;
-			if (Double.IsNaN(mean)) return Double.NaN;
-			if (Double.IsNaN(stddev)) return Double.NaN;
-			if ((q < 0.0) || (q > 1.0)) return Double.NaN;
-			if (stddev < 0) return Double.NaN;
-			if (stddev == 0) {
-				if (q == 1.0) return mean;
-				else return Double.NaN;
-			}
-			if (q == 0.0) return Double.NegativeInfinity;
-			if (q == 1.0) return Double.PositiveInfinity;
-			return mean - (stddev * MathConstants.SQRT2 * SpecialFunctions.erfcInv(2.0 * q));
-		}
-	}
+        public static double qntNormal(double q, double mean, double stddev)
+        {
+            if (Double.IsNaN(q)) return Double.NaN;
+            if (Double.IsNaN(mean)) return Double.NaN;
+            if (Double.IsNaN(stddev)) return Double.NaN;
+            if ((q < 0.0) || (q > 1.0)) return Double.NaN;
+            if (stddev < 0) return Double.NaN;
+            if (stddev == 0)
+            {
+                if (q == 1.0) return mean;
+                else return Double.NaN;
+            }
+            if (q == 0.0) return Double.NegativeInfinity;
+            if (q == 1.0) return Double.PositiveInfinity;
+            return mean - (stddev * MathConstants.SQRT2 * SpecialFunctions.erfcInv(2.0 * q));
+        }
+    }
 }

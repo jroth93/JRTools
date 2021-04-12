@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Proficient
 {
-    public partial class EntryBox: Form
+    public partial class EntryBox : Form
     {
         public string Entry { get; private set; }
         private Type expectedType;
@@ -42,10 +42,10 @@ namespace Proficient
 
         private void okbutton_Click(object sender, EventArgs e)
         {
-            
+
             Entry = textBox1.Text;
 
-            if(ValidateEntry())
+            if (ValidateEntry())
             {
                 DialogResult = DialogResult.OK;
                 Close();
@@ -55,7 +55,7 @@ namespace Proficient
                 DialogResult = DialogResult.None;
                 label1.Text = errorMessage + "\n\n" + cap;
             }
-            
+
         }
 
         private void cancelbutton_Click(object sender, EventArgs e)
@@ -66,7 +66,7 @@ namespace Proficient
 
         private bool ValidateEntry()
         {
-            if(expectedType == typeof(double))
+            if (expectedType == typeof(double))
             {
                 return Double.TryParse(this.Entry, out double x);
             }
@@ -77,7 +77,7 @@ namespace Proficient
             else
             {
                 return true;
-            }            
+            }
         }
     }
 }

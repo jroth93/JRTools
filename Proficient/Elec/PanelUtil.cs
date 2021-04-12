@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.UI;
+using System.Linq;
 
 
 namespace Proficient
@@ -13,7 +11,7 @@ namespace Proficient
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-            UIApplication app = revit.Application; 
+            UIApplication app = revit.Application;
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             View view = doc.GetElement(uidoc.ActiveView.Id) as View;
@@ -43,13 +41,13 @@ namespace Proficient
                             }
                         }
                     }
-                    
+
                 }
-                string[] row = {panel.Name, hassched, placedsheet };
+                string[] row = { panel.Name, hassched, placedsheet };
                 epdf.dgv.Rows.Add(row);
             }
             epdf.Text = "Panel Checker";
-            
+
             epdf.Show();
 
             return Result.Succeeded;

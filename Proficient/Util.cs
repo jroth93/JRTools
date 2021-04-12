@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
 
 namespace Proficient
 {
@@ -66,7 +66,7 @@ namespace Proficient
                 {
                     AddSharedParameter(doc, revit.Application, BuiltInCategory.OST_ProjectInformation, BuiltInParameterGroup.PG_GENERAL, "Titleblock", "MEI Project Folder");
                 }
-                
+
                 using (Transaction tx = new Transaction(doc, "Assign Project Folder Parameter"))
                 {
                     if (tx.Start() == TransactionStatus.Started)
@@ -76,9 +76,9 @@ namespace Proficient
                     tx.Commit();
                 }
             }
-            
+
             return projFolder;
-            
+
         }
 
         public static string GetProjectNumber(ExternalCommandData revit)
