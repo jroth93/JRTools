@@ -14,7 +14,7 @@ namespace Proficient
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class AddPanel : IExternalApplication
     {
-        static string _namespace_prefix = typeof(AddPanel).Namespace + ".";
+        static readonly string  _namespace_prefix = typeof(AddPanel).Namespace + ".";
         public Result OnStartup(UIControlledApplication application)
         {
             application.ControlledApplication.DocumentOpened

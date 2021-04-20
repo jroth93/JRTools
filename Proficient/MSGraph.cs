@@ -1,11 +1,11 @@
 ﻿using Autodesk.Revit.DB;
 using Microsoft.Graph;
-using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Proficient
@@ -47,13 +47,21 @@ namespace Proficient
                     .Header("workbook-session-id", $"{session.Id}")
                     .GetAsync();
 
+                string[][] rngarray = rng.Text.ToObject<string[][]>();
+                foreach (string[] row in rngarray)
+                {
+                    if (row[0] != null && row[0] != String.Empty && row[1] != null && row[1] != String.Empty)
+                        knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
+                }
+
+                /* UPDATED MS GRAPH GET CODE
                 foreach (var row in rng.Values.RootElement.EnumerateArray())
                 {
                     string key = row[0].GetString();
                     string note = row[1].GetString();
                     if (key != null && key != String.Empty && note != null && note != String.Empty)
                         knList.Add(new KeynoteEntry(key, ws.Name, note));
-                }
+                }*/
             }
 
             await graphClient.Groups[config.AllMorrisseyGroupId].Drive.Items[curFile.Id].Workbook
@@ -115,8 +123,15 @@ namespace Proficient
 
             string[] scopes = new string[] { $"{config.ApiUrl}.default" };
 
-            ClientCredentialProvider authProvider = new ClientCredentialProvider(app);
-            GraphServiceClient graphClient = new GraphServiceClient(authProvider);
+            AuthenticationResult authResult = await app.AcquireTokenForClient(scopes)
+                                                        .ExecuteAsync();
+
+            GraphServiceClient graphClient = new GraphServiceClient("https://graph.microsoft.com/v1.0/",
+                new DelegateAuthenticationProvider(async (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", authResult.AccessToken);
+                }));
+
 
             return await Task.FromResult(graphClient);
         }
