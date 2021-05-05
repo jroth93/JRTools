@@ -3,9 +3,7 @@ using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using System.Runtime.InteropServices;
+using System.Linq;
 using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
@@ -36,7 +34,7 @@ namespace Proficient
             ws = wb.Worksheets.Item[wsIndex];
 
             int totCols = ws.UsedRange.Columns.Count;
-            string cellVal = String.Empty;
+            string cellVal;
 
             if (totCols > 0)
             {

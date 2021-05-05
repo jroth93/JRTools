@@ -72,7 +72,7 @@
             // filelocationtxt
             // 
             this.filelocationtxt.Location = new System.Drawing.Point(84, 30);
-            this.filelocationtxt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.filelocationtxt.Margin = new System.Windows.Forms.Padding(2);
             this.filelocationtxt.Name = "filelocationtxt";
             this.filelocationtxt.ReadOnly = true;
             this.filelocationtxt.Size = new System.Drawing.Size(195, 20);
@@ -81,7 +81,7 @@
             // xlfilebtn
             // 
             this.xlfilebtn.Location = new System.Drawing.Point(284, 29);
-            this.xlfilebtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.xlfilebtn.Margin = new System.Windows.Forms.Padding(2);
             this.xlfilebtn.Name = "xlfilebtn";
             this.xlfilebtn.Size = new System.Drawing.Size(23, 19);
             this.xlfilebtn.TabIndex = 2;
@@ -101,9 +101,9 @@
             this.xlgroup.Controls.Add(this.xlfilebtn);
             this.xlgroup.Controls.Add(this.filelocationtxt);
             this.xlgroup.Location = new System.Drawing.Point(9, 10);
-            this.xlgroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.xlgroup.Margin = new System.Windows.Forms.Padding(2);
             this.xlgroup.Name = "xlgroup";
-            this.xlgroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.xlgroup.Padding = new System.Windows.Forms.Padding(2);
             this.xlgroup.Size = new System.Drawing.Size(320, 150);
             this.xlgroup.TabIndex = 3;
             this.xlgroup.TabStop = false;
@@ -122,7 +122,7 @@
             // hdrRowCtrl
             // 
             this.hdrRowCtrl.Location = new System.Drawing.Point(84, 93);
-            this.hdrRowCtrl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.hdrRowCtrl.Margin = new System.Windows.Forms.Padding(2);
             this.hdrRowCtrl.Minimum = new decimal(new int[] {
             1,
             0,
@@ -146,7 +146,7 @@
             this.keyColDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.keyColDrop.FormattingEnabled = true;
             this.keyColDrop.Location = new System.Drawing.Point(84, 122);
-            this.keyColDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.keyColDrop.Margin = new System.Windows.Forms.Padding(2);
             this.keyColDrop.Name = "keyColDrop";
             this.keyColDrop.Size = new System.Drawing.Size(195, 21);
             this.keyColDrop.TabIndex = 5;
@@ -169,7 +169,7 @@
             this.wkshtDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.wkshtDrop.FormattingEnabled = true;
             this.wkshtDrop.Location = new System.Drawing.Point(84, 60);
-            this.wkshtDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.wkshtDrop.Margin = new System.Windows.Forms.Padding(2);
             this.wkshtDrop.Name = "wkshtDrop";
             this.wkshtDrop.Size = new System.Drawing.Size(195, 21);
             this.wkshtDrop.TabIndex = 3;
@@ -192,9 +192,9 @@
             this.rvtgroup.Controls.Add(this.familyDrop);
             this.rvtgroup.Controls.Add(this.familylbl);
             this.rvtgroup.Location = new System.Drawing.Point(9, 164);
-            this.rvtgroup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rvtgroup.Margin = new System.Windows.Forms.Padding(2);
             this.rvtgroup.Name = "rvtgroup";
-            this.rvtgroup.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rvtgroup.Padding = new System.Windows.Forms.Padding(2);
             this.rvtgroup.Size = new System.Drawing.Size(320, 109);
             this.rvtgroup.TabIndex = 4;
             this.rvtgroup.TabStop = false;
@@ -207,7 +207,7 @@
             this.catDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.catDrop.FormattingEnabled = true;
             this.catDrop.Location = new System.Drawing.Point(84, 30);
-            this.catDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.catDrop.Margin = new System.Windows.Forms.Padding(2);
             this.catDrop.Name = "catDrop";
             this.catDrop.Size = new System.Drawing.Size(195, 21);
             this.catDrop.TabIndex = 6;
@@ -230,7 +230,7 @@
             this.familyDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.familyDrop.FormattingEnabled = true;
             this.familyDrop.Location = new System.Drawing.Point(84, 66);
-            this.familyDrop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.familyDrop.Margin = new System.Windows.Forms.Padding(2);
             this.familyDrop.Name = "familyDrop";
             this.familyDrop.Size = new System.Drawing.Size(195, 21);
             this.familyDrop.Sorted = true;
@@ -271,7 +271,7 @@
             // 
             this.addbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addbtn.Location = new System.Drawing.Point(288, 334);
-            this.addbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addbtn.Margin = new System.Windows.Forms.Padding(2);
             this.addbtn.Name = "addbtn";
             this.addbtn.Size = new System.Drawing.Size(19, 19);
             this.addbtn.TabIndex = 10;
@@ -283,7 +283,7 @@
             // 
             this.subtractbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.subtractbtn.Location = new System.Drawing.Point(311, 334);
-            this.subtractbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.subtractbtn.Margin = new System.Windows.Forms.Padding(2);
             this.subtractbtn.Name = "subtractbtn";
             this.subtractbtn.Size = new System.Drawing.Size(19, 19);
             this.subtractbtn.TabIndex = 11;
@@ -295,7 +295,7 @@
             // 
             this.assnbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.assnbtn.Location = new System.Drawing.Point(196, 375);
-            this.assnbtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.assnbtn.Margin = new System.Windows.Forms.Padding(2);
             this.assnbtn.Name = "assnbtn";
             this.assnbtn.Size = new System.Drawing.Size(64, 23);
             this.assnbtn.TabIndex = 13;
@@ -307,7 +307,7 @@
             // 
             this.closebtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.closebtn.Location = new System.Drawing.Point(266, 375);
-            this.closebtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.closebtn.Margin = new System.Windows.Forms.Padding(2);
             this.closebtn.Name = "closebtn";
             this.closebtn.Size = new System.Drawing.Size(64, 23);
             this.closebtn.TabIndex = 14;
@@ -319,7 +319,7 @@
             // 
             this.getColsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.getColsBtn.Location = new System.Drawing.Point(9, 375);
-            this.getColsBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.getColsBtn.Margin = new System.Windows.Forms.Padding(2);
             this.getColsBtn.Name = "getColsBtn";
             this.getColsBtn.Size = new System.Drawing.Size(93, 23);
             this.getColsBtn.TabIndex = 12;
@@ -354,7 +354,7 @@
             this.sc1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sc1.FormattingEnabled = true;
             this.sc1.Location = new System.Drawing.Point(14, 307);
-            this.sc1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.sc1.Margin = new System.Windows.Forms.Padding(2);
             this.sc1.Name = "sc1";
             this.sc1.Size = new System.Drawing.Size(155, 21);
             this.sc1.TabIndex = 8;
@@ -367,7 +367,7 @@
             this.dp1.DropDownWidth = 209;
             this.dp1.FormattingEnabled = true;
             this.dp1.Location = new System.Drawing.Point(172, 307);
-            this.dp1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dp1.Margin = new System.Windows.Forms.Padding(2);
             this.dp1.Name = "dp1";
             this.dp1.Size = new System.Drawing.Size(158, 21);
             this.dp1.Sorted = true;
@@ -392,7 +392,8 @@
             this.Controls.Add(this.srclbl);
             this.Controls.Add(this.rvtgroup);
             this.Controls.Add(this.xlgroup);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ExcelAssignFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Excel Assign";
