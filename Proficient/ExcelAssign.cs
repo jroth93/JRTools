@@ -4,7 +4,6 @@ using System.Linq;
 using System.IO;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
-using System.Runtime.InteropServices;
 using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
@@ -73,8 +72,14 @@ namespace Proficient
             }
 
             wb = xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
+            
+            var ws = wb.Worksheets;
+            List<string> wslist = new List<string>();
 
-            return (wb.Worksheets as IEnumerable<XL.Worksheet>).Select(ws => ws.Name).ToArray();
+            for (int i = 1; i <= ws.Count; i++)
+                wslist.Add((ws.Item[i] as XL.Worksheet).Name);
+
+            return wslist.ToArray();
             
         }
 
@@ -107,7 +112,7 @@ namespace Proficient
                         return null;
                     }
 
-                case "ElementID":
+                case "ElementId":
                     try
                     {
                         return new ElementId(Convert.ToInt32(ws.Cells[row, col].Value));
@@ -145,7 +150,7 @@ namespace Proficient
                         return null;
                     }
 
-                case "ElementID":
+                case "ElementId":
                     try
                     {
                         return new ElementId(Convert.ToInt32(ws.Cells[row, col].Value));
@@ -294,57 +299,81 @@ namespace Proficient
             string errorLog = String.Empty;
 
             int totRows = ws.UsedRange.Rows.Count;
-            string keyCellVal = null;
 
             List<Element> filist = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilyInstance))
                 .Where(q => (q as FamilyInstance).Symbol.Family.Name == familyName).ToList();
 
-            string mark = null;
             string parType = Convert.ToString(filist.First().LookupParameter(parName).StorageType);
+
+            string[] rvtMarkList = filist.Select(x => x.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString()).ToArray();
+            Dictionary<string, int> markRowIndex = new Dictionary<string, int>();
+
+            for (int r = startRow; r <= totRows; r++)
+            {
+                string curXLMark = Convert.ToString(ws.Cells[r, keyCol].Value);
+                if (Array.IndexOf(rvtMarkList, curXLMark) > -1)
+                    markRowIndex.Add(curXLMark, r);
+            }
+
 
             foreach (FamilyInstance fi in filist)
             {
-                mark = fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
-                for (int r = startRow; r <= totRows; r++)
+                string mark = fi.get_Parameter(BuiltInParameter.ALL_MODEL_MARK).AsString();
+                if (markRowIndex.ContainsKey(mark))
                 {
-                    keyCellVal = Convert.ToString(ws.Cells[r, keyCol].Value);
-                    if (mark == keyCellVal)
+                    Parameter par = fi.LookupParameter(parName);
+                    bool hasUnits;
+                    try
                     {
-                        bool hasUnits;
-                        try
-                        {
-                            DisplayUnitType dut = fi.LookupParameter(parName).DisplayUnitType;
-                            hasUnits = true;
-                        }
-                        catch (Autodesk.Revit.Exceptions.InvalidOperationException)
-                        {
-                            hasUnits = false;
-                        }
+                        DisplayUnitType dut = par.DisplayUnitType;
+                        hasUnits = true;
+                    }
+                    catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+                    {
+                        hasUnits = false;
+                    }
 
-                        var newVal = hasUnits ? GetCellVal(r, parCol, parType, fi.LookupParameter(parName).DisplayUnitType) : GetCellVal(r, parCol, parType);
+                    var newVal = hasUnits ? GetCellVal(markRowIndex[mark], parCol, parType, par.DisplayUnitType) : GetCellVal(markRowIndex[mark], parCol, parType);
 
+                    if (newVal == null)
+                    {
+                        errorLog += $"Incorrect data type in Excel File for element '{mark}' parameter '{parName}.' Expecting type of {par.StorageType}. Parameter will not be assigned.\n";
+                    }
+                    else if (ParToString(par, parType) != Convert.ToString(newVal))
+                    {
                         using (Transaction tx = new Transaction(doc, "Assign Instance Parameter"))
                         {
                             if (tx.Start() == TransactionStatus.Started)
                             {
-                                if (newVal != null)
-                                {
-                                    fi.LookupParameter(parName).Set(newVal);
-                                    tx.Commit();
-                                }
-                                else
-                                {
-                                    errorLog += $"Incorrect data type in Excel File for element '{mark}' parameter '{parName}.' Parameter will not be assigned.\n";
-                                }
+                                par.Set(newVal);
+                                tx.Commit();
                             }
                         }
                     }
                 }
+                
+                
             }
             
 
             return errorLog;
+        }
+
+        private static string ParToString(Parameter par, string parType)
+        {
+            switch (parType)
+            {
+                case "String":
+                    return par.AsString();
+                case "Integer":
+                    return Convert.ToString(par.AsInteger());
+                case "Double":
+                    return Convert.ToString(par.AsDouble());
+                case "ElementId":
+                    return Convert.ToString(par.AsElementId());
+            }
+            return null;
         }
     }
 }
