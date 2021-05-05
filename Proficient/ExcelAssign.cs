@@ -71,7 +71,7 @@ namespace Proficient
                 }
             }
 
-            
+            wb = xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
             var ws = wb.Worksheets;
             List<string> wslist = new List<string>();
 
