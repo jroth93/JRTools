@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI.Selection;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Proficient
 {
@@ -17,9 +15,9 @@ namespace Proficient
             Document doc = uidoc.Document;
 
             IList<ElementId> selectedIds = uidoc.Selection.GetElementIds() as IList<ElementId>;
-            if (selectedIds.Count>0)
+            if (selectedIds.Count > 0)
             {
-                
+
                 foreach (ElementId elemid in selectedIds)
                 {
                     using (Transaction tx = new Transaction(doc, "Flip"))
@@ -36,7 +34,7 @@ namespace Proficient
                             {
                                 faminst.IsWorkPlaneFlipped = true;
                             }
-                                
+
                         }
                         tx.Commit();
                     }

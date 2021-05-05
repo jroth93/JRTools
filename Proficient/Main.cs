@@ -1,20 +1,20 @@
-﻿using System;
-using System.Reflection;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.ExternalService;
+using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System.Windows.Media.Imaging;
 using System.Linq;
-using System.Collections.Generic;
-using Autodesk.Revit.DB.ExternalService;
+using System.Reflection;
+using System.Windows.Media.Imaging;
 
 namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class AddPanel : IExternalApplication
     {
-        static string _namespace_prefix = typeof(AddPanel).Namespace + ".";
+        static readonly string  _namespace_prefix = typeof(AddPanel).Namespace + ".";
         public Result OnStartup(UIControlledApplication application)
         {
             application.ControlledApplication.DocumentOpened
@@ -22,7 +22,7 @@ namespace Proficient
             application.ViewActivated += Application_ViewActivated;
 
             application.CreateRibbonTab("Proficient");
-            RibbonPanel genrib = application.CreateRibbonPanel("Proficient","General");
+            RibbonPanel genrib = application.CreateRibbonPanel("Proficient", "General");
             RibbonPanel knrib = application.CreateRibbonPanel("Proficient", "Keynotes");
             RibbonPanel mechrib = application.CreateRibbonPanel("Proficient", "Mechanical");
             RibbonPanel elecrib = application.CreateRibbonPanel("Proficient", "Electrical");
@@ -36,35 +36,35 @@ namespace Proficient
             string thisAssemblyVersion = thisAssembly.GetName().Version.ToString();
 
             #region create ribbon
-            RibbonButton        settingsbtn =       genrib.AddItem(new PushButtonData("cmdstg", "Edit\nSettings", thisAssemblyPath, "Proficient.EditSettings")) as RibbonButton;
-            SplitButton         txtsplit =          genrib.AddItem(new SplitButtonData("splttxttools", "Text Tools")) as SplitButton;
-            RibbonButton        calloutbutton =     genrib.AddItem(new PushButtonData("cmdchangecallout", "Change Callout\nReference", thisAssemblyPath, "Proficient.ChangeCalloutRef")) as RibbonButton;
-            RibbonButton        elplcbutton =       genrib.AddItem(new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "Proficient.ElementPlacer")) as RibbonButton;
-            IList<RibbonItem>   stackedGroupFlip =  genrib.AddStackedItems(new PushButtonData("cmdflip", "Flip Element", thisAssemblyPath, "Proficient.FlipElements"),
+            RibbonButton settingsbtn = genrib.AddItem(new PushButtonData("cmdstg", "Edit\nSettings", thisAssemblyPath, "Proficient.EditSettings")) as RibbonButton;
+            SplitButton txtsplit = genrib.AddItem(new SplitButtonData("splttxttools", "Text Tools")) as SplitButton;
+            RibbonButton calloutbutton = genrib.AddItem(new PushButtonData("cmdchangecallout", "Change Callout\nReference", thisAssemblyPath, "Proficient.ChangeCalloutRef")) as RibbonButton;
+            RibbonButton elplcbutton = genrib.AddItem(new PushButtonData("cmdelplc", "Element\nPlacer", thisAssemblyPath, "Proficient.ElementPlacer")) as RibbonButton;
+            IList<RibbonItem> stackedGroupFlip = genrib.AddStackedItems(new PushButtonData("cmdflip", "Flip Element", thisAssemblyPath, "Proficient.FlipElements"),
                                                                            new PushButtonData("cmdflipplane", "Flip Workplane", thisAssemblyPath, "Proficient.FlipWorkPlane"));
-            RibbonButton        xl2Revitbutton =    genrib.AddItem(new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "Proficient.ExcelAssign")) as RibbonButton;
+            RibbonButton xl2Revitbutton = genrib.AddItem(new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "Proficient.ExcelAssign")) as RibbonButton;
 
-            RibbonButton        knbutton =          knrib.AddItem(new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "Proficient.KNReload")) as RibbonButton;
-            RibbonButton        xlbutton =          knrib.AddItem(new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "Proficient.KNLauncher")) as RibbonButton;
-            RibbonButton        knutilbtn =         knrib.AddItem(new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "Proficient.KeynoteUtil")) as RibbonButton;
-            PulldownButton      legacyknpulldown =  knrib.AddItem(new PulldownButtonData("spltknlegacy", "Legacy\nKeynote\nTools")) as PulldownButton;
+            RibbonButton knbutton = knrib.AddItem(new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "Proficient.KNReload")) as RibbonButton;
+            RibbonButton xlbutton = knrib.AddItem(new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "Proficient.KNLauncher")) as RibbonButton;
+            RibbonButton knutilbtn = knrib.AddItem(new PushButtonData("cmdknutil", "Keynote\nUtility", thisAssemblyPath, "Proficient.KeynoteUtil")) as RibbonButton;
+            PulldownButton legacyknpulldown = knrib.AddItem(new PulldownButtonData("spltknlegacy", "Legacy\nKeynote\nTools")) as PulldownButton;
 
-            RibbonButton        pipebutton =        mechrib.AddItem(new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "Proficient.PipeSpacer")) as RibbonButton;
-            RibbonButton        ducttagbtn =        mechrib.AddItem(new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "Proficient.DuctTag")) as RibbonButton;
-            RibbonButton        ductbutton =        mechrib.AddItem(new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "Proficient.DuctLauncher")) as RibbonButton;
-            RibbonButton        damperbtn =         mechrib.AddItem(new PushButtonData("cmddampertoggle", "Damper\nToggle", thisAssemblyPath, "Proficient.DamperToggle")) as RibbonButton;
-            RibbonButton        elbowbtn =          mechrib.AddItem(new PushButtonData("cmdductelbowtoggle", "Duct Elbow\nToggle", thisAssemblyPath, "Proficient.DuctElbowToggle")) as RibbonButton;
+            RibbonButton pipebutton = mechrib.AddItem(new PushButtonData("cmdpipespace", "Space\nPipes", thisAssemblyPath, "Proficient.PipeSpacer")) as RibbonButton;
+            RibbonButton ducttagbtn = mechrib.AddItem(new PushButtonData("cmdducttag", "Tag\nDucts", thisAssemblyPath, "Proficient.DuctTag")) as RibbonButton;
+            RibbonButton ductbutton = mechrib.AddItem(new PushButtonData("cmdlaunchduct", "Launch\nDuctulator", thisAssemblyPath, "Proficient.DuctLauncher")) as RibbonButton;
+            RibbonButton damperbtn = mechrib.AddItem(new PushButtonData("cmddampertoggle", "Damper\nToggle", thisAssemblyPath, "Proficient.DamperToggle")) as RibbonButton;
+            RibbonButton elbowbtn = mechrib.AddItem(new PushButtonData("cmdductelbowtoggle", "Duct Elbow\nToggle", thisAssemblyPath, "Proficient.DuctElbowToggle")) as RibbonButton;
 
-            RibbonButton        elpanelbtn =        elecrib.AddItem(new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "Proficient.PanelUtil")) as RibbonButton;
+            RibbonButton elpanelbtn = elecrib.AddItem(new PushButtonData("cmdpanelcheck", "Panel\nChecker", thisAssemblyPath, "Proficient.PanelUtil")) as RibbonButton;
 
-            PushButton          cmbtxtbutton =      txtsplit.AddPushButton(new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "Proficient.CombineText"));
-            PushButton          txtldrbtn =         txtsplit.AddPushButton(new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "Proficient.TextLeader"));
-            PushButton          addldrbtn =         txtsplit.AddPushButton(new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "Proficient.AddLeader"));
-            PushButton          flattxtbtn =        txtsplit.AddPushButton(new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "Proficient.FlattenText"));
+            PushButton cmbtxtbutton = txtsplit.AddPushButton(new PushButtonData("cmdcombinetext", "Combine\nText", thisAssemblyPath, "Proficient.CombineText"));
+            PushButton txtldrbtn = txtsplit.AddPushButton(new PushButtonData("cmdtextleader", "Add Text\nWith Leader", thisAssemblyPath, "Proficient.TextLeader"));
+            PushButton addldrbtn = txtsplit.AddPushButton(new PushButtonData("cmdaddleader", "Add\nLeader", thisAssemblyPath, "Proficient.AddLeader"));
+            PushButton flattxtbtn = txtsplit.AddPushButton(new PushButtonData("cmdflattenText", "Flatten\nText", thisAssemblyPath, "Proficient.FlattenText"));
 
-            
-            PushButton          legknopen =         legacyknpulldown.AddPushButton(new PushButtonData("cmdlgknopen", "Open Keynotes", thisAssemblyPath, "Proficient.LegacyKNLauncher"));
-            PushButton          legknreload =       legacyknpulldown.AddPushButton(new PushButtonData("cmdlegknrl", "Reload Keynotes", thisAssemblyPath, "Proficient.LegacyKNReload"));
+
+            PushButton legknopen = legacyknpulldown.AddPushButton(new PushButtonData("cmdlgknopen", "Open Keynotes", thisAssemblyPath, "Proficient.LegacyKNLauncher"));
+            PushButton legknreload = legacyknpulldown.AddPushButton(new PushButtonData("cmdlegknrl", "Reload Keynotes", thisAssemblyPath, "Proficient.LegacyKNReload"));
             #endregion create ribbon
 
             //add images
@@ -82,7 +82,7 @@ namespace Proficient
             addldrbtn.LargeImage = NewBitmapImage("addleader.png");
             flattxtbtn.LargeImage = NewBitmapImage("flattentext.png");
             ducttagbtn.LargeImage = NewBitmapImage("tagduct.png");
-            elpanelbtn.LargeImage = NewBitmapImage( "elecpanel.png");
+            elpanelbtn.LargeImage = NewBitmapImage("elecpanel.png");
             xl2Revitbutton.LargeImage = NewBitmapImage("xl2rvt.png");
             knutilbtn.LargeImage = NewBitmapImage("keynoteutil.png");
             damperbtn.LargeImage = NewBitmapImage("damper.png");
@@ -94,7 +94,7 @@ namespace Proficient
             ExternalService externalResourceUIService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.ExternalResourceUIService);
             externalResourceUIService.AddServer(new ExternalResourceUIServer());
 
-            if(thisAssemblyVersion != FileVersionInfo.GetVersionInfo(@"Z:\Revit\Custom Add Ins\Proficient.bundle\Contents\Proficient.dll").FileVersion.ToString())
+            if (thisAssemblyVersion != FileVersionInfo.GetVersionInfo(@"Z:\Revit\Custom Add Ins\Proficient.bundle\Contents\Proficient.dll").FileVersion.ToString())
                 Util.BalloonTip("Proficient", "New version of Proficient available.\nClick here, close Revit, and run the installer.", "Proficient Out Of Date", "Z:\\Revit\\Custom Add Ins");
 
             return Result.Succeeded;
@@ -149,7 +149,7 @@ namespace Proficient
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
             View view = doc.ActiveView;
-            
+
             WorksetTable wst = doc.GetWorksetTable();
             FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
             string viewname = view.Name;

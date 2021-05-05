@@ -56,8 +56,9 @@
 using System;
 using System.Threading;
 
-namespace org.mariuszgromada.math.mxparser.regressiontesting {
-	/**
+namespace org.mariuszgromada.math.mxparser.regressiontesting
+{
+    /**
 	 * PerformanceTests - mXparser performance tests
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -81,67 +82,71 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *
 	 * @see Expression
 	 */
-	[CLSCompliant(true)]
-	public class PerformanceTests {
-		/**
+    [CLSCompliant(true)]
+    public class PerformanceTests
+    {
+        /**
 		 * Performance test definition & result
 		 */
-		private static PerformanceTestResult[] tests;
-		/**
+        private static PerformanceTestResult[] tests;
+        /**
 		 * Creates threads, executes them, then wait till
 		 * each thread is finished
 		 *
 		 * @param test         Test definition
 		 * @param classId      Class id specifying the implementation of test scenario
 		 */
-		static void createRunJoinThreads(PerformanceTestResult test, int classId) {
-			test.testInit();
-			TestThread[] runners = new TestThread[test.threadsNum];
-			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6
-				Thread[] threads = new Thread[test.threadsNum];
-			#endif
-			for (int threadId = 0; threadId < test.threadsNum; threadId++) {
-				switch (classId) {
-				case 0:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 1:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 2:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 3:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 4:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 5:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 6:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 7:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 8:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 9:  runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 10: runners[threadId] = new TestSimpleCalcThread(test); break;
-				case 11: runners[threadId] = new Test011Thread(test); break;
-				case 12: runners[threadId] = new Test012Thread(test); break;
-				case 13: runners[threadId] = new Test013Thread(test); break;
-				case 14: runners[threadId] = new Test014Thread(test); break;
-				case 15: runners[threadId] = new Test015Thread(test); break;
-				case 16: runners[threadId] = new Test016Thread(test); break;
-				case 17: runners[threadId] = new Test017Thread(test); break;
-				case 18: runners[threadId] = new Test018Thread(test); break;
-				case 19: runners[threadId] = new Test019Thread(test); break;
-				case 20: runners[threadId] = new Test020Thread(test); break;
-				}
-				#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
+        static void createRunJoinThreads(PerformanceTestResult test, int classId)
+        {
+            test.testInit();
+            TestThread[] runners = new TestThread[test.threadsNum];
+#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6
+            Thread[] threads = new Thread[test.threadsNum];
+#endif
+            for (int threadId = 0; threadId < test.threadsNum; threadId++)
+            {
+                switch (classId)
+                {
+                    case 0: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 1: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 2: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 3: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 4: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 5: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 6: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 7: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 8: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 9: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 10: runners[threadId] = new TestSimpleCalcThread(test); break;
+                    case 11: runners[threadId] = new Test011Thread(test); break;
+                    case 12: runners[threadId] = new Test012Thread(test); break;
+                    case 13: runners[threadId] = new Test013Thread(test); break;
+                    case 14: runners[threadId] = new Test014Thread(test); break;
+                    case 15: runners[threadId] = new Test015Thread(test); break;
+                    case 16: runners[threadId] = new Test016Thread(test); break;
+                    case 17: runners[threadId] = new Test017Thread(test); break;
+                    case 18: runners[threadId] = new Test018Thread(test); break;
+                    case 19: runners[threadId] = new Test019Thread(test); break;
+                    case 20: runners[threadId] = new Test020Thread(test); break;
+                }
+#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
 					runners[threadId].run();
-				#else
-					threads[threadId] = new Thread(runners[threadId].run);
-					threads[threadId].Start();
-				#endif
-			}
-			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6 && NETCOREAPP1_0 && NETCOREAPP1_1
+#else
+                threads[threadId] = new Thread(runners[threadId].run);
+                threads[threadId].Start();
+#endif
+            }
+#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6 && NETCOREAPP1_0 && NETCOREAPP1_1
 				for (int threadId = 0; threadId < test.threadsNum; threadId++)
 					try {
 						threads[threadId].Join();
 					} catch (ThreadInterruptedException e) {
 						mXparser.consolePrintln(e.StackTrace);
 					}
-			#endif
-			test.testClose();
-		}
-		/**
+#endif
+            test.testClose();
+        }
+        /**
 		 * Performance test: Simple calculations - addition.
 		 * Expression created once. Iteration: repeatedly
 		 * recalculated same expression.
@@ -149,14 +154,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test000(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - addition. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2+3";
-			createRunJoinThreads(test, 0);
-		}
-		/**
+        static void test000(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - addition. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2+3";
+            createRunJoinThreads(test, 0);
+        }
+        /**
 		 * Performance test: Simple calculations - multiplication.
 		 * Expression created once. Iteration: repeatedly recalculated
 		 * same expression.
@@ -164,14 +170,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test001(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - multiplication. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2*3";
-			createRunJoinThreads(test, 1);
-		}
-		/**
+        static void test001(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - multiplication. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2*3";
+            createRunJoinThreads(test, 1);
+        }
+        /**
 		 * Performance test: Simple calculations - division. Expression
 		 * created once. Iteration: repeatedly recalculated same
 		 * expression.
@@ -179,14 +186,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test002(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - division. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2/3";
-			createRunJoinThreads(test, 2);
-		}
-		/**
+        static void test002(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - division. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2/3";
+            createRunJoinThreads(test, 2);
+        }
+        /**
 		 * Performance test: Simple calculations - power. Expression
 		 * created once. Iteration: repeatedly recalculated same
 		 * expression.
@@ -194,14 +202,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test003(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - power. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2^3";
-			createRunJoinThreads(test, 3);
-		}
-		/**
+        static void test003(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - power. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2^3";
+            createRunJoinThreads(test, 3);
+        }
+        /**
 		 * Performance test: Simple calculations - sinus. Expression
 		 * created once. Iteration: repeatedly recalculated same
 		 * expression.
@@ -209,14 +218,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test004(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - sinus. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "sin(3)";
-			createRunJoinThreads(test, 4);
-		}
-		/**
+        static void test004(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - sinus. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "sin(3)";
+            createRunJoinThreads(test, 4);
+        }
+        /**
 		 * Performance test: Simple calculations - 2 additions.
 		 * Expression created once. Iteration: repeatedly recalculated
 		 * same expression.
@@ -224,14 +234,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test005(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - 2 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2+3+4";
-			createRunJoinThreads(test, 5);
-		}
-		/**
+        static void test005(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - 2 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2+3+4";
+            createRunJoinThreads(test, 5);
+        }
+        /**
 		 * Performance test: Simple calculations - 3 additions.
 		 * Expression created once. Iteration: repeatedly
 		 * recalculated same expression.
@@ -239,14 +250,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test006(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - 3 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2+3+4+5";
-			createRunJoinThreads(test, 6);
-		}
-		/**
+        static void test006(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - 3 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2+3+4+5";
+            createRunJoinThreads(test, 6);
+        }
+        /**
 		 * Performance test: Simple calculations - 3 additions +
 		 * 1 parenthesis. Expression created once. Iteration:
 		 * repeatedly recalculated same expression.
@@ -254,14 +266,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test007(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - 3 additions + 1 parenthesis. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2+(3+4)+5";
-			createRunJoinThreads(test, 7);
-		}
-		/**
+        static void test007(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - 3 additions + 1 parenthesis. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2+(3+4)+5";
+            createRunJoinThreads(test, 7);
+        }
+        /**
 		 * Performance test: Simple calculations - 3 additions +
 		 * 2 brackets. Expression created once. Iteration:
 		 * repeatedly recalculated same expression.
@@ -269,14 +282,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test008(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "(2+3)+(4+5)";
-			createRunJoinThreads(test, 8);
-		}
-		/**
+        static void test008(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "(2+3)+(4+5)";
+            createRunJoinThreads(test, 8);
+        }
+        /**
 		 * Performance test: Simple calculations - 3 additions + 2
 		 * brackets. Expression created once. Iteration:
 		 * repeatedly recalculated same expression.
@@ -284,14 +298,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test009(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "2+(3+(4+5))";
-			createRunJoinThreads(test, 9);
-		}
-		/**
+        static void test009(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "2+(3+(4+5))";
+            createRunJoinThreads(test, 9);
+        }
+        /**
 		 * Performance test: Combination of different operations.
 		 * Expression created once. Iteration: repeatedly
 		 * recalculated same expression.
@@ -299,14 +314,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test010(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Combination of different operations. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
-			test.exprStr = "sin(2+(3*4)^2)/10";
-			createRunJoinThreads(test, 10);
-		}
-		/**
+        static void test010(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Combination of different operations. Expression created once. Iteration: repeatedly recalculated same expression.";
+            test.iterNum = 20000000;
+            test.exprStr = "sin(2+(3*4)^2)/10";
+            createRunJoinThreads(test, 10);
+        }
+        /**
 		 * Performance test: Simple calculations - addition with
 		 * argument. Expression created once, containing argument
 		 * 'x'. Iteration: argument value is being modified
@@ -315,14 +331,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test011(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Simple calculations - addition with argument. Expression created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
-			test.iterNum = 20000000;
-			test.exprStr = "2+x";
-			createRunJoinThreads(test, 11);
-		}
-		/**
+        static void test011(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Simple calculations - addition with argument. Expression created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
+            test.iterNum = 20000000;
+            test.exprStr = "2+x";
+            createRunJoinThreads(test, 11);
+        }
+        /**
 		 * Performance test: User defined function f(x,y)=3x+4y.
 		 * Expression &Function created once, containing argument 'x'.
 		 * Iteration: argument value is being modified (increased),
@@ -331,112 +348,120 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test012(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "User defined function f(x,y)=3*x+4*y. Expression &Function created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
-			test.iterNum = 2000000;
-			test.exprStr = "3*f(x,y)-(2*x+3*y)";
-			createRunJoinThreads(test, 12);
-		}
-		/**
+        static void test012(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "User defined function f(x,y)=3*x+4*y. Expression &Function created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
+            test.iterNum = 2000000;
+            test.exprStr = "3*f(x,y)-(2*x+3*y)";
+            createRunJoinThreads(test, 12);
+        }
+        /**
 		 * Performance test: Creating constants: Iteration:
 		 * Constant c = new Constant("c", 5)
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test013(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating constants: Iteration: Constant c = new Constant(\"c\", 5)";
-			test.iterNum = 1000000;
-			test.exprStr = "Constant c = new Constant(\"c\", 5)";
-			createRunJoinThreads(test, 13);
-		}
-		/**
+        static void test013(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating constants: Iteration: Constant c = new Constant(\"c\", 5)";
+            test.iterNum = 1000000;
+            test.exprStr = "Constant c = new Constant(\"c\", 5)";
+            createRunJoinThreads(test, 13);
+        }
+        /**
 		 * Performance test: Creating constants: Iteration:
 		 * Constant c = new Constant("c=5")
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test014(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating constants: Iteration: Constant c = new Constant(\"c=5\")";
-			test.iterNum = 100000;
-			test.exprStr = "Constant c = new Constant(\"c=5\")";
-			createRunJoinThreads(test, 14);
-		}
-		/**
+        static void test014(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating constants: Iteration: Constant c = new Constant(\"c=5\")";
+            test.iterNum = 100000;
+            test.exprStr = "Constant c = new Constant(\"c=5\")";
+            createRunJoinThreads(test, 14);
+        }
+        /**
 		 * Performance test: Creating arguments: Iteration:
 		 * Argument x = new Argument("x", 5)
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test015(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x\", 5)";
-			test.iterNum = 1000000;
-			test.exprStr = "Argument x = new Argument(\"x\", 5)";
-			createRunJoinThreads(test, 15);
-		}
-		/**
+        static void test015(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x\", 5)";
+            test.iterNum = 1000000;
+            test.exprStr = "Argument x = new Argument(\"x\", 5)";
+            createRunJoinThreads(test, 15);
+        }
+        /**
 		 * Performance test: Creating arguments: Iteration:
 		 * Argument x = new Argument("x", 5)
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test016(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x=5\")";
-			test.iterNum = 100000;
-			test.exprStr = "Argument x = new Argument(\"x=5\")";
-			createRunJoinThreads(test, 16);
-		}
-		/**
+        static void test016(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x=5\")";
+            test.iterNum = 100000;
+            test.exprStr = "Argument x = new Argument(\"x=5\")";
+            createRunJoinThreads(test, 16);
+        }
+        /**
 		 * Performance test: Creating functions: Iteration:
 		 * Function f = new Function("f", "x+y", "x", "y")
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test017(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating functions: Iteration: Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
-			test.iterNum = 1000000;
-			test.exprStr = "Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
-			createRunJoinThreads(test, 17);
-		}
-		/**
+        static void test017(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating functions: Iteration: Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
+            test.iterNum = 1000000;
+            test.exprStr = "Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
+            createRunJoinThreads(test, 17);
+        }
+        /**
 		 * Performance test: Creating functions: Iteration:
 		 * Function f = new Function("f(x,y)=x+y")
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test018(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating functions: Iteration: Function f = new Function(\"f(x,y)=x+y\")";
-			test.iterNum = 100000;
-			test.exprStr = "Function f = new Function(\"f(x,y)=x+y\")";
-			createRunJoinThreads(test, 18);
-		}
-		/**
+        static void test018(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating functions: Iteration: Function f = new Function(\"f(x,y)=x+y\")";
+            test.iterNum = 100000;
+            test.exprStr = "Function f = new Function(\"f(x,y)=x+y\")";
+            createRunJoinThreads(test, 18);
+        }
+        /**
 		 * Performance test: Creating expressions: Iteration:
 		 * Expression e = new Expression("sin(2+(3*4)^2)/10")
 		 *
 		 * @param test
 		 * @param testId
 		 */
-		static void test019(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating expressions: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			test.iterNum = 1000000;
-			test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			createRunJoinThreads(test, 19);
-		}
-		/**
+        static void test019(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating expressions: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
+            test.iterNum = 1000000;
+            test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
+            createRunJoinThreads(test, 19);
+        }
+        /**
 		 * Performance test: Creating expressions + checking syntax:
 		 * Iteration:
 		 * Expression e = new Expression("sin(2+(3*4)^2)/10")
@@ -444,14 +469,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param test
 		 * @param testId
 		 */
-		static void test020(PerformanceTestResult test, int testId) {
-			test.Id = testId;
-			test.description = "Creating expressions + checking syntax: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			test.iterNum = 100000;
-			test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			createRunJoinThreads(test, 20);
-		}
-		/**
+        static void test020(PerformanceTestResult test, int testId)
+        {
+            test.Id = testId;
+            test.description = "Creating expressions + checking syntax: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
+            test.iterNum = 100000;
+            test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
+            createRunJoinThreads(test, 20);
+        }
+        /**
 		 * Starts mXparser performance tests. List of performed tests:
 		 *
 		 * <ul>
@@ -481,36 +507,37 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param  threadsNum   Number of threads
 		 * @return Number of tests that were not performed.
 		 */
-		public static int Start(int threadsNum) {
-			mXparser.disableUlpRounding();
-			if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
-			tests = new PerformanceTestResult[100];
-			int testId = -1;
-			int lastTestId = 20;
-			tests[++testId] = new PerformanceTestResult(threadsNum); test000(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test001(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test002(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test003(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test004(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test005(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test006(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test007(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test008(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test009(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test010(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test011(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test012(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test013(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test014(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test015(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test016(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test017(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test018(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test019(tests[testId], testId);
-			tests[++testId] = new PerformanceTestResult(threadsNum); test020(tests[testId], testId);
-			return lastTestId - testId;
-		}
-		/**
+        public static int Start(int threadsNum)
+        {
+            mXparser.disableUlpRounding();
+            if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
+            tests = new PerformanceTestResult[100];
+            int testId = -1;
+            int lastTestId = 20;
+            tests[++testId] = new PerformanceTestResult(threadsNum); test000(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test001(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test002(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test003(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test004(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test005(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test006(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test007(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test008(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test009(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test010(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test011(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test012(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test013(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test014(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test015(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test016(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test017(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test018(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test019(tests[testId], testId);
+            tests[++testId] = new PerformanceTestResult(threadsNum); test020(tests[testId], testId);
+            return lastTestId - testId;
+        }
+        /**
 		 * Starts mXparser performance tests - number of threads given by the
 		 * mXparser.getThreadsNumber()
 		 *
@@ -545,252 +572,293 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 *
 		 * @return Number of tests that were not performed.
 		 */
-		public static int Start() {
-			return Start(mXparser.getThreadsNumber());
-		}
-		/**
+        public static int Start()
+        {
+            return Start(mXparser.getThreadsNumber());
+        }
+        /**
 		 * Performance test run with multithreading support.
 		 *
 		 * @param args If parameters are given then only the first one
 		 *             is verified, and is considered as number of threads.
 		 */
-		public static void Main(string[] args) {
-			if (args.Length > 0) {
-				int threadsNumber = int.Parse(args[0]);
-				if (threadsNumber > 0) Start(threadsNumber);
-				else Start();
-			} else Start();
-		}
-	}
-	/**
+        public static void Main(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                int threadsNumber = int.Parse(args[0]);
+                if (threadsNumber > 0) Start(threadsNumber);
+                else Start();
+            }
+            else Start();
+        }
+    }
+    /**
 	 * Package level class to keep
 	 * performance test result/
 	 */
-	class PerformanceTestResult {
-		internal long startTime;
-		internal long endTime;
-		internal int iterNum;
-		internal double computingTimeSec;
-		internal long iterPerSec;
-		internal int Id;
-		internal int threadsNum;
-		internal String description;
-		internal String exprStr;
-		internal PerformanceTestResult(int threadsNum) {
-			this.threadsNum = threadsNum;
-		}
-		internal void testInit() {
-			startTime = mXparser.currentTimeMillis();
-		}
-		internal void testClose() {
-			endTime = mXparser.currentTimeMillis();
-			computingTimeSec = (endTime - startTime)/1000.0;
-			iterPerSec = (long)Math.Round(iterNum / computingTimeSec);
-			mXparser.consolePrintln("(threads = " + threadsNum + ") test - " + Id + "; " + exprStr + "; " + iterPerSec + "; " + computingTimeSec + "; " + iterNum + "; " + description);
-		}
-	}
-	/**
+    class PerformanceTestResult
+    {
+        internal long startTime;
+        internal long endTime;
+        internal int iterNum;
+        internal double computingTimeSec;
+        internal long iterPerSec;
+        internal int Id;
+        internal int threadsNum;
+        internal String description;
+        internal String exprStr;
+        internal PerformanceTestResult(int threadsNum)
+        {
+            this.threadsNum = threadsNum;
+        }
+        internal void testInit()
+        {
+            startTime = mXparser.currentTimeMillis();
+        }
+        internal void testClose()
+        {
+            endTime = mXparser.currentTimeMillis();
+            computingTimeSec = (endTime - startTime) / 1000.0;
+            iterPerSec = (long)Math.Round(iterNum / computingTimeSec);
+            mXparser.consolePrintln("(threads = " + threadsNum + ") test - " + Id + "; " + exprStr + "; " + iterPerSec + "; " + computingTimeSec + "; " + iterNum + "; " + description);
+        }
+    }
+    /**
 	 * Multithreading abstract implementation of test
 	 */
-	abstract class TestThread {
-		/**
+    abstract class TestThread
+    {
+        /**
 		 * Number of iterations for a single thread.
 		 */
-		protected int iterNum;
-		/**
+        protected int iterNum;
+        /**
 		 * Test parameters.
 		 */
-		protected PerformanceTestResult test;
-		/**
+        protected PerformanceTestResult test;
+        /**
 		 * Default constructor - creates parameters
 		 * for a single test thread
 		 *
 		 * @param test         Test parameters
 		 * @param threadsNum   Number of threads
 		 */
-		internal TestThread(PerformanceTestResult test) {
-			this.test = test;
-			this.iterNum = test.iterNum/test.threadsNum;
-		}
-		/**
+        internal TestThread(PerformanceTestResult test)
+        {
+            this.test = test;
+            this.iterNum = test.iterNum / test.threadsNum;
+        }
+        /**
 		 * Test scenario implementation
 		 */
-		protected abstract void testScenario();
-		/**
+        protected abstract void testScenario();
+        /**
 		 * Test scenario execution
 		 */
-		public void run () {
-			testScenario();
-		}
-	}
-	/**
+        public void run()
+        {
+            testScenario();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Simple calculations
 	 */
-	class TestSimpleCalcThread : TestThread {
-		internal TestSimpleCalcThread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Expression e = new Expression(test.exprStr);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				e.calculate();
-			}
-		}
-	}
-	/**
+    class TestSimpleCalcThread : TestThread
+    {
+        internal TestSimpleCalcThread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Expression e = new Expression(test.exprStr);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                e.calculate();
+            }
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Simple calculations - addition with
 	 * argument. Expression created once, containing argument
 	 * 'x'. Iteration: argument value is being modified
 	 * (increased), then expression is recalculated
 	 */
-	class Test011Thread : TestThread {
-		internal Test011Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Argument x = new Argument("x");
-			Expression e = new Expression(test.exprStr, x);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				x.setArgumentValue(i);
-				e.calculate();
-			}
-		}
-	}
-	/**
+    class Test011Thread : TestThread
+    {
+        internal Test011Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Argument x = new Argument("x");
+            Expression e = new Expression(test.exprStr, x);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                x.setArgumentValue(i);
+                e.calculate();
+            }
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: User defined function f(x,y)=3x+4y.
 	 * Expression &Function created once, containing argument 'x'.
 	 * Iteration: argument value is being modified (increased),
 	 * then expression is recalculated
 	 */
-	class Test012Thread : TestThread {
-		internal Test012Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Argument x = new Argument("x");
-			Argument y = new Argument("y");
-			Function f = new Function("f(x,y)=3*x+4*y");
-			Expression e = new Expression(test.exprStr, f, x, y);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				x.setArgumentValue(i);
-				y.setArgumentValue(i);
-				e.calculate();
-			}
-		}
-	}
-	/**
+    class Test012Thread : TestThread
+    {
+        internal Test012Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Argument x = new Argument("x");
+            Argument y = new Argument("y");
+            Function f = new Function("f(x,y)=3*x+4*y");
+            Expression e = new Expression(test.exprStr, f, x, y);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                x.setArgumentValue(i);
+                y.setArgumentValue(i);
+                e.calculate();
+            }
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating constants: Iteration:
 	 * Constant c = new Constant("c", 5)
 	 */
-	class Test013Thread : TestThread {
-		internal Test013Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Constant c = new Constant("c", 5);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				c = new Constant("c", 5);
-			}
-			c.getConstantValue();
-		}
-	}
-	/**
+    class Test013Thread : TestThread
+    {
+        internal Test013Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Constant c = new Constant("c", 5);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                c = new Constant("c", 5);
+            }
+            c.getConstantValue();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating constants: Iteration:
 	 * Constant c = new Constant("c=5")
 	 */
-	class Test014Thread : TestThread {
-		internal Test014Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Constant c = new Constant("c", 5);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				c = new Constant("c=5");
-			}
-			c.getConstantValue();
-		}
-	}
-	/**
+    class Test014Thread : TestThread
+    {
+        internal Test014Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Constant c = new Constant("c", 5);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                c = new Constant("c=5");
+            }
+            c.getConstantValue();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating arguments: Iteration:
 	 * Argument x = new Argument("x", 5)
 	 */
-	class Test015Thread : TestThread {
-		internal Test015Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Argument x = new Argument("x", 2);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				x = new Argument("x", 5);
-			}
-			x.getArgumentValue();
-		}
-	}
-	/**
+    class Test015Thread : TestThread
+    {
+        internal Test015Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Argument x = new Argument("x", 2);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                x = new Argument("x", 5);
+            }
+            x.getArgumentValue();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating arguments: Iteration:
 	 * Argument x = new Argument("x = 5")
 	 */
-	class Test016Thread : TestThread {
-		internal Test016Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Argument x = new Argument("x", 2);
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				x = new Argument("x=5");
-			}
-			x.getArgumentValue();
-		}
-	}
-	/**
+    class Test016Thread : TestThread
+    {
+        internal Test016Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Argument x = new Argument("x", 2);
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                x = new Argument("x=5");
+            }
+            x.getArgumentValue();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating functions: Iteration:
 	 * Function f = new Function("f", "x+y", "x", "y")
 	 */
-	class Test017Thread : TestThread {
-		internal Test017Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Function f = new Function("f", "x", "x");
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				f = new Function("f", "x+y", "x", "y");
-			}
-			f.calculate(1);
-		}
-	}
-	/**
+    class Test017Thread : TestThread
+    {
+        internal Test017Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Function f = new Function("f", "x", "x");
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                f = new Function("f", "x+y", "x", "y");
+            }
+            f.calculate(1);
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating functions: Iteration:
 	 * Function f = new Function("f(x,y)=x+y")
 	 */
-	class Test018Thread : TestThread {
-		internal Test018Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Function f = new Function("f", "x", "x");
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				f = new Function("f(x,y)=x+y");
-			}
-			f.calculate(1, 2);
-		}
-	}
-	/**
+    class Test018Thread : TestThread
+    {
+        internal Test018Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Function f = new Function("f", "x", "x");
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                f = new Function("f(x,y)=x+y");
+            }
+            f.calculate(1, 2);
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating expressions: Iteration:
 	 * Expression e = new Expression("sin(2+(3*4)^2)/10")
 	 */
-	class Test019Thread : TestThread {
-		internal Test019Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Expression e = new Expression("");
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				e = new Expression("sin(2+(3*4)^2)/10");
-			}
-			e.calculate();
-		}
-	}
-	/**
+    class Test019Thread : TestThread
+    {
+        internal Test019Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Expression e = new Expression("");
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                e = new Expression("sin(2+(3*4)^2)/10");
+            }
+            e.calculate();
+        }
+    }
+    /**
 	 * Multithreading implementation of class for
 	 * Performance test: Creating expressions:
 	 * Expression e = new Expression("")
@@ -798,15 +866,18 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 * e.setExpressionString(sin(2+(3*4)^2)/10);
 	 * e.checkSyntax();
 	 */
-	class Test020Thread : TestThread {
-		internal Test020Thread(PerformanceTestResult test) : base(test) { }
-		protected override void testScenario() {
-			Expression e = new Expression("");
-			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				e.setExpressionString("sin(2+(3*4)^2)/10");
-				e.checkSyntax();
-			}
-		}
-	}
+    class Test020Thread : TestThread
+    {
+        internal Test020Thread(PerformanceTestResult test) : base(test) { }
+        protected override void testScenario()
+        {
+            Expression e = new Expression("");
+            for (int i = 0; i <= base.iterNum; i++)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) break;
+                e.setExpressionString("sin(2+(3*4)^2)/10");
+                e.checkSyntax();
+            }
+        }
+    }
 }

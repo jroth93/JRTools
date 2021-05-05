@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser {
-	/**
+namespace org.mariuszgromada.math.mxparser
+{
+    /**
 	 * FunctionExtension provides interface for function algorithm definition.
 	 * In this case algorithm definition is based on source code using
 	 * JAVA (for JAVA / Android) or .NET. If implemented Function Extension
@@ -89,36 +90,37 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see Function
 	 *
 	 */
-	[CLSCompliant(true)]
-	public interface FunctionExtension {
-		/**
+    [CLSCompliant(true)]
+    public interface FunctionExtension
+    {
+        /**
 		 * Gets parameters number.
 		 *
 		 * @return Returns parameters number.
 		 */
-		int getParametersNumber();
-		/**
+        int getParametersNumber();
+        /**
 		 * Sets value of function parameter
 		 *
 		 * @param parameterIndex    - parameter index (from 0 to n-1)
 		 * @param parameterValue    - parameter value
 		 */
-		void setParameterValue(int parameterIndex, double parameterValue);
-		/**
+        void setParameterValue(int parameterIndex, double parameterValue);
+        /**
 		 * Gets parameter name
 		 *
 		 * @param parameterIndex    - parameter index (from 0 to n-1)
 		 * @return Returns parameter name
 		 */
-		String getParameterName(int parameterIndex);
-		/**
+        String getParameterName(int parameterIndex);
+        /**
 		 * Actual algorithm implementation.
 		 *
 		 * @param params Function parameters.
 		 * @return Function Extension value.
 		 */
-		double calculate();
-		/**
+        double calculate();
+        /**
 		 * Cloning in case of usage in Expression
 		 * with recursive statements.
 		 *
@@ -126,6 +128,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see Expression#getRecursiveMode()
 		 */
-		FunctionExtension clone();
-	}
+        FunctionExtension clone();
+    }
 }

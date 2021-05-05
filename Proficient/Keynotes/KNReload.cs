@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExternalService;
-using System.Windows.Forms;
+using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Proficient
 {
@@ -23,7 +22,7 @@ namespace Proficient
         {
             Document doc = revit.Application.ActiveUIDocument.Document;
 
-            knList =  await MSGraph.GetKNData(Util.GetProjectNumber(revit));
+            knList = await MSGraph.GetKNData(Util.GetProjectNumber(revit));
 
             rvtTask.Run((uiApp) => RvtKNWork(uiApp.ActiveUIDocument.Document));
         }

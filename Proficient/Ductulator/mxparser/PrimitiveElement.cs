@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser {
-	/**
+namespace org.mariuszgromada.math.mxparser
+{
+    /**
 	 * Class used for connecting all basic elements such as: Argument, Constant,
 	 * Function. Class not used by the end user.
 	 *
@@ -87,17 +88,18 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see            Expression#addDefinitions(PrimitiveElement...)
 	 * @see            Expression#removeDefinitions(PrimitiveElement...)
 	 */
-	[CLSCompliant(true)]
-	public class PrimitiveElement {
-		/**
+    [CLSCompliant(true)]
+    public class PrimitiveElement
+    {
+        /**
 		 * Element type id
 		 *
 		 * @see     Argument.TYPE_ID
 		 * @see     Constant.TYPE_ID
 		 * @see     Function.TYPE_ID
 		 */
-		private int myTypeId;
-		/**
+        private int myTypeId;
+        /**
 		 * Default constructor setting element type id
 		 *
 		 * @param typeId     Element type id
@@ -106,10 +108,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see     Constant.TYPE_ID
 		 * @see     Function.TYPE_ID
 		 */
-		public PrimitiveElement(int typeId) {
-			myTypeId = typeId;
-		}
-		/**
+        public PrimitiveElement(int typeId)
+        {
+            myTypeId = typeId;
+        }
+        /**
 		 * Returns element type id
 		 *
 		 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
@@ -119,8 +122,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see     Function.TYPE_ID
 		 *
 		 */
-		public int getMyTypeId() {
-			return myTypeId;
-		}
-	}
+        public int getMyTypeId()
+        {
+            return myTypeId;
+        }
+    }
 }

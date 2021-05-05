@@ -16,7 +16,7 @@ namespace Proficient
         public ExcelAssignFrm()
         {
             InitializeComponent();
-            getColsBtn.Visible = false;            
+            getColsBtn.Visible = false;
             catDrop.Items.AddRange(ExcelAssign.GetCategories());
             catDrop.SelectedIndex = 0;
             colDrops.Add(sc1);
@@ -40,7 +40,7 @@ namespace Proficient
             }
             label1.Dispose();
             return maxWidth + SystemInformation.VerticalScrollBarWidth;
-        }        
+        }
 
         private void xlfilebtn_Click(object sender, EventArgs e)
         {
@@ -69,7 +69,7 @@ namespace Proficient
                 int parCol = keyColDrop.Items.IndexOf(colDrops[i - 1].SelectedItem) + 1;
                 int startRow = Convert.ToInt32(hdrRowCtrl.Value) + 1;
 
-                if(byType)
+                if (byType)
                 {
                     errorLog += ExcelAssign.AssignParameterValuesType(familyName, parName, keyCol, startRow, parCol);
                 }
@@ -77,7 +77,7 @@ namespace Proficient
                 {
                     errorLog += ExcelAssign.AssignParameterValuesInst(familyName, parName, keyCol, startRow, parCol);
                 }
-                
+
             }
 
             if (errorLog != String.Empty)
@@ -121,7 +121,7 @@ namespace Proficient
             sc1.Items.Clear();
             sc1.Items.AddRange(cols);
             sc1.Items.Remove(keyColDrop.SelectedItem);
-            if(cols.Length > 1)
+            if (cols.Length > 1)
                 sc1.SelectedIndex = 0;
         }
 
@@ -140,7 +140,7 @@ namespace Proficient
         {
             string curItem = Convert.ToString(dp1.SelectedItem);
             string typeInst = curItem.Substring(curItem.Length - 5, 4);
-            if(typeInst == "inst")
+            if (typeInst == "inst")
             {
                 typeInstLbl.Text = "Assigning by Instance";
                 byType = false;
@@ -151,9 +151,9 @@ namespace Proficient
                 byType = true;
             }
 
-            foreach(ComboBox cb in parDrops)
+            foreach (ComboBox cb in parDrops)
             {
-                if(parDrops.IndexOf(cb) != 0)
+                if (parDrops.IndexOf(cb) != 0)
                 {
                     cb.Items.Clear();
                     foreach (string par in dp1.Items)
@@ -167,7 +167,7 @@ namespace Proficient
                     }
                     cb.SelectedIndex = 0;
                 }
-                
+
             }
         }
 
@@ -191,14 +191,14 @@ namespace Proficient
             parDrops[parCnt].Width = parDrops[parCnt - 1].Width;
             parDrops[parCnt].DropDownStyle = ComboBoxStyle.DropDownList;
             parDrops[parCnt].Top += 35;
-            parDrops[parCnt].DropDownWidth = parDrops[parCnt-1].DropDownWidth;
+            parDrops[parCnt].DropDownWidth = parDrops[parCnt - 1].DropDownWidth;
 
             colDrops[parCnt].Items.AddRange(cols);
             colDrops[parCnt].Items.Remove(keyColDrop.SelectedItem);
 
             string typeInst = "";
 
-            foreach(string par in dp1.Items)
+            foreach (string par in dp1.Items)
             {
                 typeInst = par.Substring(par.Length - 5, 4);
                 if (byType && typeInst == "type")
@@ -207,7 +207,7 @@ namespace Proficient
                     parDrops[parCnt].Items.Add(par);
 
             }
-            if(parDrops[parCnt].Items.Count > 0)
+            if (parDrops[parCnt].Items.Count > 0)
                 parDrops[parCnt].SelectedIndex = 0;
 
             if (cols.Length >= parCnt + 2)
@@ -222,7 +222,7 @@ namespace Proficient
 
         private void subtractbtn_Click(object sender, EventArgs e)
         {
-            if(parCnt > 1)
+            if (parCnt > 1)
             {
                 this.Height -= 35;
                 this.Controls.Remove(colDrops[parCnt - 1]);

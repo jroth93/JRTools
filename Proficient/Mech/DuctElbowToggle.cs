@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Proficient
 {
@@ -27,7 +23,7 @@ namespace Proficient
                 {
                     foreach (DuctType dt in ductTypeFec)
                     {
-                        if(dt.Name == "Rectangular Duct")
+                        if (dt.Name == "Rectangular Duct")
                         {
                             rprList.Clear();
                             RoutingPreferenceManager rpm = dt.RoutingPreferenceManager;
@@ -61,7 +57,7 @@ namespace Proficient
 
                 tx.Commit();
 
-                Util.BalloonTip("Routing Preferences Updated", alert, String.Empty);                
+                Util.BalloonTip("Routing Preferences Updated", alert, String.Empty);
             }
 
             return Result.Succeeded;

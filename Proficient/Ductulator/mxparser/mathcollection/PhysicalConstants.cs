@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * PhysicalConstants - class representing the most important physical constants.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -78,88 +79,89 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.2.0
 	 */
-	[CLSCompliant(true)]
-	public sealed class PhysicalConstants {
-		/**
+    [CLSCompliant(true)]
+    public sealed class PhysicalConstants
+    {
+        /**
 		 * Light speed
 		 */
-		public const double LIGHT_SPEED = 299792458.0 * Units.METRE_PER_SECOND;
-		/**
+        public const double LIGHT_SPEED = 299792458.0 * Units.METRE_PER_SECOND;
+        /**
 		 * Gravitational constant
 		 */
-		public const double GRAVITATIONAL_CONSTANT = 6.67408E-11 * Units.METRE3 * (1.0 / Units.KILOGRAM) * (1.0 / (Units.SECOND * Units.SECOND));
-		/**
+        public const double GRAVITATIONAL_CONSTANT = 6.67408E-11 * Units.METRE3 * (1.0 / Units.KILOGRAM) * (1.0 / (Units.SECOND * Units.SECOND));
+        /**
 		 * Gravitational acceleration - Earth (normal)
 		 */
-		public const double GRAVIT_ACC_EARTH = 9.80665 * Units.METRE_PER_SECOND2;
-		/**
+        public const double GRAVIT_ACC_EARTH = 9.80665 * Units.METRE_PER_SECOND2;
+        /**
 		 * Planck constant
 		 */
-		public const double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;
-		/**
+        public const double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;
+        /**
 		 * Reduced Planck constant
 		 */
-		public const double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * MathConstants.PI);
-		/**
+        public const double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * MathConstants.PI);
+        /**
 		 * Planck length
 		 */
-		public const double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;
-		/**
+        public const double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;
+        /**
 		 * Planck mass
 		 */
-		public const double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;
-		/**
+        public const double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;
+        /**
 		 * Planck time
 		 */
-		public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
-		/**
+        public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
+        /**
 		 * Avagadro's constant
 		 */
-		public const double N_A = 6.022140857E23 / Units.MOLE;
-		/**
+        public const double N_A = 6.022140857E23 / Units.MOLE;
+        /**
 		 * Gas constant
 		 */
-		public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
-		/**
+        public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
+        /**
 		 * Boltzmann constant
 		 */
-		public const double BOLTZMANN_CONSTANT = R / N_A;
-		/**
+        public const double BOLTZMANN_CONSTANT = R / N_A;
+        /**
 		 * Neutron rest mass
 		 */
-		public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
-		/**
+        public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
+        /**
 		 * Neutron equivalent rest mass
 		 */
-		public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
+        public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
 		 * Proton rest mass
 		 */
-		public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
-		/**
+        public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
+        /**
 		 * Proton equivalent rest mass
 		 */
-		public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
+        public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
 		 * Elementary charge
 		 */
-		public const double ELEMENTARY_CHARGE = 1.6021766208E-19*Units.COULOMB;
+        public const double ELEMENTARY_CHARGE = 1.6021766208E-19 * Units.COULOMB;
 
-		/**
+        /**
 		 * Electron rest mass
 		 */
-		public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
-		/**
+        public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
+        /**
 		 * Electron equivalent rest mass
 		 */
-		public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-		/**
+        public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
 		 * Vacuum permittivity
 		 */
-		public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
-		/**
+        public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
+        /**
 		 * Vacuum permeability
 		 */
-		public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
-	}
+        public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
+    }
 }

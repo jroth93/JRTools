@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
+using System.Runtime.InteropServices;
 using XL = Microsoft.Office.Interop.Excel;
 
 namespace Proficient
@@ -61,9 +63,9 @@ namespace Proficient
             {
                 if (ex.Message.Contains("being used by another process"))
                 {
-                    string newPath = 
-                        Path.GetExtension(xlPath) == ".xlsx" ? 
-                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" : 
+                    string newPath =
+                        Path.GetExtension(xlPath) == ".xlsx" ?
+                        Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsx" :
                         Path.GetDirectoryName(xlPath) + @"\" + Path.GetFileNameWithoutExtension(xlPath) + "-temp.xlsm";
                     File.Copy(xlPath, newPath);
                     xlPath = newPath;
@@ -71,7 +73,6 @@ namespace Proficient
                 }
             }
 
-            wb = xl.Workbooks.Open(Filename: xlPath, ReadOnly: true);
             
             var ws = wb.Worksheets;
             List<string> wslist = new List<string>();
@@ -80,6 +81,7 @@ namespace Proficient
                 wslist.Add((ws.Item[i] as XL.Worksheet).Name);
 
             return wslist.ToArray();
+            
             
         }
 
@@ -289,7 +291,7 @@ namespace Proficient
                     }
                 }
             }
-            
+
 
             return errorLog;
         }
@@ -355,7 +357,7 @@ namespace Proficient
                 
                 
             }
-            
+
 
             return errorLog;
         }

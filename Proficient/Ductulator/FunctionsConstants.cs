@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proficient
 {
@@ -129,8 +125,8 @@ namespace Proficient
 
         public static double Velocitysolver(double airflow, double dia, double width, int depth, bool boolrnd)
         {
-                double velocity = boolrnd ? 576 * airflow / (Math.PI * dia * dia) : 144 * airflow / (width * depth);
-                return velocity;
+            double velocity = boolrnd ? 576 * airflow / (Math.PI * dia * dia) : 144 * airflow / (width * depth);
+            return velocity;
         }
     }
 }

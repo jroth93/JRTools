@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * BinaryRelations - class for dealing with binary relations on integers or doubles.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -78,78 +79,86 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.1.0
 	 */
-	[CLSCompliant(true)]
-	public sealed class BinaryRelations {
-		/**
+    [CLSCompliant(true)]
+    public sealed class BinaryRelations
+    {
+        /**
 		 * Default epsilon for comparison
 		 */
-		public static readonly double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
-		/**
+        public static readonly double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
+        /**
 		 * Epsilon for comparison
 		 */
-		internal static double epsilon = DEFAULT_COMPARISON_EPSILON;
-		/**
+        internal static double epsilon = DEFAULT_COMPARISON_EPSILON;
+        /**
 		 * COmparison mode indicator
 		 */
-		internal static bool epsilonComparison = true;
-		/**
+        internal static bool epsilonComparison = true;
+        /**
 		 * Sets comparison mode to EXACT.
 		 */
-		public static void setExactComparison() {
-			epsilonComparison = false;
-		}
-		/**
+        public static void setExactComparison()
+        {
+            epsilonComparison = false;
+        }
+        /**
 		 * Sets comparison mode to EPSILON.
 		 */
-		public static void setEpsilonComparison() {
-			epsilonComparison = true;
-		}
-		/**
+        public static void setEpsilonComparison()
+        {
+            epsilonComparison = true;
+        }
+        /**
 		 * Sets epsilon value.
 		 * @param epsilon   Epsilon value (grater than 0).
 		 *
 		 * @see #setEpsilonComparison()
 		 */
-		public static void setEpsilon(double epsilon) {
-			if (epsilon > 0) BinaryRelations.epsilon = epsilon;
-		}
-		/**
+        public static void setEpsilon(double epsilon)
+        {
+            if (epsilon > 0) BinaryRelations.epsilon = epsilon;
+        }
+        /**
 		 * Sets default epsilon value.
 		 *
 		 * @see #setEpsilonComparison()
 		 * @see #DEFAULT_COMPARISON_EPSILON
 		 */
-		public static void setDefaultEpsilon() {
-			BinaryRelations.epsilon = DEFAULT_COMPARISON_EPSILON;
-		}
-		/**
+        public static void setDefaultEpsilon()
+        {
+            BinaryRelations.epsilon = DEFAULT_COMPARISON_EPSILON;
+        }
+        /**
 		 * Returns current epsilon value.
 		 * @return  Returns current epsilon value.
 		 *
 		 * @see #setEpsilonComparison()
 		 */
-		public static double getEpsilon() {
-			return epsilon;
-		}
-		/**
+        public static double getEpsilon()
+        {
+            return epsilon;
+        }
+        /**
 		 * Checks if epsilon comparison mode is active;
 		 * @return  True if epsilon mode is active, otherwise returns false.
 		 * @see #setEpsilonComparison()
 		 * @see #setExactComparison()
 		 */
-		public static bool checkIfEpsilonMode() {
-			return epsilonComparison;
-		}
-		/**
+        public static bool checkIfEpsilonMode()
+        {
+            return epsilonComparison;
+        }
+        /**
 		 * Checks if exact comparison mode is active;
 		 * @return  True if exact mode is active, otherwise returns false.
 		 * @see #setEpsilonComparison()
 		 * @see #setExactComparison()
 		 */
-		public static bool checkIfExactMode() {
-			return !epsilonComparison;
-		}
-		/**
+        public static bool checkIfExactMode()
+        {
+            return !epsilonComparison;
+        }
+        /**
 		 * Equality relation.
 		 *
 		 * @param      a                   the a number (a = b)
@@ -159,17 +168,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a = b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double eq(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (MathFunctions.abs(a - b) <= eps) result = BooleanAlgebra.TRUE;
-			} else if (a == b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-		/**
+        public static double eq(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (MathFunctions.abs(a - b) <= eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a == b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+        /**
 		 * Inequality relation.
 		 *
 		 * @param      a                   the a number (a &lt;&gt; b)
@@ -179,17 +191,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a &lt;&gt; b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double neq(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (MathFunctions.abs(a - b) > eps) result = BooleanAlgebra.TRUE;
-			} else if (a != b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-		/**
+        public static double neq(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (MathFunctions.abs(a - b) > eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a != b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+        /**
 		 * Lower than relation.
 		 *
 		 * @param      a                   the a number (a &lt; b)
@@ -199,17 +214,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a &lt; b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double lt(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (a < b - eps) result = BooleanAlgebra.TRUE;
-			} else if (a < b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-		/**
+        public static double lt(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (a < b - eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a < b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+        /**
 		 * Greater than relation.
 		 *
 		 * @param      a                   the a number (a &gt; b)
@@ -219,17 +237,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a &gt; b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double gt(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (a > b + eps) result = BooleanAlgebra.TRUE;
-			} else if (a > b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-		/**
+        public static double gt(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (a > b + eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a > b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+        /**
 		 * Lower or equal relation.
 		 *
 		 * @param      a                   the a number (a &lt;= b)
@@ -239,17 +260,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a &lt;= b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double leq(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (a <= b + eps) result = BooleanAlgebra.TRUE;
-			} else if (a <= b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-		/**
+        public static double leq(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (a <= b + eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a <= b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+        /**
 		 * Greater or equal relation.
 		 *
 		 * @param      a                   the a number (a &gt;= b)
@@ -259,15 +283,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             else if a &gt;= b return 1,
 		 *             otherwise return 0.
 		 */
-		public static double geq(double a, double b) {
-			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
-			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
-			if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
-			double result = BooleanAlgebra.FALSE;
-			if (epsilonComparison) {
-				if (a >= b - eps) result = BooleanAlgebra.TRUE;
-			} else if (a >= b) result = BooleanAlgebra.TRUE;
-			return result;
-		}
-	}
+        public static double geq(double a, double b)
+        {
+            if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+            double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
+            if (Double.IsInfinity(a) || Double.IsInfinity(b)) eps = 0;
+            double result = BooleanAlgebra.FALSE;
+            if (epsilonComparison)
+            {
+                if (a >= b - eps) result = BooleanAlgebra.TRUE;
+            }
+            else if (a >= b) result = BooleanAlgebra.TRUE;
+            return result;
+        }
+    }
 }

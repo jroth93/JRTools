@@ -60,8 +60,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * Evaluate - currently only polynomial evaluation based on provided coefficients.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -83,53 +84,58 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.2.0
 	 */
-	[CLSCompliant(true)]
-	public sealed class Evaluate {
-		/**
+    [CLSCompliant(true)]
+    public sealed class Evaluate
+    {
+        /**
 		 * Polynomial evaluation based on provided coefficients.
 		 * @param x                  Point at which polynomial will be evaluated
 		 * @param coefficients       Polynomial coefficients
 		 * @return                   Polynomial value
 		 */
-		public static double polynomial(double x, double[] coefficients) {
-			if (Double.IsNaN(x)) return Double.NaN;
-			if (coefficients == null) return Double.NaN;
-			if (coefficients.Length == 0) return Double.NaN;
-			if (coefficients.Length == 1) return coefficients[0];
-			double sum = coefficients[coefficients.Length - 1];
-			if (Double.IsNaN(sum)) return Double.NaN;
-			for (int i = coefficients.Length - 2; i >= 0; i--) {
-				if (Double.IsNaN(coefficients[i])) return Double.NaN;
-				sum *= x;
-				sum += coefficients[i];
-			}
-			return sum;
-		}
-		/**
+        public static double polynomial(double x, double[] coefficients)
+        {
+            if (Double.IsNaN(x)) return Double.NaN;
+            if (coefficients == null) return Double.NaN;
+            if (coefficients.Length == 0) return Double.NaN;
+            if (coefficients.Length == 1) return coefficients[0];
+            double sum = coefficients[coefficients.Length - 1];
+            if (Double.IsNaN(sum)) return Double.NaN;
+            for (int i = coefficients.Length - 2; i >= 0; i--)
+            {
+                if (Double.IsNaN(coefficients[i])) return Double.NaN;
+                sum *= x;
+                sum += coefficients[i];
+            }
+            return sum;
+        }
+        /**
 		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
 		 * @param x      Argument value
 		 * @param coef   List of polynomial coefficients
 		 * @param n      Polynomial degree
 		 * @return Polynomial value
 		 */
-		public static double p1evl(double x, double[] coef, int n) {
-			double ans;
-			ans = x + coef[0];
-			for(int i=1; i<n; i++) { ans = ans*x+coef[i]; }
-			return ans;
-		}
-		/**
+        public static double p1evl(double x, double[] coef, int n)
+        {
+            double ans;
+            ans = x + coef[0];
+            for (int i = 1; i < n; i++) { ans = ans * x + coef[i]; }
+            return ans;
+        }
+        /**
 		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
 		 * @param x      Argument value
 		 * @param coef   List of polynomial coefficients
 		 * @param n      Polynomial degree
 		 * @return Polynomial value
 		 */
-		public static double polevl(double x, double[] coef, int n) {
-			double ans;
-			ans = coef[0];
-			for(int i=1; i<=n; i++) ans = ans*x+coef[i];
-			return ans;
-		}
-	}
+        public static double polevl(double x, double[] coef, int n)
+        {
+            double ans;
+            ans = coef[0];
+            for (int i = 1; i <= n; i++) ans = ans * x + coef[i];
+            return ans;
+        }
+    }
 }

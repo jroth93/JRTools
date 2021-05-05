@@ -57,8 +57,9 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
 
-namespace org.mariuszgromada.math.mxparser {
-	/**
+namespace org.mariuszgromada.math.mxparser
+{
+    /**
 	 * Constant class provides ability to declare constants.
 	 * Constants can be used in further processing by any expression,
 	 * dependent or recursive argument, function, etc...
@@ -97,72 +98,77 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see Argument
 	 *
 	 */
-	[CLSCompliant(true)]
-	public class Constant : PrimitiveElement {
-		/**
+    [CLSCompliant(true)]
+    public class Constant : PrimitiveElement
+    {
+        /**
 		 * When constant could not be found
 		 */
-		public const int NOT_FOUND = Expression.NOT_FOUND;
-		/**
+        public const int NOT_FOUND = Expression.NOT_FOUND;
+        /**
 		 * Type identifier for constants
 		 */
-		public const int TYPE_ID			= 104;
-		public const String TYPE_DESC		= "User defined constant";
-		/**
+        public const int TYPE_ID = 104;
+        public const String TYPE_DESC = "User defined constant";
+        /**
 		 * Status of the Expression syntax
 		 */
-		public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		private const String NO_SYNTAX_ERROR_MSG = "Constant - no syntax errors.";
-		/**
+        public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+        public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+        private const String NO_SYNTAX_ERROR_MSG = "Constant - no syntax errors.";
+        /**
 		 * Name of the constant
 		 */
-		private String constantName;
-		/**
+        private String constantName;
+        /**
 		 * COnstant value
 		 */
-		private double constantValue;
-		/**
+        private double constantValue;
+        /**
 		 * Constant description
 		 */
-		private String description;
-		/**
+        private String description;
+        /**
 		 * Dependent expression list
 		 */
-		private List<Expression> relatedExpressionsList;
-		/**
+        private List<Expression> relatedExpressionsList;
+        /**
 		 * Status of the expression syntax
 		 *
 		 * Please referet to the:
 		 *    - NO_SYNTAX_ERRORS
 		 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
 		 */
-		private bool syntaxStatus;
-		/**
+        private bool syntaxStatus;
+        /**
 		 * Message after checking the syntax
 		 */
-		private String errorMessage;
-		/**
+        private String errorMessage;
+        /**
 		 * Constructor - creates constant with a given name and given value
 		 *
 		 *
 		 * @param      constantName        the constant name
 		 * @param      constantValue       the constant value
 		 */
-		public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID) {
-			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-				this.constantName = constantName;
-				this.constantValue = constantValue;
-				description = "";
-				syntaxStatus = NO_SYNTAX_ERRORS;
-				errorMessage = NO_SYNTAX_ERROR_MSG;
-			} else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
-			}
-		}
-		/**
+        public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID)
+        {
+            relatedExpressionsList = new List<Expression>();
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp))
+            {
+                this.constantName = constantName;
+                this.constantValue = constantValue;
+                description = "";
+                syntaxStatus = NO_SYNTAX_ERRORS;
+                errorMessage = NO_SYNTAX_ERROR_MSG;
+            }
+            else
+            {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+        }
+        /**
 		 * Constructor - creates constant with a given name and given value.
 		 * Additionally description is being set.
 		 *
@@ -170,21 +176,24 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      constantValue       the constant value
 		 * @param      description         the constant description
 		 */
-		public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID) {
-			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-				this.constantName = constantName;
-				this.constantValue = constantValue;
-				this.description = description;
-				syntaxStatus = NO_SYNTAX_ERRORS;
-				errorMessage = NO_SYNTAX_ERROR_MSG;
-			}
-			else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
-			}
-		}
-		/**
+        public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID)
+        {
+            relatedExpressionsList = new List<Expression>();
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp))
+            {
+                this.constantName = constantName;
+                this.constantValue = constantValue;
+                this.description = description;
+                syntaxStatus = NO_SYNTAX_ERRORS;
+                errorMessage = NO_SYNTAX_ERROR_MSG;
+            }
+            else
+            {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+        }
+        /**
 		 * Constructor for function definition in natural math language,
 		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
 		 * is enough to define function "f" with parameters "x and y"
@@ -194,119 +203,133 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
-		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
-			description = "";
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp))
-			{
-				HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
-				constantName = headEqBody.headTokens[0].tokenStr;
-				Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
-				constantValue = bodyExpression.calculate();
-				syntaxStatus = bodyExpression.getSyntaxStatus();
-				errorMessage = bodyExpression.getErrorMessage();
-			}
-			else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constArgDefStrRegExp;
-		}
-		/**
+        public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID)
+        {
+            description = "";
+            syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+            relatedExpressionsList = new List<Expression>();
+            if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp))
+            {
+                HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
+                constantName = headEqBody.headTokens[0].tokenStr;
+                Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
+                constantValue = bodyExpression.calculate();
+                syntaxStatus = bodyExpression.getSyntaxStatus();
+                errorMessage = bodyExpression.getErrorMessage();
+            }
+            else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constArgDefStrRegExp;
+        }
+        /**
 		 * Gets constant name
 		 *
 		 * @return     the constant name as string.
 		 */
-		public String getConstantName() {
-			return constantName;
-		}
-		/**
+        public String getConstantName()
+        {
+            return constantName;
+        }
+        /**
 		 * Sets constant name. If constant is associated with any expression
 		 * then this operation will set modified flag to each related expression.
 		 *
 		 * @param      constantName        the constant name
 		 */
-		public void setConstantName(String constantName) {
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-				this.constantName = constantName;
-				setExpressionModifiedFlags();
-			}
-			else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
-			}
-		}
-		/**
+        public void setConstantName(String constantName)
+        {
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp))
+            {
+                this.constantName = constantName;
+                setExpressionModifiedFlags();
+            }
+            else
+            {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+        }
+        /**
 		 * Sets constant value
 		 * @param value   constant value
 		 */
-		public void setConstantValue(double constantValue) {
-			this.constantValue = constantValue;
-		}
-		/**
+        public void setConstantValue(double constantValue)
+        {
+            this.constantValue = constantValue;
+        }
+        /**
 		 * Gets constant value.
 		 *
 		 * @return     constant value as double
 		 */
-		public double getConstantValue() {
-			return constantValue;
-		}
-		/**
+        public double getConstantValue()
+        {
+            return constantValue;
+        }
+        /**
 		 * Gets constant description.
 		 *
 		 * @return     constant description as string.
 		 */
-		public String getDescription() {
-			return description;
-		}
-		/**
+        public String getDescription()
+        {
+            return description;
+        }
+        /**
 		 * Sets constant description.
 		 *
 		 * @param      description         the constant description
 		 */
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		/**
+        public void setDescription(String description)
+        {
+            this.description = description;
+        }
+        /**
 		 * Method return error message after
 		 *
 		 * @return     Error message as string.
 		 */
-		public String getErrorMessage() {
-			return errorMessage;
-		}
-		/**
+        public String getErrorMessage()
+        {
+            return errorMessage;
+        }
+        /**
 		 * Gets syntax status of the expression.
 		 *
 		 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
 		 *             ConstantValue.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
 		 *             syntax status is unknown
 		 */
-		public bool getSyntaxStatus() {
-			return this.syntaxStatus;
-		}
-		/**
+        public bool getSyntaxStatus()
+        {
+            return this.syntaxStatus;
+        }
+        /**
 		 * Adds related expression.
 		 *
 		 * @param      expression          the related expression.
 		 */
-		internal void addRelatedExpression(Expression expression) {
-			if (expression != null)
-				if ( !relatedExpressionsList.Contains(expression) )
-					relatedExpressionsList.Add(expression);
-		}
-		/**
+        internal void addRelatedExpression(Expression expression)
+        {
+            if (expression != null)
+                if (!relatedExpressionsList.Contains(expression))
+                    relatedExpressionsList.Add(expression);
+        }
+        /**
 		 * Removes related expression.
 		 *
 		 * @param      expression          the related expression.
 		 */
-		internal void removeRelatedExpression(Expression expression) {
-			if (expression != null)
-				relatedExpressionsList.Remove(expression);
-		}
-		/**
+        internal void removeRelatedExpression(Expression expression)
+        {
+            if (expression != null)
+                relatedExpressionsList.Remove(expression);
+        }
+        /**
 		 * Sets expression modified flag to each related expression.
 		 */
-		void setExpressionModifiedFlags() {
-			foreach (Expression e in relatedExpressionsList)
-				e.setExpressionModifiedFlag();
-		}
-	}
+        void setExpressionModifiedFlags()
+        {
+            foreach (Expression e in relatedExpressionsList)
+                e.setExpressionModifiedFlag();
+        }
+    }
 }

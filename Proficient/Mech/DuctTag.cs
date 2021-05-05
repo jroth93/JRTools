@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI.Selection;
 
 
 namespace Proficient
@@ -23,7 +19,7 @@ namespace Proficient
             View view = doc.GetElement(viewid) as View;
 
 
-            FilteredElementCollector collector = new FilteredElementCollector(doc,viewid);
+            FilteredElementCollector collector = new FilteredElementCollector(doc, viewid);
             collector.OfCategory(BuiltInCategory.OST_DuctCurves);
             ICollection<Element> allducts = collector.ToElements();
 
@@ -32,18 +28,18 @@ namespace Proficient
             {
                 if (tx.Start() == TransactionStatus.Started)
                 {
-                    foreach(Element ductel in allducts)
+                    foreach (Element ductel in allducts)
                     {
                         Reference ductref = new Reference(ductel);
                         Location loc = ductel.Location;
                         LocationCurve loccurve = loc as LocationCurve;
                         bool boolductlongenough = loccurve.Curve.Length > 3;
-                        double ductwidth = 
+                        double ductwidth =
                             ductel.Name == "Round Duct" ?
-                            ductel.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble():
+                            ductel.get_Parameter(BuiltInParameter.RBS_CURVE_DIAMETER_PARAM).AsDouble() :
                             ductel.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM).AsDouble();
                         double minnoleadersize = 144 / Convert.ToDouble(view.Scale);
-                        bool isvertical = Math.Round(loccurve.Curve.GetEndPoint(0).X,4) == Math.Round(loccurve.Curve.GetEndPoint(1).X,4);
+                        bool isvertical = Math.Round(loccurve.Curve.GetEndPoint(0).X, 4) == Math.Round(loccurve.Curve.GetEndPoint(1).X, 4);
                         bool ishorizontal = Math.Round(loccurve.Curve.GetEndPoint(0).Y, 4) == Math.Round(loccurve.Curve.GetEndPoint(1).Y, 4);
 
 
@@ -58,7 +54,7 @@ namespace Proficient
 
                             if (isvertical)
                             {
-                                if(ductwidth >= minnoleadersize)
+                                if (ductwidth >= minnoleadersize)
                                 {
                                     tor = TagOrientation.Vertical;
                                 }
@@ -67,7 +63,7 @@ namespace Proficient
                                     ldr = true;
                                 }
                             }
-                            else if(ishorizontal && ductwidth < minnoleadersize)
+                            else if (ishorizontal && ductwidth < minnoleadersize)
                             {
                                 ldr = true;
                             }
@@ -75,7 +71,7 @@ namespace Proficient
                             {
                                 tagfam = fec.OfClass(typeof(Family)).Where(f => f.Name == "MEI Mech Tag Duct - Rotating").FirstOrDefault() as Family;
                                 symid = tagfam.GetFamilySymbolIds().FirstOrDefault();
-                                if(ductwidth < minnoleadersize)
+                                if (ductwidth < minnoleadersize)
                                 {
                                     ldr = true;
                                 }
@@ -86,7 +82,7 @@ namespace Proficient
 
                     }
 
-                    
+
                 }
 
                 tx.Commit();
@@ -98,7 +94,7 @@ namespace Proficient
         {
             FilteredElementCollector fec = new FilteredElementCollector(doc, viewid);
             var itfec = fec.OfClass(typeof(IndependentTag));
-            foreach(IndependentTag it in itfec)
+            foreach (IndependentTag it in itfec)
             {
                 if (it.TaggedLocalElementId == el.Id)
                 {

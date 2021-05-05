@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * Class for generating prime numbers cache using
 	 * Eratosthenes Sieve.
 	 *
@@ -79,203 +80,227 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.3.0
 	 */
-	[CLSCompliant(true)]
-	public class PrimesCache {
-		/**
+    [CLSCompliant(true)]
+    public class PrimesCache
+    {
+        /**
 		 * Default range of integer to store in cache
 		 */
-		public const int DEFAULT_MAX_NUM_IN_CACHE = 10000000;
-		/**
+        public const int DEFAULT_MAX_NUM_IN_CACHE = 10000000;
+        /**
 		 * Empty cache status
 		 */
-		public const bool CACHE_EMPTY = false;
-		/**
+        public const bool CACHE_EMPTY = false;
+        /**
 		 * Cache ready to use
 		 */
-		public const bool CACHING_FINISHED = true;
-		/**
+        public const bool CACHING_FINISHED = true;
+        /**
 		 * Indicator if given number is a prime
 		 */
-		public const int IS_PRIME = 1;
-		/**
+        public const int IS_PRIME = 1;
+        /**
 		 * Indicator if given number is not a prime
 		 */
-		public const int IS_NOT_PRIME = 0;
-		/**
+        public const int IS_NOT_PRIME = 0;
+        /**
 		 * Indicator that the value is not stored
 		 * in cache
 		 */
-		public const int NOT_IN_CACHE = -1;
-		/**
+        public const int NOT_IN_CACHE = -1;
+        /**
 		 * Primes between 0 ... and ... maximumNumberInCache
 		 * will be cached
 		 */
-		internal int maxNumInCache;
-		/**
+        internal int maxNumInCache;
+        /**
 		 * Number of cached prime numbers
 		 */
-		internal int numberOfPrimes;
-		/**
+        internal int numberOfPrimes;
+        /**
 		 * Time in seconds showing
 		 * how long did it take to finalize prime numbers
 		 * caching.
 		 */
-		internal double computingTime;
-		/**
+        internal double computingTime;
+        /**
 		 * Caching process status
 		 */
-		internal bool cacheStatus;
-		/**
+        internal bool cacheStatus;
+        /**
 		 * Integers table to store number and indicate
 		 * whether they are prime or not
 		 */
-		internal bool[] isPrime;
-		/**
+        internal bool[] isPrime;
+        /**
 		 * Internal flag marking that primes cache initialization was successful;
 		 */
-		bool initSuccessful;
-		/**
+        bool initSuccessful;
+        /**
 		 * Eratosthenes Sieve implementation
 		 */
-		private void EratosthenesSieve() {
-			long startTime = mXparser.currentTimeMillis();
-			try {
-				int size = maxNumInCache+1;
-				if (size <= 0) {
-					numberOfPrimes = 0;
-					maxNumInCache = 0;
-					initSuccessful = false;
-					long endTime = mXparser.currentTimeMillis();
-					computingTime = (endTime - startTime)/1000.0;
-					return;
-				}
-				isPrime = new bool[size];
-				numberOfPrimes = 0;
-				/*
+        private void EratosthenesSieve()
+        {
+            long startTime = mXparser.currentTimeMillis();
+            try
+            {
+                int size = maxNumInCache + 1;
+                if (size <= 0)
+                {
+                    numberOfPrimes = 0;
+                    maxNumInCache = 0;
+                    initSuccessful = false;
+                    long endTime = mXparser.currentTimeMillis();
+                    computingTime = (endTime - startTime) / 1000.0;
+                    return;
+                }
+                isPrime = new bool[size];
+                numberOfPrimes = 0;
+                /*
 				 * Initially assume all integers are primes
 				 */
-				isPrime[0] = false;
-				isPrime[1] = false;
-				for (int i = 2; i <= maxNumInCache; i++)
-					isPrime[i] = true;
-				/*
+                isPrime[0] = false;
+                isPrime[1] = false;
+                for (int i = 2; i <= maxNumInCache; i++)
+                    isPrime[i] = true;
+                /*
 				 * Sieve of Eratosthenes - marking non-primes
 				 */
-				for (int i = 2; i*i <= maxNumInCache; i++)
-					if (isPrime[i] == true)
-						for (int j = i; i*j <= maxNumInCache; j++)
-							isPrime[i*j] = false;
-				initSuccessful = true;
-			} catch (OutOfMemoryException) {
-				initSuccessful = false;
-			} finally {
-				long endTime = mXparser.currentTimeMillis();
-				computingTime = (endTime - startTime)/1000.0;
-			}
-		}
-		/**
+                for (int i = 2; i * i <= maxNumInCache; i++)
+                    if (isPrime[i] == true)
+                        for (int j = i; i * j <= maxNumInCache; j++)
+                            isPrime[i * j] = false;
+                initSuccessful = true;
+            }
+            catch (OutOfMemoryException)
+            {
+                initSuccessful = false;
+            }
+            finally
+            {
+                long endTime = mXparser.currentTimeMillis();
+                computingTime = (endTime - startTime) / 1000.0;
+            }
+        }
+        /**
 		 * Counting found primes
 		 */
-		private void countPrimes() {
-			for (int i = 0; i <= maxNumInCache; i++)
-				if (isPrime[i] == true) numberOfPrimes++;
-		}
-		/**
+        private void countPrimes()
+        {
+            for (int i = 0; i <= maxNumInCache; i++)
+                if (isPrime[i] == true) numberOfPrimes++;
+        }
+        /**
 		 * Default constructor - setting prime cache for a default range if integers
 		 */
-		public PrimesCache() {
-			initSuccessful = false;
-			cacheStatus = CACHE_EMPTY;
-			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			EratosthenesSieve();
-			if (initSuccessful) {
-				countPrimes();
-				cacheStatus = CACHING_FINISHED;
-			} else {
-				maxNumInCache = 0;
-				numberOfPrimes = 0;
-			}
-		}
-		/**
+        public PrimesCache()
+        {
+            initSuccessful = false;
+            cacheStatus = CACHE_EMPTY;
+            maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
+            EratosthenesSieve();
+            if (initSuccessful)
+            {
+                countPrimes();
+                cacheStatus = CACHING_FINISHED;
+            }
+            else
+            {
+                maxNumInCache = 0;
+                numberOfPrimes = 0;
+            }
+        }
+        /**
 		 * Constructor - setting prime cache for a given range if integers
 		 * @param maxNumInCache Range of integers to be stored in prime cache
 		 */
-		public PrimesCache(int maxNumInCache) {
-			if (maxNumInCache > 2)
-				this.maxNumInCache = maxNumInCache;
-			else
-				this.maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			initSuccessful = false;
-			cacheStatus = CACHE_EMPTY;
-			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			EratosthenesSieve();
-			if (initSuccessful) {
-				countPrimes();
-				cacheStatus = CACHING_FINISHED;
-			} else {
-				maxNumInCache = 0;
-				numberOfPrimes = 0;
-			}
-		}
-		/**
+        public PrimesCache(int maxNumInCache)
+        {
+            if (maxNumInCache > 2)
+                this.maxNumInCache = maxNumInCache;
+            else
+                this.maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
+            initSuccessful = false;
+            cacheStatus = CACHE_EMPTY;
+            maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
+            EratosthenesSieve();
+            if (initSuccessful)
+            {
+                countPrimes();
+                cacheStatus = CACHING_FINISHED;
+            }
+            else
+            {
+                maxNumInCache = 0;
+                numberOfPrimes = 0;
+            }
+        }
+        /**
 		 * Returns computing time of Eratosthenes Sieve
 		 * @return Computing time in seconds
 		 */
-		public double getComputingTime() {
-			return computingTime;
-		}
-		/**
+        public double getComputingTime()
+        {
+            return computingTime;
+        }
+        /**
 		 * Returns cache status
 		 * @return PrimesCache.CACHE_EMPTY or PrimesCache.CACHING_FINISHED;
 		 */
-		public bool getCacheStatus() {
-			return cacheStatus;
-		}
-		/**
+        public bool getCacheStatus()
+        {
+            return cacheStatus;
+        }
+        /**
 		 * Returns number of found primes.
 		 * @return Number of found primes.
 		 */
-		public int getNumberOfPrimes() {
-			return numberOfPrimes;
-		}
-		/**
+        public int getNumberOfPrimes()
+        {
+            return numberOfPrimes;
+        }
+        /**
 		 * Returns cache range.
 		 * @return Maximum integera number in cache/
 		 */
-		public int getMaxNumInCache() {
-			return maxNumInCache;
-		}
-		/**
+        public int getMaxNumInCache()
+        {
+            return maxNumInCache;
+        }
+        /**
 		 * Check whether given number is prime
 		 * @param n Given integer number.
 		 * @return PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE
 		 */
-		public int primeTest(int n) {
-			if (n <= 1) return IS_NOT_PRIME;
-			if ( (n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED) )
-				if ( isPrime[n] == true)
-					return IS_PRIME;
-				else
-					return IS_NOT_PRIME;
-			else
-				return NOT_IN_CACHE;
-		}
-		/**
+        public int primeTest(int n)
+        {
+            if (n <= 1) return IS_NOT_PRIME;
+            if ((n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED))
+                if (isPrime[n] == true)
+                    return IS_PRIME;
+                else
+                    return IS_NOT_PRIME;
+            else
+                return NOT_IN_CACHE;
+        }
+        /**
 		 * Returns true in case when primes cache initialization was successful,
 		 * otherwise returns false.
 		 *
 		 * @return Returns true in case when primes cache initialization was successful,
 		 * otherwise returns false.
 		 */
-		public bool isInitSuccessful() {
-			return initSuccessful;
-		}
-		/**
+        public bool isInitSuccessful()
+        {
+            return initSuccessful;
+        }
+        /**
 		 * Gets underlying primes cache boolean table
 		 * @return Underlying primes cache boolean table
 		 */
-		bool[] getPrimes() {
-			return isPrime;
-		}
-	}
+        bool[] getPrimes()
+        {
+            return isPrime;
+        }
+    }
 }

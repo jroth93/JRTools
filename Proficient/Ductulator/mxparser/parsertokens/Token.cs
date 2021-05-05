@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.parsertokens {
-	/**
+namespace org.mariuszgromada.math.mxparser.parsertokens
+{
+    /**
 	 * Token recognized by mXparser after string tokenization process.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -78,67 +79,70 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *
 	 * @version        4.0.0
 	 */
-	[CLSCompliant(true)]
-	public class Token {
-		/**
+    [CLSCompliant(true)]
+    public class Token
+    {
+        /**
 		 * Indicator that token was not matched
 		 */
-		public const int NOT_MATCHED = KeyWord.NO_DEFINITION;
-		/**
+        public const int NOT_MATCHED = KeyWord.NO_DEFINITION;
+        /**
 		 * String token
 		 */
-		public String tokenStr;
-		/**
+        public String tokenStr;
+        /**
 		 * Key word string (if matched)
 		 */
-		public String keyWord;
-		/**
+        public String keyWord;
+        /**
 		 * Token identifier
 		 */
-		public int tokenId;
-		/**
+        public int tokenId;
+        /**
 		 * Token type
 		 */
-		public int tokenTypeId;
-		/**
+        public int tokenTypeId;
+        /**
 		 * Token level
 		 */
-		public int tokenLevel;
-		/**
+        public int tokenLevel;
+        /**
 		 * Token value if number
 		 */
-		public double tokenValue;
-		/**
+        public double tokenValue;
+        /**
 		 * If token was not matched then
 		 * looksLike functionality is trying asses
 		 * the kind of token
 		 */
-		public String looksLike;
-		/**
+        public String looksLike;
+        /**
 		 * Default constructor
 		 */
-		public Token() {
-			tokenStr = "";
-			keyWord = "";
-			tokenId = NOT_MATCHED;
-			tokenTypeId = NOT_MATCHED;
-			tokenLevel = -1;
-			tokenValue = Double.NaN;
-			looksLike = "";
-		}
-		/**
+        public Token()
+        {
+            tokenStr = "";
+            keyWord = "";
+            tokenId = NOT_MATCHED;
+            tokenTypeId = NOT_MATCHED;
+            tokenLevel = -1;
+            tokenValue = Double.NaN;
+            looksLike = "";
+        }
+        /**
 		 * Token cloning.
 		 */
-		public Token clone() {
-			Token token = new Token();
-			token.keyWord = keyWord;
-			token.tokenStr = tokenStr;
-			token.tokenId = tokenId;
-			token.tokenLevel = tokenLevel;
-			token.tokenTypeId = tokenTypeId;
-			token.tokenValue = tokenValue;
-			token.looksLike = looksLike;
-			return token;
-		}
-	}
+        public Token clone()
+        {
+            Token token = new Token();
+            token.keyWord = keyWord;
+            token.tokenStr = tokenStr;
+            token.tokenId = tokenId;
+            token.tokenLevel = tokenLevel;
+            token.tokenTypeId = tokenTypeId;
+            token.tokenValue = tokenValue;
+            token.looksLike = looksLike;
+            return token;
+        }
+    }
 }

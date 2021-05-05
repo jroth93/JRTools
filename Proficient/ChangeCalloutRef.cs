@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
 
 namespace Proficient
 {
@@ -17,20 +17,20 @@ namespace Proficient
             View view = doc.GetElement(viewid) as View;
 
             var selectedids = uidoc.Selection.GetElementIds();
-            if(selectedids.Count() == 0) { return Result.Cancelled; }
+            if (selectedids.Count() == 0) { return Result.Cancelled; }
             var selectedelements = selectedids.Select(curid => doc.GetElement(curid));
             IList<ElementId> viewelementsid = new List<ElementId>();
 
-            foreach(Element curelement in selectedelements)
+            foreach (Element curelement in selectedelements)
             {
-                foreach(ElementId curtype in (curelement.GetValidTypes()))
+                foreach (ElementId curtype in (curelement.GetValidTypes()))
                 {
                     ElementType cureltype = doc.GetElement(curtype) as ElementType;
-                    if(cureltype.FamilyName == "Floor Plan")
+                    if (cureltype.FamilyName == "Floor Plan")
                     {
                         viewelementsid.Add(curelement.Id);
                     }
-                    
+
                 }
             }
 
@@ -38,7 +38,7 @@ namespace Proficient
                 .Where(curview => doc.GetElement(curview).get_Parameter(BuiltInParameter.SECTION_PARENT_VIEW_NAME) != null)
                 .Where(curview => doc.GetElement(curview).OwnerViewId.IntegerValue != -1);
 
-            if(calloutids.Count() == 0) { return Result.Cancelled; }
+            if (calloutids.Count() == 0) { return Result.Cancelled; }
 
             var calloutelements = calloutids.Select(curid => doc.GetElement(curid));
 
@@ -54,11 +54,11 @@ namespace Proficient
                 }
             }
 
-            ViewForm form1 = new ViewForm(calloutViews.Select(v=>v.Name.ToString()).ToArray());
+            ViewForm form1 = new ViewForm(calloutViews.Select(v => v.Name.ToString()).ToArray());
 
             form1.ShowDialog();
 
-            if (form1.DialogResult == System.Windows.Forms.DialogResult.Cancel) 
+            if (form1.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 return Result.Cancelled;
 
             View newview = calloutViews[form1.selectedViewIndex];
@@ -67,9 +67,9 @@ namespace Proficient
             {
                 if (tx.Start() == TransactionStatus.Started)
                 {
-                    foreach(ElementId currentid in calloutids)
+                    foreach (ElementId currentid in calloutids)
                     {
-                            ReferenceableViewUtils.ChangeReferencedView(doc, currentid, newview.Id);
+                        ReferenceableViewUtils.ChangeReferencedView(doc, currentid, newview.Id);
                     }
                 }
 

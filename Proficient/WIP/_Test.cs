@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
 
 namespace Proficient
 {
@@ -14,7 +8,7 @@ namespace Proficient
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-            UIApplication app = revit.Application; 
+            UIApplication app = revit.Application;
             UIDocument uidoc = revit.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             View view = doc.GetElement(uidoc.ActiveView.Id) as View;
@@ -28,7 +22,7 @@ namespace Proficient
                 {
 
                 }
-                
+
                 tx.Commit();
             }
 

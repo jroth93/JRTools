@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI.Selection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +17,7 @@ namespace Proficient
             View curview = doc.GetElement(viewid) as View;
 
             var selectedids = uidoc.Selection.GetElementIds() as IEnumerable<ElementId>;
-            if (selectedids.Count() == 0) {return Result.Cancelled;}
+            if (selectedids.Count() == 0) { return Result.Cancelled; }
 
             var sortedelements = selectedids
                 .Select(id => doc.GetElement(id) as TextElement)
@@ -29,16 +26,16 @@ namespace Proficient
                 .ThenBy(el => el.Coord.X);
 
             if (sortedelements.Count() == 0) { return Result.Cancelled; }
-            
+
             string combinedtext = "";
             TextElement previous = null;
 
-            foreach(TextElement el in sortedelements)
+            foreach (TextElement el in sortedelements)
             {
-                
-                if (previous != null) 
+
+                if (previous != null)
                 {
-                    if (Math.Abs(el.Coord.Y - previous.Coord.Y) > el.Height*curview.Scale)
+                    if (Math.Abs(el.Coord.Y - previous.Coord.Y) > el.Height * curview.Scale)
                     {
                         combinedtext += "\n";
                     }
@@ -66,9 +63,9 @@ namespace Proficient
                 }
                 tx.Commit();
             }
-            
+
             return Autodesk.Revit.UI.Result.Succeeded;
-            
+
         }
     }
 }

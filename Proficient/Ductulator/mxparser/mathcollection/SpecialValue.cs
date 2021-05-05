@@ -58,8 +58,9 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * SpecialValue - generic class for storing special values of various functions (e.g.: inverse trigonometric).
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -81,55 +82,58 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.3.4
 	 */
-	[CLSCompliant(true)]
-	public class SpecialValue {
-		/**
+    [CLSCompliant(true)]
+    public class SpecialValue
+    {
+        /**
 		 * Epsilon is used to compare the x value with regards to some given small interval
 		 */
-		public static readonly double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
-		/**
+        public static readonly double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
+        /**
 		 * The x value from f(x)
 		 */
-		public double x;
-		/**
+        public double x;
+        /**
 		 * The start of the interval where the function value is considered to be by fv and fvdeg
 		 */
-		public double xFrom;
-		/**
+        public double xFrom;
+        /**
 		 * The end of the interval where the function value is considered to be by fv and fvdeg
 		 */
-		public double xTo;
-		/**
+        public double xTo;
+        /**
 		 * The function value in main unit
 		 */
-		public double fv;
-		/**
+        public double fv;
+        /**
 		 * The function value in degrees for inverse trigonometric functions
 		 */
-		public double fvdeg;
-		/**
+        public double fvdeg;
+        /**
 		 * Main constructor - functions only with main unit
 		 * @param x  The value of x from f(x)
 		 * @param fv The value of f(x) for a given x
 		 */
-		public SpecialValue(double x, double fv) {
-			this.x = x;
-			this.fv = fv;
-			xFrom = x - EPSILON;
-			xTo = x + EPSILON;
-		}
-		/**
+        public SpecialValue(double x, double fv)
+        {
+            this.x = x;
+            this.fv = fv;
+            xFrom = x - EPSILON;
+            xTo = x + EPSILON;
+        }
+        /**
 		 * Constructor - functions only with values in radians and degrees
 		 * @param x       The value of x from f(x)
 		 * @param fv      The value of f(x) in radians for a given x
 		 * @param fvdeg   The value of f(x) in degrees for a given x
 		 */
-		public SpecialValue(double x, double fv, double fvdeg) {
-			this.x = x;
-			this.fv = fv;
-			this.fvdeg = fvdeg;
-			xFrom = x - EPSILON;
-			xTo = x + EPSILON;
-		}
-	}
+        public SpecialValue(double x, double fv, double fvdeg)
+        {
+            this.x = x;
+            this.fv = fv;
+            this.fvdeg = fvdeg;
+            xFrom = x - EPSILON;
+            xTo = x + EPSILON;
+        }
+    }
 }

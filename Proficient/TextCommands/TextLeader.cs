@@ -1,5 +1,5 @@
-﻿using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Linq;
 
 namespace Proficient
@@ -33,7 +33,7 @@ namespace Proficient
                         ldr.End = pl;
                         ldr.Elbow = new XYZ(ldr.Anchor.X - curview.Scale / 96.0, ldr.Anchor.Y, ldr.Anchor.Z);
                     }
-                    else if(pl.X > pt.X)
+                    else if (pl.X > pt.X)
                     {
                         Leader ldr = newtxt.AddLeader(TextNoteLeaderTypes.TNLT_STRAIGHT_R);
                         newtxt.HorizontalAlignment = HorizontalTextAlignment.Right;
@@ -46,7 +46,7 @@ namespace Proficient
             }
 
             return Autodesk.Revit.UI.Result.Succeeded;
-            
+
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proficient
 {
@@ -25,7 +22,7 @@ namespace Proficient
                     dia = dia % 2 == 1 ? dia += 1 : dia;
                     dia = Functions.Frictionsolver(airflow, dia - 2, 0, 0, true) < friction ? dia - 2 : dia;
                     vel = Math.Ceiling(Functions.Velocitysolver(airflow, dia, 0, 0, true));
-                    frict= Math.Ceiling(Functions.Frictionsolver(airflow, dia, 0, 0, true) * Constants.fprecision) / Constants.fprecision;
+                    frict = Math.Ceiling(Functions.Frictionsolver(airflow, dia, 0, 0, true) * Constants.fprecision) / Constants.fprecision;
                     output[0] += $"{dia} Ø\n";
                     output[1] += $"{vel}\n";
                     output[2] += $"{frict}\n";

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Proficient
 {
@@ -10,7 +10,7 @@ namespace Proficient
     {
         public Result Execute(ExternalCommandData revit, ref string message, ElementSet elements)
         {
-            UIApplication app = revit.Application; 
+            UIApplication app = revit.Application;
             Document doc = revit.Application.ActiveUIDocument.Document;
             KeynoteUtilFrm kuf = new KeynoteUtilFrm();
             //get association between views and sheets
@@ -20,11 +20,11 @@ namespace Proficient
 
             //get association between placed keynotes and their owner views
             Dictionary<string, List<ElementId>> knViewDict = new Dictionary<string, List<ElementId>>();
-            foreach(IndependentTag it in fecPlacedKeynotes)
+            foreach (IndependentTag it in fecPlacedKeynotes)
             {
                 string knNum = it.get_Parameter(BuiltInParameter.KEYNOTE_NUMBER).AsString();
 
-                if(!knViewDict.ContainsKey(knNum))
+                if (!knViewDict.ContainsKey(knNum))
                 {
                     knViewDict.Add(knNum, new List<ElementId>());
                 }
@@ -54,10 +54,10 @@ namespace Proficient
                         List<string> sheets = new List<string>();
                         foreach (ElementId viewid in knViewDict[ke.Key])
                         {
-                            if(viewSheetDict.ContainsKey(viewid)) sheets.Add(viewSheetDict[viewid]);
+                            if (viewSheetDict.ContainsKey(viewid)) sheets.Add(viewSheetDict[viewid]);
                         }
 
-                        if(sheets.Count > 0)
+                        if (sheets.Count > 0)
                         {
                             string sheetsOutput = sheets.Count > 1 ? string.Join(", ", sheets.Distinct().OrderBy(x => x).ToArray()) : sheets[0];
                             string[] row = { ke.Key, ke.KeynoteText, sheetsOutput };
@@ -76,7 +76,7 @@ namespace Proficient
                     }
                 }
             }
-            kuf.Show();            
+            kuf.Show();
             return Result.Succeeded;
         }
 
@@ -86,7 +86,7 @@ namespace Proficient
             FilteredElementCollector fecViewSheet = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet));
             foreach (ViewSheet vs in fecViewSheet)
             {
-                foreach(ElementId vID in vs.GetAllPlacedViews())
+                foreach (ElementId vID in vs.GetAllPlacedViews())
                 {
                     if (!viewSheetPairs.ContainsKey(vID)) viewSheetPairs.Add(vID, vs.SheetNumber);
                 }

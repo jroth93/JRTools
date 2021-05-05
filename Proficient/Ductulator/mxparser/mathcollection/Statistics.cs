@@ -55,8 +55,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.mathcollection {
-	/**
+namespace org.mariuszgromada.math.mxparser.mathcollection
+{
+    /**
 	 * Statistics - i.e.: mean, variance, standard deviation, etc.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
@@ -78,9 +79,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *
 	 * @version        4.3.0
 	 */
-	[CLSCompliant(true)]
-	public sealed class Statistics {
-		/**
+    [CLSCompliant(true)]
+    public sealed class Statistics
+    {
+        /**
 		 * Average from sample function values - iterative operator.
 		 *
 		 * @param      f                   the expression
@@ -94,40 +96,49 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double avg(Expression f, Argument index, double from, double to, double delta) {
-			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
-				return Double.NaN;
-			double sum = 0;
-			int n = 0;
-			if ( (to >= from) && (delta > 0) ) {
-				double i;
-				for (i = from; i < to; i+=delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, i);
-					n++;
-				}
-				if ( delta - (i - to) > 0.5 * delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, to);
-					n++;
-				}
-			} else if ( (to <= from) && (delta < 0) ) {
-				double i;
-				for (i = from; i > to; i+=delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, i);
-					n++;
-				}
-				if ( -delta - (to - i) > -0.5 * delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, to);
-					n++;
-				}
-			} else if (from == to)
-				return mXparser.getFunctionValue(f, index, from);
-			return sum / n;
-		}
-		/**
+        public static double avg(Expression f, Argument index, double from, double to, double delta)
+        {
+            if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+                return Double.NaN;
+            double sum = 0;
+            int n = 0;
+            if ((to >= from) && (delta > 0))
+            {
+                double i;
+                for (i = from; i < to; i += delta)
+                {
+                    if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                    sum += mXparser.getFunctionValue(f, index, i);
+                    n++;
+                }
+                if (delta - (i - to) > 0.5 * delta)
+                {
+                    if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                    sum += mXparser.getFunctionValue(f, index, to);
+                    n++;
+                }
+            }
+            else if ((to <= from) && (delta < 0))
+            {
+                double i;
+                for (i = from; i > to; i += delta)
+                {
+                    if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                    sum += mXparser.getFunctionValue(f, index, i);
+                    n++;
+                }
+                if (-delta - (to - i) > -0.5 * delta)
+                {
+                    if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                    sum += mXparser.getFunctionValue(f, index, to);
+                    n++;
+                }
+            }
+            else if (from == to)
+                return mXparser.getFunctionValue(f, index, from);
+            return sum / n;
+        }
+        /**
 		 * Bias-corrected variance from sample function values - iterative operator.
 		 *
 		 * @param      f                   the expression
@@ -141,12 +152,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double var(Expression f, Argument index, double from, double to, double delta) {
-			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
-				return Double.NaN;
-			return var(mXparser.getFunctionValues(f, index, from, to, delta));
-		}
-		/**
+        public static double var(Expression f, Argument index, double from, double to, double delta)
+        {
+            if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+                return Double.NaN;
+            return var(mXparser.getFunctionValues(f, index, from, to, delta));
+        }
+        /**
 		 * Bias-corrected standard deviation from sample function values - iterative operator.
 		 *
 		 * @param      f                   the expression
@@ -160,12 +172,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double std(Expression f, Argument index, double from, double to, double delta) {
-			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
-				return Double.NaN;
-			return std(mXparser.getFunctionValues(f, index, from, to, delta));
-		}
-		/**
+        public static double std(Expression f, Argument index, double from, double to, double delta)
+        {
+            if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+                return Double.NaN;
+            return std(mXparser.getFunctionValues(f, index, from, to, delta));
+        }
+        /**
 		 * Sample average.
 		 *
 		 * @param      numbers             the numbers
@@ -174,21 +187,23 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double avg(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double sum = 0;
-			foreach (double xi in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += xi;
-			}
-			return sum / numbers.Length;
-		}
+        public static double avg(params double[] numbers)
+        {
+            if (numbers == null) return Double.NaN;
+            if (numbers.Length == 0) return Double.NaN;
+            if (numbers.Length == 1) return numbers[0];
+            double sum = 0;
+            foreach (double xi in numbers)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                if (Double.IsNaN(xi))
+                    return Double.NaN;
+                sum += xi;
+            }
+            return sum / numbers.Length;
+        }
 
-		/**
+        /**
 		 * Sample variance (biased-corrected).
 		 *
 		 * @param      numbers             the numbers
@@ -197,24 +212,27 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double var(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) {
-				if (Double.IsNaN(numbers[0])) return Double.NaN;
-				return 0;
-			}
-			double m = avg(numbers);
-			double sum = 0;
-			foreach (double xi in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += (xi - m) * (xi - m);
-			}
-			return sum / (numbers.Length - 1);
-		}
-		/**
+        public static double var(params double[] numbers)
+        {
+            if (numbers == null) return Double.NaN;
+            if (numbers.Length == 0) return Double.NaN;
+            if (numbers.Length == 1)
+            {
+                if (Double.IsNaN(numbers[0])) return Double.NaN;
+                return 0;
+            }
+            double m = avg(numbers);
+            double sum = 0;
+            foreach (double xi in numbers)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                if (Double.IsNaN(xi))
+                    return Double.NaN;
+                sum += (xi - m) * (xi - m);
+            }
+            return sum / (numbers.Length - 1);
+        }
+        /**
 		 * Sample standard deviation (biased-corrected).
 		 *
 		 * @param      numbers             the numbers
@@ -223,54 +241,62 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double std(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) {
-				if (Double.IsNaN(numbers[0])) return Double.NaN;
-				return 0;
-			}
-			return MathFunctions.sqrt(var(numbers));
-		}
-		/**
+        public static double std(params double[] numbers)
+        {
+            if (numbers == null) return Double.NaN;
+            if (numbers.Length == 0) return Double.NaN;
+            if (numbers.Length == 1)
+            {
+                if (Double.IsNaN(numbers[0])) return Double.NaN;
+                return 0;
+            }
+            return MathFunctions.sqrt(var(numbers));
+        }
+        /**
 		 * Sample median
 		 * @param numbers   List of number
 		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 		 */
-		public static double median(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			if (numbers.Length == 2) return (numbers[0] + numbers[1]) / 2.0;
-			foreach (double v in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				if (Double.IsNaN(v)) return Double.NaN;
-			}
-			NumberTheory.sortAsc(numbers);
-			if ((numbers.Length % 2) == 1) {
-				int i = (numbers.Length - 1) / 2;
-				return numbers[i];
-			}
-			else {
-				int i = (numbers.Length / 2) - 1;
-				return (numbers[i] + numbers[i + 1]) / 2.0;
-			}
-		}
-		/**
+        public static double median(params double[] numbers)
+        {
+            if (numbers == null) return Double.NaN;
+            if (numbers.Length == 0) return Double.NaN;
+            if (numbers.Length == 1) return numbers[0];
+            if (numbers.Length == 2) return (numbers[0] + numbers[1]) / 2.0;
+            foreach (double v in numbers)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                if (Double.IsNaN(v)) return Double.NaN;
+            }
+            NumberTheory.sortAsc(numbers);
+            if ((numbers.Length % 2) == 1)
+            {
+                int i = (numbers.Length - 1) / 2;
+                return numbers[i];
+            }
+            else
+            {
+                int i = (numbers.Length / 2) - 1;
+                return (numbers[i] + numbers[i + 1]) / 2.0;
+            }
+        }
+        /**
 		 * Sample mode
 		 * @param numbers   List of number
 		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 		 */
-		public static double mode(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			foreach (double v in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				if (Double.IsNaN(v)) return Double.NaN;
-			}
-			double[,] dist = NumberTheory.getDistValues(numbers, true);
-			return dist[0, 0];
-		}
-	}
+        public static double mode(params double[] numbers)
+        {
+            if (numbers == null) return Double.NaN;
+            if (numbers.Length == 0) return Double.NaN;
+            if (numbers.Length == 1) return numbers[0];
+            foreach (double v in numbers)
+            {
+                if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+                if (Double.IsNaN(v)) return Double.NaN;
+            }
+            double[,] dist = NumberTheory.getDistValues(numbers, true);
+            return dist[0, 0];
+        }
+    }
 }

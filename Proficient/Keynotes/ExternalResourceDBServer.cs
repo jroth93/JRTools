@@ -20,13 +20,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 //
 
-using System;
-using System.Collections.Generic;
-
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExternalService;
-using Autodesk.Revit.UI;
-using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
 
 namespace Proficient
 {
@@ -217,7 +214,7 @@ namespace Proficient
 
             kdrlc.Reset();
 
-            foreach (KeynoteEntry kne in knList) 
+            foreach (KeynoteEntry kne in knList)
                 kdrlc.AddEntry(kne);
 
 
