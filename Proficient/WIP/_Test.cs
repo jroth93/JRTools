@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System.Collections.Generic;
 
 namespace Proficient
 {
@@ -14,16 +15,29 @@ namespace Proficient
             View view = doc.GetElement(uidoc.ActiveView.Id) as View;
             KeynoteTable knt = KeynoteTable.GetKeynoteTable(doc);
             KeyBasedTreeEntries kbte = knt.GetKeyBasedTreeEntries();
+            IList<ElementId> selectedIds = uidoc.Selection.GetElementIds() as IList<ElementId>;
+
+
 
 
             using (Transaction tx = new Transaction(doc, "commandname"))
             {
                 if (tx.Start() == TransactionStatus.Started)
                 {
-
+                   
                 }
 
                 tx.Commit();
+            }
+
+            foreach (ElementId id in selectedIds)
+            {
+                ElementId idView = new ElementId(id.IntegerValue + 1);
+                View vw = doc.GetElement(idView) as View;
+                if (vw != null)
+                {
+                    uidoc.RequestViewChange(vw);
+                }
             }
 
             return Result.Succeeded;

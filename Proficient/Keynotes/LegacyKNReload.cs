@@ -47,7 +47,7 @@ namespace Proficient
                 for (int row = 1; row <= rng.Rows.Count; row++)
                 {
                     KeynoteEntry ke = null;
-                    if (rng.Cells[row, 1].Value != null && rng.Cells[row, 1].Value != String.Empty && rng.Cells[row, 2].Value != null && rng.Cells[row, 2].Value != String.Empty)
+                    if (rng.Cells[row, 1].Value != null && Convert.ToString(rng.Cells[row, 1].Value) != String.Empty && rng.Cells[row, 2].Value != null && Convert.ToString(rng.Cells[row, 2].Value) != String.Empty)
                     {
                         ke = oldFile ? MacroFilePatch(ws.Name, rng, row) : new KeynoteEntry(rng.Cells[row, 1].Value, ws.Name, rng.Cells[row, 2].Value);
                         knList.Add(ke);
