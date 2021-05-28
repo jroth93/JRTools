@@ -1,4 +1,6 @@
-﻿namespace Proficient
+﻿using System;
+
+namespace Proficient
 {
     partial class UserSettings
     {
@@ -138,7 +140,6 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(47, 20);
             this.numericUpDown1.TabIndex = 10;
-            this.numericUpDown1.Value = global::Proficient.Properties.Settings.Default.frictionprecision;
             // 
             // maxdepthtxt
             // 
@@ -146,7 +147,6 @@
             this.maxdepthtxt.Name = "maxdepthtxt";
             this.maxdepthtxt.Size = new System.Drawing.Size(100, 20);
             this.maxdepthtxt.TabIndex = 8;
-            this.maxdepthtxt.Text = global::Proficient.Properties.Settings.Default.defaultdepthmax;
             // 
             // mindepthtxt
             // 
@@ -154,7 +154,6 @@
             this.mindepthtxt.Name = "mindepthtxt";
             this.mindepthtxt.Size = new System.Drawing.Size(100, 20);
             this.mindepthtxt.TabIndex = 7;
-            this.mindepthtxt.Text = global::Proficient.Properties.Settings.Default.defaultdepthmin;
             // 
             // Velocitytxt
             // 
@@ -162,7 +161,6 @@
             this.Velocitytxt.Name = "Velocitytxt";
             this.Velocitytxt.Size = new System.Drawing.Size(100, 20);
             this.Velocitytxt.TabIndex = 3;
-            this.Velocitytxt.Text = global::Proficient.Properties.Settings.Default.defaultvelocity;
             // 
             // Frictiontxt
             // 
@@ -170,7 +168,6 @@
             this.Frictiontxt.Name = "Frictiontxt";
             this.Frictiontxt.Size = new System.Drawing.Size(100, 20);
             this.Frictiontxt.TabIndex = 2;
-            this.Frictiontxt.Text = global::Proficient.Properties.Settings.Default.defaultfriction;
             // 
             // radiovert
             // 

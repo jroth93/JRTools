@@ -108,6 +108,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Settings.cs" />
     <Compile Include="GraphConfig.cs" />
     <Compile Include="ChangeCalloutRef.cs" />
     <Compile Include="Keynotes\KNReload.cs" />
@@ -234,11 +235,11 @@
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="EditSettings.cs" />
-    <Compile Include="Forms\Settings.cs">
+    <Compile Include="Forms\SettingsFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="Forms\SettingsFrm.Designer.cs">
+      <DependentUpon>SettingsFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -270,6 +271,7 @@
     </Compile>
     <Compile Include="ExcelAssign.cs" />
     <Compile Include="WIP\_Test.cs" />
+    <Compile Include="SuppressSchWarning.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -316,8 +318,8 @@
     <EmbeddedResource Include="Forms\PlaceElFrm.resx">
       <DependentUpon>PlaceElFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SettingsFrm.resx">
+      <DependentUpon>SettingsFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ViewForm.resx">
       <DependentUpon>ViewForm.cs</DependentUpon>
@@ -362,6 +364,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ductulator\mxparser\syntaxchecker\csjavacc.jar" />
+    <EmbeddedResource Include="images\msg.png" />
+    <EmbeddedResource Include="images\nomsg.png" />
     <EmbeddedResource Include="images\ducttoggle.png" />
     <EmbeddedResource Include="images\damper.png" />
   </ItemGroup>

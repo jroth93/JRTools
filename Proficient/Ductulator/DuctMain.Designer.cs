@@ -1,4 +1,6 @@
-﻿namespace Proficient
+﻿using System;
+
+namespace Proficient
 {
     partial class DuctMain
     {
@@ -258,7 +260,6 @@
             this.Depthmaxtxt1.Name = "Depthmaxtxt1";
             this.Depthmaxtxt1.Size = new System.Drawing.Size(34, 20);
             this.Depthmaxtxt1.TabIndex = 9;
-            this.Depthmaxtxt1.Text = global::Proficient.Properties.Settings.Default.defaultdepthmax;
             this.Depthmaxtxt1.TextChanged += new System.EventHandler(this.Tab1Control);
             // 
             // Tolbl1
@@ -277,7 +278,7 @@
             this.Depthmintxt1.Name = "Depthmintxt1";
             this.Depthmintxt1.Size = new System.Drawing.Size(34, 20);
             this.Depthmintxt1.TabIndex = 7;
-            this.Depthmintxt1.Text = global::Proficient.Properties.Settings.Default.defaultdepthmin;
+
             this.Depthmintxt1.TextChanged += new System.EventHandler(this.Tab1Control);
             // 
             // Depthlbl1
@@ -305,7 +306,6 @@
             this.Frictiontxt1.Name = "Frictiontxt1";
             this.Frictiontxt1.Size = new System.Drawing.Size(100, 20);
             this.Frictiontxt1.TabIndex = 4;
-            this.Frictiontxt1.Text = global::Proficient.Properties.Settings.Default.defaultfriction;
             this.Frictiontxt1.TextChanged += new System.EventHandler(this.Tab1Control);
             // 
             // Frictionlbl1
@@ -387,7 +387,6 @@
             this.Veltxt1.Name = "Veltxt1";
             this.Veltxt1.Size = new System.Drawing.Size(100, 20);
             this.Veltxt1.TabIndex = 3;
-            this.Veltxt1.Text = global::Proficient.Properties.Settings.Default.defaultvelocity;
             this.Veltxt1.TextChanged += new System.EventHandler(this.Tab2Control);
             // 
             // TotalCFM2
@@ -497,7 +496,6 @@
             this.Depthmaxtxt2.Name = "Depthmaxtxt2";
             this.Depthmaxtxt2.Size = new System.Drawing.Size(34, 20);
             this.Depthmaxtxt2.TabIndex = 9;
-            this.Depthmaxtxt2.Text = global::Proficient.Properties.Settings.Default.defaultdepthmax;
             this.Depthmaxtxt2.TextChanged += new System.EventHandler(this.Tab2Control);
             // 
             // Depthmintxt2
@@ -507,7 +505,6 @@
             this.Depthmintxt2.Name = "Depthmintxt2";
             this.Depthmintxt2.Size = new System.Drawing.Size(34, 20);
             this.Depthmintxt2.TabIndex = 8;
-            this.Depthmintxt2.Text = global::Proficient.Properties.Settings.Default.defaultdepthmin;
             this.Depthmintxt2.TextChanged += new System.EventHandler(this.Tab2Control);
             // 
             // tabPage3
@@ -1178,7 +1175,6 @@
             this.depthmaxtxt3.Name = "depthmaxtxt3";
             this.depthmaxtxt3.Size = new System.Drawing.Size(34, 20);
             this.depthmaxtxt3.TabIndex = 7;
-            this.depthmaxtxt3.Text = global::Proficient.Properties.Settings.Default.defaultdepthmax;
             this.depthmaxtxt3.TextChanged += new System.EventHandler(this.Tab6Control);
             // 
             // depthmintxt3
@@ -1188,7 +1184,6 @@
             this.depthmintxt3.Name = "depthmintxt3";
             this.depthmintxt3.Size = new System.Drawing.Size(34, 20);
             this.depthmintxt3.TabIndex = 6;
-            this.depthmintxt3.Text = global::Proficient.Properties.Settings.Default.defaultdepthmin;
             this.depthmintxt3.TextChanged += new System.EventHandler(this.Tab6Control);
             // 
             // Form1

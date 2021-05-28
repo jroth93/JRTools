@@ -52,7 +52,14 @@ namespace Proficient
                 foreach (string[] row in rngarray)
                 {
                     if (row[0] != null && row[0] != String.Empty && row[1] != null && row[1] != String.Empty)
-                        knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
+                    {
+                        try
+                        {
+                            knList.Add(new KeynoteEntry(row[0], ws.Name, row[1]));
+                        }
+                        catch { }
+                    }
+                        
                 }
             }
 

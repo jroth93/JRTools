@@ -54,7 +54,7 @@ namespace Proficient
                 XYZ intersectpnt = resarray.get_Item(0).XYZPoint;
 
                 double curdist = intersectpnt.DistanceTo(new XYZ(loc1.Curve.Evaluate(0.5, true).X, loc1.Curve.Evaluate(0.5, true).Y, 0));
-                double pipedist = Convert.ToDouble(view.Scale) * Properties.Settings.Default.pipedist / 1152;
+                double pipedist = Convert.ToDouble(view.Scale) * Proficient.Settings.pipeDist / 1152;
                 double movedist = curdist - pipedist;
                 XYZ movedir = new XYZ(loc1.Curve.Evaluate(0.5, true).X - intersectpnt.X, loc1.Curve.Evaluate(0.5, true).Y - intersectpnt.Y, 0).Normalize();
                 XYZ vector = movedist * movedir;

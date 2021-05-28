@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,18 +9,33 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 
 namespace Proficient
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class AddPanel : IExternalApplication
+    public class Proficient : IExternalApplication
     {
-        static readonly string  _namespace_prefix = typeof(AddPanel).Namespace + ".";
+        static readonly string  _namespace_prefix = typeof(Proficient).Namespace + ".";
+
+        internal static Proficient _app = null;
+        public static Proficient Instance
+        {
+            get { return _app; }
+        }
+
+        public static Settings Settings { get; set; }
+
+        public RibbonButton suppressSchWarningBtn;
         public Result OnStartup(UIControlledApplication application)
         {
+            _app = this;
+            InitializeSettings();
+
             application.ControlledApplication.DocumentOpened
                 += new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(Application_DocumentOpened);
             application.ViewActivated += Application_ViewActivated;
+            application.DialogBoxShowing += new EventHandler<DialogBoxShowingEventArgs>(Application_DialogBoxShowing);
 
             application.CreateRibbonTab("Proficient");
             RibbonPanel genrib = application.CreateRibbonPanel("Proficient", "General");
@@ -43,6 +59,7 @@ namespace Proficient
             IList<RibbonItem> stackedGroupFlip = genrib.AddStackedItems(new PushButtonData("cmdflip", "Flip Element", thisAssemblyPath, "Proficient.FlipElements"),
                                                                            new PushButtonData("cmdflipplane", "Flip Workplane", thisAssemblyPath, "Proficient.FlipWorkPlane"));
             RibbonButton xl2Revitbutton = genrib.AddItem(new PushButtonData("cmdexcelassign", "Excel Assigner\n(beta)", thisAssemblyPath, "Proficient.ExcelAssign")) as RibbonButton;
+            suppressSchWarningBtn = genrib.AddItem(new PushButtonData("cmdsuppressschwarning", "Schedule\nWarning On", thisAssemblyPath, "Proficient.SuppressSchWarning")) as RibbonButton;
 
             RibbonButton knbutton = knrib.AddItem(new PushButtonData("cmdreloadkn", "Reload\nKeynotes", thisAssemblyPath, "Proficient.KNReload")) as RibbonButton;
             RibbonButton xlbutton = knrib.AddItem(new PushButtonData("cmdlaunchkn", "Open\nKeynotes", thisAssemblyPath, "Proficient.KNLauncher")) as RibbonButton;
@@ -65,7 +82,6 @@ namespace Proficient
 
             PushButton legknopen = legacyknpulldown.AddPushButton(new PushButtonData("cmdlgknopen", "Open Keynotes", thisAssemblyPath, "Proficient.LegacyKNLauncher"));
             PushButton legknreload = legacyknpulldown.AddPushButton(new PushButtonData("cmdlegknrl", "Reload Keynotes", thisAssemblyPath, "Proficient.LegacyKNReload"));
-            #endregion create ribbon
 
             //add images
             (stackedGroupFlip.ElementAt(0) as PushButton).Image = NewBitmapImage("flipel.png");
@@ -87,6 +103,9 @@ namespace Proficient
             knutilbtn.LargeImage = NewBitmapImage("keynoteutil.png");
             damperbtn.LargeImage = NewBitmapImage("damper.png");
             elbowbtn.LargeImage = NewBitmapImage("ducttoggle.png");
+            suppressSchWarningBtn.LargeImage = NewBitmapImage("msg.png");
+
+            #endregion create ribbon
 
             //add external resource servers for keynotes
             ExternalService externalResourceService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.ExternalResourceService);
@@ -94,6 +113,7 @@ namespace Proficient
             ExternalService externalResourceUIService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.ExternalResourceUIService);
             externalResourceUIService.AddServer(new ExternalResourceUIServer());
 
+            //check toolbar version
             if (thisAssemblyVersion != FileVersionInfo.GetVersionInfo(@"Z:\Revit\Custom Add Ins\Proficient.bundle\Contents\Proficient.dll").FileVersion.ToString())
                 Util.BalloonTip("Proficient", "New version of Proficient available.\nClick here, close Revit, and run the installer.", "Proficient Out Of Date", "Z:\\Revit\\Custom Add Ins");
 
@@ -101,7 +121,7 @@ namespace Proficient
 
         }
 
-        BitmapImage NewBitmapImage(string imageName)
+        public static BitmapImage NewBitmapImage(string imageName)
         {
             Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(_namespace_prefix + "images." + imageName);
             BitmapImage img = new BitmapImage();
@@ -115,14 +135,12 @@ namespace Proficient
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            // nothing to clean up in this simple case
+            SaveSettings();
+
             application.ControlledApplication.DocumentOpened -= Application_DocumentOpened;
             application.ViewActivated -= Application_ViewActivated;
             return Result.Succeeded;
         }
-
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
 
         private void Application_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs args)
         {
@@ -132,7 +150,7 @@ namespace Proficient
                 WorksetTable wst = doc.GetWorksetTable();
 
                 FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
-                Workset workset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(Properties.Settings.Default.workset)) as Workset;
+                Workset workset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(Settings.defWorkset)) as Workset;
 
                 Transaction transaction = new Transaction(doc, "Change Workset");
                 if (transaction.Start() == TransactionStatus.Started)
@@ -143,7 +161,7 @@ namespace Proficient
             }
         }
 
-        public static void Application_ViewActivated(object sender, EventArgs args)
+        public void Application_ViewActivated(object sender, EventArgs args)
         {
             UIApplication uiapp = sender as UIApplication;
             UIDocument uidoc = uiapp.ActiveUIDocument;
@@ -157,9 +175,9 @@ namespace Proficient
 
             if (viewname.ToLower().Contains("enlarged") || viewsub.ToLower().Contains("enlarged"))
             {
-                if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
+                if (doc.IsWorkshared && Settings.switchEnlarged)
                 {
-                    string enlWkst = Properties.Settings.Default.workset[0] == 'M' ? "M-Enlarged Plans" : "E-Enlarged Plans";
+                    string enlWkst = Settings.defWorkset[0] == 'M' ? "M-Enlarged Plans" : "E-Enlarged Plans";
                     Workset enlWorkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(enlWkst)) as Workset;
 
                     Transaction transaction = new Transaction(doc, "Change Workset");
@@ -170,9 +188,9 @@ namespace Proficient
                     }
                 }
             }
-            else if ((viewname.ToLower().Contains("site") || viewsub.ToLower().Contains("site")) && Properties.Settings.Default.workset[0] == 'E')
+            else if ((viewname.ToLower().Contains("site") || viewsub.ToLower().Contains("site")) && Settings.defWorkset[0] == 'E')
             {
-                if (doc.IsWorkshared && Properties.Settings.Default.switchenlarged)
+                if (doc.IsWorkshared && Settings.switchEnlarged)
                 {
                     string siteWkst = "E-Site";
                     Workset siteWorkset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(siteWkst)) as Workset;
@@ -187,7 +205,7 @@ namespace Proficient
             }
             else
             {
-                Workset workset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(Properties.Settings.Default.workset)) as Workset;
+                Workset workset = wscol.FirstOrDefault<Workset>(e => e.Name.Equals(Settings.defWorkset)) as Workset;
 
                 Transaction transaction = new Transaction(doc, "Change Workset");
                 if (transaction.Start() == TransactionStatus.Started)
@@ -198,6 +216,47 @@ namespace Proficient
             }
 
 
+        }
+
+        public void Application_DialogBoxShowing(object sender, DialogBoxShowingEventArgs args)
+        {
+            TaskDialogShowingEventArgs e = args as TaskDialogShowingEventArgs;
+
+            if (e == null)
+                return;
+
+            if (e.Message.StartsWith("This change will be applied to all elements of type") && suppressSchWarningBtn.ItemText.Contains("Off"))
+                e.OverrideResult((int)TaskDialogCommonButtons.Ok);
+
+            if (e.Message.StartsWith("A linked model references Revit add-ins that are not installed"))
+                e.OverrideResult((int)TaskDialogCommonButtons.Close);
+
+            if (e.Message.StartsWith("The following resources are not up to date"))
+                e.OverrideResult((int)TaskDialogCommonButtons.Ok);
+        }
+
+        public void InitializeSettings()
+        {
+            string configPath = @"C:\ProgramData\Autodesk\ApplicationPlugins\Proficient.bundle\Contents\config.json";
+            string configTxt;
+            if (File.Exists(configPath))
+            {
+                configTxt = File.ReadAllText(configPath);
+                Settings = JsonConvert.DeserializeObject<Settings>(configTxt);
+            }
+            else
+            {
+                Settings = new Settings();
+                Settings.InitializeDefaults();
+                SaveSettings();
+            }
+        }
+
+        public void SaveSettings()
+        {
+            string configPath = @"C:\ProgramData\Autodesk\ApplicationPlugins\Proficient.bundle\Contents\config.json";
+            string jsonSettings = JsonConvert.SerializeObject(Settings);
+            File.WriteAllText(configPath, jsonSettings);
         }
     }
 

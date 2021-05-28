@@ -14,11 +14,11 @@ namespace Proficient
         {
             Document doc = revit.Application.ActiveUIDocument.Document;
             WorksetTable wst = doc.GetWorksetTable();
-
+            
             FilteredWorksetCollector wscol = new FilteredWorksetCollector(doc);
             SettingsForm form1 = new SettingsForm();
-            form1.checkBox1.Checked = Properties.Settings.Default.switchenlarged;
-            form1.pipespaceupdown.Value = Properties.Settings.Default.pipedist;
+            form1.checkBox1.Checked = Proficient.Settings.switchEnlarged;
+            form1.pipespaceupdown.Value = Proficient.Settings.pipeDist;
             string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             form1.lblVersion.Text = $"Proficient Version {assemblyVersion}";
 
@@ -30,12 +30,12 @@ namespace Proficient
                 }
 
             }
-            form1.defaultworkset.SelectedItem = Properties.Settings.Default.workset;
+            form1.defaultworkset.SelectedItem = Proficient.Settings.defWorkset;
 
             FilteredElementCollector coll = new FilteredElementCollector(doc);
             var txttypes = coll.WherePasses(new ElementClassFilter(typeof(TextNoteType))).Select(txt => txt.Name).ToArray();
             form1.defaulttext.Items.AddRange(txttypes);
-            form1.defaulttext.SelectedItem = txttypes.Where(type => type == Properties.Settings.Default.defaulttxt).FirstOrDefault();
+            form1.defaulttext.SelectedItem = txttypes.Where(type => type == Proficient.Settings.defFont).FirstOrDefault();
 
             form1.ShowDialog();
 
@@ -43,10 +43,10 @@ namespace Proficient
             {
                 try
                 {
-                    Properties.Settings.Default.workset = form1.defaultworkset.SelectedItem as String;
-                    Properties.Settings.Default.switchenlarged = form1.checkBox1.Checked;
-                    Properties.Settings.Default.pipedist = Convert.ToInt32(form1.pipespaceupdown.Value);
-                    Properties.Settings.Default.defaulttxt = form1.defaulttext.SelectedItem.ToString();
+                    Proficient.Settings.defWorkset = form1.defaultworkset.SelectedItem as String;
+                    Proficient.Settings.switchEnlarged = form1.checkBox1.Checked;
+                    Proficient.Settings.pipeDist = Convert.ToInt32(form1.pipespaceupdown.Value);
+                    Proficient.Settings.defFont = form1.defaulttext.SelectedItem.ToString();
                 }
                 catch
                 {
@@ -54,7 +54,7 @@ namespace Proficient
                 }
             }
 
-            Properties.Settings.Default.Save();
+
             form1.Close();
 
             return Result.Succeeded;

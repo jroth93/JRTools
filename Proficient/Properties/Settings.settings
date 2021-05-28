@@ -1,39 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Proficient.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="switchenlarged" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="workset" Type="System.String" Scope="User">
-      <Value Profile="(Default)">M-Mechanical</Value>
-    </Setting>
-    <Setting Name="pipedist" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">9</Value>
-    </Setting>
-    <Setting Name="defaulttxt" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3/32\" Arial</Value>
-    </Setting>
-    <Setting Name="defaultfriction" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0.08</Value>
-    </Setting>
-    <Setting Name="defaultvelocity" Type="System.String" Scope="User">
-      <Value Profile="(Default)">500</Value>
-    </Setting>
-    <Setting Name="defaultdepthmin" Type="System.String" Scope="User">
-      <Value Profile="(Default)">6</Value>
-    </Setting>
-    <Setting Name="defaultdepthmax" Type="System.String" Scope="User">
-      <Value Profile="(Default)">20</Value>
-    </Setting>
-    <Setting Name="frictionprecision" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
-    </Setting>
-    <Setting Name="appontop" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="appvertical" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>
